@@ -69,5 +69,5 @@ For more details read full licence [here](./LICENCE.md).
 <a href="https://www.jetbrains.com"><img width="100" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains Logo (Main) logo."></a>
 
 <sup>
-Copyright © 2000-2022 JetBrains s.r.o. JetBrains and the JetBrains logo are registered trademarks of JetBrains s.r.o.
+Copyright © 2000-2023 JetBrains s.r.o. JetBrains and the JetBrains logo are registered trademarks of JetBrains s.r.o.
 </sup>
