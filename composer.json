@@ -8,6 +8,9 @@
     "require": {
         "php": ">=8.2"
     },
+    "require-dev": {
+        "ext-openssl": "*"
+    },
     "suggest": {
         "php-64bit": ">=8.2"
     },
