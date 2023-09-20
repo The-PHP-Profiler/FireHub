@@ -4,7 +4,7 @@ abstract: FireHub Web Application Framework
 type: software
 version: v1.0.0
 cff-version: 1.2.0
-date-released: 2023-06-26
+date-released: 2023-09-20
 license: OSL-3.0
 identifiers:
   - type: doi
