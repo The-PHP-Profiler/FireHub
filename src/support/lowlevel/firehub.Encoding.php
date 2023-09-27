@@ -1,0 +1,145 @@
+<?php declare(strict_types = 1);
+
+/**
+ * This file is part of FireHub Web Application Framework package
+ *
+ * @author Danijel Galić <danijel.galic@outlook.com>
+ * @copyright 2023 FireHub Web Application Framework
+ * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
+ *
+ * @package FireHub\Core\Support
+ *
+ * @version GIT: $Id$ Blob checksum.
+ */
+
+namespace FireHub\Core\Support\LowLevel;
+
+use function base64_decode;
+use function base64_encode;
+use function convert_uudecode;
+use function convert_uuencode;
+use function quoted_printable_decode;
+use function quoted_printable_encode;
+
+/**
+ * ### Encoding low level class
+ *
+ * Encoding is the process of assigning numbers to graphical characters, especially the written characters
+ * of human language, allowing them to be stored, transmitted, and transformed using digital computers.
+ * @since 1.0.0
+ */
+final class Encoding {
+
+    /**
+     * ### Encodes string with MIME base64
+     *
+     * This encoding is designed to make binary data survive transport through transport layers that are not 8-bit
+     * clean, such as mail bodies.
+     * Base64-encoded data takes about 33% more space than the original data.
+     * @since 1.0.0
+     *
+     * @param string $string <p>
+     * The data to be encoded.
+     * </p>
+     *
+     * @return string Base64 encoded data.
+     */
+    public static function base64Encode (string $string):string {
+
+        return base64_encode($string);
+
+    }
+
+    /**
+     * ### Decodes data encoded with MIME base64
+     * @since 1.0.0
+     *
+     * @param string $data <p>
+     * The base64 encoded data.
+     * </p>
+     *
+     * @return string|false Decoded string or false on failure.
+     */
+    public static function base64Decode (string $data):string|false {
+
+        return base64_decode($data);
+
+    }
+
+    /**
+     * ### Uuencode a string
+     *
+     * Encodes a string using the uuencode algorithm.
+     * Uuencode translates all strings (including binary data) into printable characters,
+     * making them safe for network transmissions. Uuencoded data is about 35% larger than the original.
+     * @since 1.0.0
+     *
+     * @param string $string <p>
+     * The data to be encoded.
+     * </p>
+     *
+     * @return string The uuencoded data.
+     *
+     * @note UUEncode neither produces the beginning nor the end line, which are part of uuencoded files.
+     */
+    public static function UUEncode (string $string):string {
+
+        return convert_uuencode($string);
+
+    }
+
+    /**
+     * ### Decode an uuencoded data
+     * @since 1.0.0
+     *
+     * @param non-empty-string $data <p>
+     * The uuencoded data.
+     * </p>
+     *
+     * @return string|false Decoded data as a string or false on failure.
+     *
+     * @note UUDecode neither accepts the beginning nor the end line, which are part of uuencoded files.
+     */
+    public static function UUDecode (string $data):string|false {
+
+        return convert_uudecode($data);
+
+    }
+
+    /**
+     * ### Convert an 8 bit string to a quoted-printable data
+     * @since 1.0.0
+     *
+     * @param string $string <p>
+     * The data to be encoded.
+     * </p>
+     *
+     * @return string Quoted-printable encoded data.
+     *
+     * @note This method is a useful tool for working with email messages.
+     */
+    public static function quotedPrintableEncode (string $string):string {
+
+        return quoted_printable_encode($string);
+
+    }
+
+    /**
+     * ### Convert a quoted-printable data to an 8 bit string
+     * @since 1.0.0
+     *
+     * @param string $data <p>
+     * The quoted printable data.
+     * </p>
+     *
+     * @return string The 8-bit binary string.
+     *
+     * @note This method is a useful tool for working with email messages.
+     */
+    public static function quotedPrintableDecode (string $data):string {
+
+        return quoted_printable_decode($data);
+
+    }
+
+}
