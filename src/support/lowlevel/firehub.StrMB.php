@@ -377,10 +377,11 @@ final class StrMB extends StrSafe {
      */
     public static function detectEncoding (string $string):?Encoding {
 
+        $cases = [];
         foreach (Encoding::cases() as $case) $cases[] = $case->value;
 
         return Encoding::tryFrom(
-            mb_detect_encoding($string, $cases ?? [], true)
+            mb_detect_encoding($string, $cases, true) ?: ''
         );
 
     }
