@@ -16,6 +16,9 @@ namespace FireHub\Core\Support\LowLevel;
 
 use Throwable;
 
+use function class_implements;
+use function class_parents;
+use function class_uses;
 use function get_class_methods;
 use function get_parent_class;
 use function method_exists;
@@ -61,26 +64,6 @@ abstract class ClsObj {
     }
 
     /**
-     * ### Retrieves the parent class name for object or class
-     * @since 1.0.0
-     *
-     * @param class-string|object $object_or_class <p>
-     * The tested object or class name. This parameter is optional if called from the object's method.
-     * </p>
-     *
-     * @return class-string|false The name of the parent class of the class of which object_or_class is an instance
-     * or the name.
-     *
-     * @note If the object does not have a parent or the class given does not exist false will be returned.
-     * @note If called without parameter outside object, this function returns false.
-     */
-    final public static function parentClass (string|object $object_or_class):string|false {
-
-        return get_parent_class($object_or_class);
-
-    }
-
-    /**
      * ### Checks if the class method exists
      * @since 1.0.0
      *
@@ -120,6 +103,91 @@ abstract class ClsObj {
     final public static function propertyExist (string|object $object_or_class, string $property):?bool {
 
         return property_exists($object_or_class, $property);
+
+    }
+
+    /**
+     * ### Retrieves the parent class name for object or class
+     * @since 1.0.0
+     *
+     * @param class-string|object $object_or_class <p>
+     * The tested object or class name. This parameter is optional if called from the object's method.
+     * </p>
+     *
+     * @return class-string|false The name of the parent class of the class of which object_or_class is an instance
+     * or the name.
+     *
+     * @note If the object does not have a parent or the class given does not exist false will be returned.
+     * @note If called without parameter outside object, this function returns false.
+     */
+    final public static function parentClass (string|object $object_or_class):string|false {
+
+        return get_parent_class($object_or_class);
+
+    }
+
+    /**
+     * ### Return the parent classes of the given class
+     *
+     * This function returns an array with the name of the parent classes of the given object_or_class.
+     * @since 1.0.0
+     *
+     * @param class-string|object $object_or_class <p>
+     * An object (class instance) or a string (class or interface name).
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to allow this function to load the class automatically through the __autoload magic method.
+     * </p>
+     *
+     * @return array<string, class-string>|false An array on success, or false when the given class doesn't exist.
+     */
+    final public static function parents (object|string $object_or_class, bool $autoload = true):array|false {
+
+        return class_parents($object_or_class, $autoload);
+
+    }
+
+    /**
+     * ### Return the interfaces which are implemented by the given class or interface
+     *
+     * This function returns an array with the names of the interfaces that the given object_or_class
+     * and its parents implement.
+     * @since 1.0.0
+     *
+     * @param class-string|object $object_or_class <p>
+     * An object (class instance) or a string (class or interface name).
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to allow this function to load the class automatically through the __autoload magic method.
+     * </p>
+     *
+     * @return array<string, class-string>|false An array on success, or false when the given class doesn't exist.
+     */
+    final public static function implements (object|string $object_or_class, bool $autoload = true):array|false {
+
+        return class_implements($object_or_class, $autoload);
+
+    }
+
+    /**
+     * ### Return the traits used by the given class
+     *
+     * This function returns an array with the names of the traits that the given object_or_class uses.
+     * This does however not include any traits used by a parent class.
+     * @since 1.0.0
+     *
+     * @param class-string|object $object_or_class <p>
+     * An object (class instance) or a string (class or interface name).
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to allow this function to load the class automatically through the __autoload magic method.
+     * </p>
+     *
+     * @return array<string, class-string>|false An array on success, or false when the given class doesn't exist.
+     */
+    final public static function uses (object|string $object_or_class, bool $autoload = true):array|false {
+
+        return class_uses($object_or_class, $autoload);
 
     }
 

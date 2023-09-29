@@ -17,6 +17,8 @@ namespace FireHub\Core\Support\LowLevel;
 use function get_class;
 use function get_mangled_object_vars;
 use function get_object_vars;
+use function spl_object_hash;
+use function spl_object_id;
 
 /**
  * ### Object low level class
@@ -25,6 +27,51 @@ use function get_object_vars;
  * @since 1.0.0
  */
 final class Obj extends ClsObj {
+
+    /**
+     * ### Return the integer object handle for given object
+     *
+     * This function returns a unique identifier for the object.
+     * The object id is unique for the lifetime of the object.
+     * Once the object is destroyed, its id may be reused for other objects.
+     * @since 1.0.0
+     *
+     * @param object $object <p>
+     * Any object.
+     * </p>
+     *
+     * @return positive-int An integer identifier that is unique for each currently existing object and is always
+     * the same for each object.
+     */
+    public static function id (object $object):int {
+
+        /** @phpstan-ignore-next-line */
+        return spl_object_id($object);
+
+    }
+
+    /**
+     * ### Return hash id for given object
+     *
+     * This function returns a unique identifier for the object.
+     * This id can be used as a hash key for storing objects, or for identifying an object,
+     * as long as the object is not destroyed.
+     * Once the object is destroyed, its hash may be reused for other objects.
+     * @since 1.0.0
+     *
+     * @param object $object <p>
+     * Any object.
+     * </p>
+     *
+     * @return non-empty-string A string that is unique for each currently existing object and is always
+     * the same for each object.
+     */
+    public static function hash (object $object):string {
+
+        /** @phpstan-ignore-next-line */
+        return spl_object_hash($object);
+
+    }
 
     /**
      * ### Returns the name of the class of an object
