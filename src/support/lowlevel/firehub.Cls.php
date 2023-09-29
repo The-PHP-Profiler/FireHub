@@ -1,0 +1,167 @@
+<?php declare(strict_types = 1);
+
+/**
+ * This file is part of FireHub Web Application Framework package
+ *
+ * @author Danijel Galić <danijel.galic@outlook.com>
+ * @copyright 2023 FireHub Web Application Framework
+ * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
+ *
+ * @package FireHub\Core\Support
+ *
+ * @version GIT: $Id$ Blob checksum.
+ */
+
+namespace FireHub\Core\Support\LowLevel;
+
+use Throwable;
+
+use function class_alias;
+use function class_exists;
+use function enum_exists;
+use function get_class_vars;
+use function interface_exists;
+use function trait_exists;
+
+/**
+ * ### Class low level class
+ *
+ * Class allows you to obtain information about classes.
+ * @since 1.0.0
+ */
+final class Cls extends ClsObj {
+
+    /**
+     * ### Checks if class name exist
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Cls::isEnum() To check if enum name exist.
+     *
+     * @param class-string $name <p>
+     * The class name.
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to autoload if not already loaded.
+     * </p>
+     *
+     * @return bool True if class exist, false otherwise.
+     */
+    public static function isClass (string $name, bool $autoload = true):bool {
+
+        return class_exists($name, $autoload) && !self::isEnum($name, $autoload);
+
+    }
+
+    /**
+     * ### Checks if interface name exist
+     * @since 1.0.0
+     *
+     * @param class-string $name <p>
+     * The interface name.
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to autoload if not already loaded.
+     * </p>
+     *
+     * @return bool True if interface exist, false otherwise.
+     */
+    public static function isInterface (string $name, bool $autoload = true):bool {
+
+        return interface_exists($name, $autoload);
+
+    }
+
+    /**
+     * ### Checks if enum name exist
+     * @since 1.0.0
+     *
+     * @param class-string $name <p>
+     * The enum name.
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to autoload if not already loaded.
+     * </p>
+     *
+     * @return bool True if enum exist, false otherwise.
+     */
+    public static function isEnum (string $name, bool $autoload = true):bool {
+
+        return enum_exists($name, $autoload);
+
+    }
+
+    /**
+     * ### Checks if trait name exist
+     * @since 1.0.0
+     *
+     * @param class-string $name <p>
+     * The trait name.
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to autoload if not already loaded.
+     * </p>
+     *
+     * @return bool True if trait exist, false otherwise.
+     */
+    public static function isTrait (string $name, bool $autoload = true):bool {
+
+        return trait_exists($name, $autoload);
+
+    }
+
+    /**
+     * ### Creates an alias for a class
+     *
+     * Creates an alias named alias based on the user defined class.
+     * The aliased class is exactly the same as the original class.
+     * @since 1.0.0
+     *
+     * @param class-string $class <p>
+     * The original class.
+     * </p>
+     * @param class-string $alias <p>
+     * The alias name for the class.
+     * </p>
+     * @param bool $autoload [optional] <p>
+     * Whether to autoload if the original class is not found.
+     * </p>
+     *
+     * @return bool True on success or false on failure.
+     */
+    public static function alias (string $class, string $alias, bool $autoload = true):bool {
+
+        return class_alias($class, $alias, $autoload);
+
+    }
+
+    /**
+     * ### Gets the class public properties and their default values
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Cls::isClass() To check if $class is class.
+     *
+     * @param class-string $class <p>
+     * The class name.
+     * </p>
+     *
+     * @return array<non-empty-string, mixed>|false Returns an associative array of declared properties visible from the current
+     * scope, with their default value.
+     *
+     * @note Result depends on the current scope.
+     * @note Using this function will use any registered autoloaders if the class is not already known.
+     */
+    public static function properties (string $class):array|false {
+
+        try {
+
+            return get_class_vars($class);
+
+        } catch (Throwable) {
+
+            return false;
+
+        }
+
+    }
+
+}
