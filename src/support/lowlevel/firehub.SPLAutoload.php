@@ -14,6 +14,8 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use LogicException;
+
 use function spl_autoload;
 use function spl_autoload_call;
 use function spl_autoload_extensions;
@@ -43,6 +45,8 @@ final class SPLAutoload {
      * filename extensions .inc and .php.
      * </p>
      *
+     * @throws LogicException When the class is not found and there are no other autoloaders registered.
+     *
      * @return void
      */
     public static function default (string $class, string $file_extensions = null):void {
@@ -65,6 +69,8 @@ final class SPLAutoload {
      * </p>
      *
      * @return string A comma delimited list of default file extensions for default method.
+     *
+     * @note There should not be a space between the defined file extensions.
      */
     public static function defaultExtensions (string $file_extensions = null):string {
 
@@ -90,9 +96,9 @@ final class SPLAutoload {
      * If true, autoloader will be prepended queue instead of appending it.
      * </p>
      *
-     * @return bool True if autoloader was registered, false otherwise.
+     * @return bool True If autoloader was registered, false otherwise.
      */
-    public static function register (?callable $callback = null, bool $prepend = false):bool {
+    public static function register (callable $callback = null, bool $prepend = false):bool {
 
         /** @phpstan-ignore-next-line */
         return spl_autoload_register($callback, true, $prepend);
@@ -145,6 +151,9 @@ final class SPLAutoload {
      * </p>
      *
      * @return void
+     *
+     * @note This method can be used to manually search for a class or interface using the registered __autoload
+     * functions.
      */
     public static function load (string $class):void {
 

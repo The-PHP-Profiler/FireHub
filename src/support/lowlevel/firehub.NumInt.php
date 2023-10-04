@@ -14,7 +14,7 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
-use Throwable;
+use ArithmeticError, DivisionByZeroError;
 
 use function intdiv;
 
@@ -36,23 +36,18 @@ final class NumInt extends Num {
      * @param int $dividend <p>
      * Number to be divided.
      * </p>
-     * @param int $divisor <p>
+     * @param non-zero-int $divisor <p>
      * Number which divides the $dividend.
      * </p>
      *
-     * @return int|false The integer quotient of the division of $dividend by $divisor, false if division failed.
+     * @throws ArithmeticError If the $dividend is PHP_INT_MIN and the $divisor is -1.
+     * @throws DivisionByZeroError If $divisor is 0;
+     *
+     * @return int The integer quotient of the division of $dividend by $divisor.
      */
-    public static function divide (int $dividend, int $divisor):int|false {
+    public static function divide (int $dividend, int $divisor):int {
 
-        try {
-
-            return intdiv($dividend, $divisor);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return intdiv($dividend, $divisor);
 
     }
 

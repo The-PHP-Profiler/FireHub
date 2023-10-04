@@ -15,7 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 use FireHub\Core\Support\Enums\Data\Type;
-use Throwable;
+use Error;
 
 use function gettype;
 use function serialize;
@@ -47,6 +47,8 @@ final class Data {
      * The variable being type checked.
      * </p>
      *
+     * @throws Error If type of value is unknown.
+     *
      * @return \FireHub\Core\Support\Enums\Data\Type|false Type of data, false if type is unknown.
      */
     public static function getType (mixed $value):Type|false {
@@ -60,7 +62,7 @@ final class Data {
             'object' => Type::T_OBJECT,
             'NULL' => Type::T_NULL,
             'resource', 'resource (closed)' => Type::T_RESOURCE,
-            default => false
+            default => throw new Error('Type of value is unknown.')
         };
 
     }
@@ -83,6 +85,8 @@ final class Data {
      * @param \FireHub\Core\Support\Enums\Data\Type $type <p>
      * Type to convert variable to.
      * </p>
+     *
+     * @throws Error If type cannot be set to resource.
      *
      * @return (
      *      $type is Type::T_ARRAY
@@ -107,7 +111,7 @@ final class Data {
     public static function setType (mixed $value, Type $type):mixed {
 
         // resource is not settable
-        if ($type === Type::T_RESOURCE) return false;
+        if ($type === Type::T_RESOURCE) throw new Error('Type cannot be set to resource');
 
         settype($value, match ($type) {
             Type::T_BOOL => 'boolean',
@@ -126,12 +130,23 @@ final class Data {
 
     /**
      * ### Generates storable representation of data
+     *
+     * Generates a storable representation of a value.
+     * This is useful for storing or passing PHP values around without losing their type and structure.
+     * To make the serialized string into a PHP value again, use unserialize().
      * @since 1.0.0
      *
-     * @param scalar|array<array-key, mixed>|object|null $value
+     * @param scalar|array<array-key, mixed>|object|null $value <p>
+     * The value to be serialized.
+     * </p>
+     *
+     * @throws Error If try to serialize anonymous class, function or resource.
      *
      * @return string|false String containing a byte-stream representation of value that can be stored anywhere,
      * false otherwise.
+     *
+     * @warning When serialize() serializes objects, the leading backslash is not included in the class name
+     * of namespaced classes for maximum compatibility.
      *
      * @note This is a binary string which may include null bytes, and needs to be stored and handled as such.
      * For example, serialize() output should generally be stored in a BLOB field in a database, rather than a CHAR or
@@ -139,15 +154,8 @@ final class Data {
      */
     public static function serializeValue (string|int|float|bool|array|object|null $value):string|false {
 
-        try {
-
-            return serialize($value);
-
-        } catch (Throwable) { // anonymous classes and functions cannot be serialized
-
-            return false;
-
-        }
+        return serialize($value)
+            ?: throw new Error('Anonymous classes, functions and resources cannot be serialized.');
 
     }
 
@@ -166,16 +174,18 @@ final class Data {
      * The maximum depth of structures permitted during unserialization, and is intended to prevent stack overflows.
      * </p>
      *
-     * @return mixed The converted value is returned, false otherwise.
+     * @throws Error $data is already false already or $data is NULL, or could not unserialize data.
+     *
+     * @return mixed The converted value is returned.
      */
     public static function unserializeValue (string $data, bool|array $allowed_classes = false, int $max_depth = 4096):mixed {
 
         return match ($data) {
-            'b:0;', 'N;' => false, // false if $data is serialized false already or $data is NULL
+            'b:0;', 'N;' => throw new Error('$data is already false already or $data is NULL'),
             default => ($unserialized_data = unserialize(
                 $data,
                 ['allowed_classes' => $allowed_classes, 'max_depth' => $max_depth])
-            ) ? $unserialized_data : false
+            ) ? $unserialized_data : throw new Error('Could not unserialize data.')
         };
 
     }

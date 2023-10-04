@@ -4,6 +4,14 @@
 
 ### Added
 - Created String, Encoding and Data low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [d43be6d](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/d43be6d))
+- Created Round number enum ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [6110816](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/6110816))
+- Created Num low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [a2b3f17](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/a2b3f17))
+- Created Order and Sort enums ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [bb5d535](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/bb5d535))
+- Created Arr low level class ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [c8110dd](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/c8110dd))
+- Created Class and object low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [cb8662c](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/cb8662c))
+- Created Iterator low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [0353028](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/0353028))
+- Created SPLAutoload low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [c95fc46](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/c95fc46))
+- Created date and time low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [7c46025](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/7c46025))
 
 ## [v0.1.2](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.1-alpha.1...v0.1.2-alpha.1) - (2023-09-21)
 

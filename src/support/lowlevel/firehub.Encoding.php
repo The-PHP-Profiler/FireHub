@@ -14,6 +14,8 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use Error;
+
 use function base64_decode;
 use function base64_encode;
 use function convert_uudecode;
@@ -58,11 +60,14 @@ final class Encoding {
      * The base64 encoded data.
      * </p>
      *
-     * @return string|false Decoded string or false on failure.
+     * @throws Error If we cannot decode $data to base64.
+     *
+     * @return string Decoded string.
      */
-    public static function base64Decode (string $data):string|false {
+    public static function base64Decode (string $data):string {
 
-        return base64_decode($data);
+        return base64_decode($data, true)
+            ?: throw new Error("Cannot decode $data to base64.");
 
     }
 
@@ -96,13 +101,16 @@ final class Encoding {
      * The uuencoded data.
      * </p>
      *
-     * @return string|false Decoded data as a string or false on failure.
+     * @throws Error If we cannot uudecode $data.
+     *
+     * @return string Decoded data as a string or false on failure.
      *
      * @note UUDecode neither accepts the beginning nor the end line, which are part of uuencoded files.
      */
-    public static function UUDecode (string $data):string|false {
+    public static function UUDecode (string $data):string {
 
-        return convert_uudecode($data);
+        return convert_uudecode($data)
+            ?: throw new Error("Cannot uudecode data: $data.");
 
     }
 

@@ -15,7 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 use FireHub\Core\Support\Enums\Side;
-use Throwable;
+use Error, ValueError;
 
 use function addcslashes;
 use function chunk_split;
@@ -62,6 +62,8 @@ final class StrSB extends StrSafe {
      * @inheritDoc
      *
      * @since 1.0.0
+     *
+     * @note Returns the number of bytes rather than the number of characters in a string.
      */
     public static function length (string $string):int {
 
@@ -139,6 +141,9 @@ final class StrSB extends StrSafe {
 
     /**
      * ### Replace text within a portion of a string
+     *
+     * Replaces a copy of string delimited by the $offset and (optionally) $length parameters with the string given in
+     * $replace.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -169,6 +174,9 @@ final class StrSB extends StrSafe {
 
     /**
      * ### Split a string into smaller chunks
+     *
+     * Can be used to split a string into smaller chunks which is useful for e.g. converting base64_encode() output to
+     * match RFC 2045 semantics. It inserts $separator every $length characters.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -181,18 +189,24 @@ final class StrSB extends StrSafe {
      * The line ending sequence.
      * </p>
      *
-     * @return string|false The chunked string, or false if length is less than 1.
+     * @throws Error If length is less than 1.
+     *
+     * @return string The chunked string.
      */
-    public static function chunkSplit (string $string, int $length = 76, string $separator = "\r\n"):string|false {
+    public static function chunkSplit (string $string, int $length = 76, string $separator = "\r\n"):string {
 
         return $length < 1
             ? chunk_split($string, $length, $separator)
-            : false;
+            : throw new Error('Length is be at least 1.');
 
     }
 
     /**
      * ### Pad a string to a certain length with another string
+     *
+     * This method returns the $string string padded on the left, the right, or both sides to the specified padding
+     * length. If the optional argument $pad is not supplied, the $string is padded with spaces, otherwise it is padded
+     * with characters from $pad up to the limit.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\Side::RIGHT As parameter.
@@ -214,15 +228,17 @@ final class StrSB extends StrSafe {
      * Pad side.
      * </p>
      *
-     * @return string|false Padded string, or false if pad is empty.
+     * @throws Error If pad is empty.
+     *
+     * @return string Padded string.
      */
-    public static function pad (string $string, int $length, string $pad = " ", Side $side = Side::RIGHT):string|false {
+    public static function pad (string $string, int $length, string $pad = " ", Side $side = Side::RIGHT):string {
 
         return $pad ? str_pad($string, $length, $pad, match ($side) {
             Side::LEFT => 0,
             Side::RIGHT => 1,
             Side::BOTH => 2
-        }) : false;
+        }) : throw new Error('Pad cannot be empty.');
 
     }
 
@@ -250,10 +266,14 @@ final class StrSB extends StrSafe {
      * @inheritDoc
      *
      * @since 1.0.0
+     *
+     * @throws Error If length is less than 1.
      */
-    public static function split (string $string, int $length = 1):array|false {
+    public static function split (string $string, int $length = 1):array {
 
-        return !$length < 1 ? str_split($string, $length) : false;
+        return !$length < 1
+            ? str_split($string, $length)
+            : throw new Error('Length must be at least 1.');
 
     }
 
@@ -404,6 +424,8 @@ final class StrSB extends StrSafe {
      * It outputs a warning if the offset plus the length is greater than the $string length.
      * A negative length counts from the end of $string.
      * </p>
+     *
+     * @note This method doesn't count overlapped substring.
      */
     public static function partCount (string $string, string $search, int $start = 0, ?int $length = null):int {
 
@@ -414,7 +436,7 @@ final class StrSB extends StrSafe {
     /**
      * @inheritDoc
      *
-     * param string $find <p>
+     * @param string $find <p>
      * String to find.
      * </p>
      * @param string $string <p>
@@ -470,6 +492,11 @@ final class StrSB extends StrSafe {
 
     /**
      * ### Count number of words in string
+     *
+     * Counts the number of words inside string. If the optional format is not specified, then the return value will
+     * be an integer representing the number of words found. In the event the format is specified,
+     * the return value will be an array, content of which is dependent on the format.
+     * The possible value for the format and the resultant outputs are listed below.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -495,7 +522,10 @@ final class StrSB extends StrSafe {
     }
 
     /**
-     * ### Finds the length of the initial segment of a string consisting entirely of characters contained within a given mask
+     * ### Finds the length of the initial segment of a string consisting entirely of characters contained within a
+     * given mask
+     *
+     * Finds the length of the initial segment of $string that contains only characters from $characters.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -521,6 +551,9 @@ final class StrSB extends StrSafe {
      * </p>
      *
      * @return int The length of the initial segment of string which consists entirely of characters in characters.
+     *
+     * @note When offset parameter is set, the returned length is counted starting from this position, not from the
+     * beginning of string.
      */
     public static function segmentMatching (string $string, string $characters, int $offset = 0, ?int $length = null):int {
 
@@ -530,6 +563,8 @@ final class StrSB extends StrSafe {
 
     /**
      * ### Find length of initial segment not matching mask
+     *
+     * Returns the length of the initial segment of $string which does not contain any of the characters in $characters.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -555,6 +590,9 @@ final class StrSB extends StrSafe {
      * </p>
      *
      * @return int The length of the initial segment of string which consists entirely of characters not in characters.
+     *
+     * @note When offset parameter is set, the returned length is counted starting from this position, not from the
+     * beginning of string.
      */
     public static function segmentNotMatching (string $string, string $characters, int $offset = 0, ?int $length = null):int {
 
@@ -651,28 +689,27 @@ final class StrSB extends StrSafe {
      * If case_sensitive is true, comparison is case-insensitive.
      * </p>
      *
-     * @return int<-1, 1>|false -1 if string1 is less than string2; 1 if string1 is greater than string2, and 0 if they
-     * are equal, or false otherwise.
+     * @throws ValueError If $offset is higher than $string_1.
+     *
+     * @return int<-1, 1> -1 if string1 is less than string2; 1 if string1 is greater than string2, and 0 if they are
+     * equal.
      */
-    public static function comparePart (string $string_1, string $string_2, int $offset, int $length = null, bool $case_sensitive = true):int|false {
+    public static function comparePart (string $string_1, string $string_2, int $offset, int $length = null, bool $case_sensitive = true):int {
 
-        try {
-
-            /** @phpstan-ignore-next-line */
-            return substr_compare(
-                $string_1,$string_2, $offset, $length, !$case_sensitive
-            );
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        /** @phpstan-ignore-next-line */
+        return substr_compare(
+            $string_1,
+            $string_2,
+            $offset,
+            $length,
+            !$case_sensitive);
 
     }
 
     /**
      * ### Wraps a string to a given number of characters
+     *
+     * Wraps a string to a given number of characters using a string break character.
      * @since 1.0.0
      *
      * @param string $string <p>

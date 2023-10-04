@@ -17,6 +17,7 @@ namespace FireHub\Core\Support\LowLevel;
 use FireHub\Core\Support\Enums\String\ {
     CaseFolding, Encoding
 };
+use Error, ValueError;
 
 use function mb_convert_case;
 use function mb_convert_encoding;
@@ -55,6 +56,8 @@ final class StrMB extends StrSafe {
      * @param \FireHub\Core\Support\Enums\String\Encoding $encoding [optional] <p>
      * Character encoding. If it is null, the internal character encoding value will be used.
      * </p>
+     *
+     * @error\exeption E_WARNING If the encoding is unknown.
      */
     public static function length (string $string, Encoding $encoding = null):int {
 
@@ -78,10 +81,14 @@ final class StrMB extends StrSafe {
      * @param \FireHub\Core\Support\Enums\String\Encoding $encoding [optional] <p>
      * Character encoding. If it is null, the internal character encoding value will be used.
      * </p>
+     *
+     * @throws Error If length is less than 1.
      */
-    public static function split (string $string, int $length = 1, Encoding $encoding = null):array|false {
+    public static function split (string $string, int $length = 1, Encoding $encoding = null):array {
 
-        return !$length < 1 ? mb_str_split($string, $length) : false;
+        return !$length < 1
+            ? mb_str_split($string, $length)
+            : throw new Error('Length must be at least 1.');
 
     }
 
@@ -330,6 +337,8 @@ final class StrMB extends StrSafe {
 
     /**
      * ### Perform case folding on a string
+     *
+     * Performs case folding on a string, converted in the way specified by $caseFolding.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\String\CaseFolding As parameter.
@@ -388,6 +397,9 @@ final class StrMB extends StrSafe {
 
     /**
      * ### Convert a string from one character encoding to another
+     *
+     * Converts string from $from, or the current internal encoding, to $to. If string is an array, all its $string
+     * values will be converted recursively.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\String\Encoding As parameter.
@@ -402,11 +414,15 @@ final class StrMB extends StrSafe {
      * Character encoding. If it is null, the internal character encoding value will be used.
      * </p>
      *
-     * @return string|false Encoded string or false on failure.
+     * @throws Error If we could not convert string.
+     * @throws ValueError If the value of $to or $from is an invalid encoding.
+     *
+     * @return string Encoded string.
      */
-    public static function convertEncoding (string $string, Encoding $to, Encoding $from = null):string|false {
+    public static function convertEncoding (string $string, Encoding $to, Encoding $from = null):string {
 
-        return mb_convert_encoding($string, $to->value, $from?->value);
+        return mb_convert_encoding($string, $to->value, $from?->value)
+            ?: throw new Error('Could not convert string.');
 
     }
 

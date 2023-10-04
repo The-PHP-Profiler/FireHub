@@ -39,6 +39,10 @@ final class Func {
      * </p>
      *
      * @return bool True if interface exist, false otherwise.
+     *
+     * @note This function will return false for constructs, such as include_once and echo.
+     * @note A function name may exist even if the function itself is unusable due to configuration or compiling
+     * options.
      */
     public static function isFunction (string $name):bool {
 
@@ -62,6 +66,9 @@ final class Func {
      * </p>
      *
      * @return TReturn The return value of the callback.
+     *
+     * @note Callbacks registered with this method will not be called if there is an uncaught exception thrown
+     * in a previous callback.
      */
     public static function call (callable $callback, mixed ...$arguments):mixed {
 
@@ -92,6 +99,15 @@ final class Func {
      * </p>
      *
      * @return void
+     *
+     * @note The working directory of the script can change inside the shutdown function under some web servers,
+     * e.g. Apache.
+     * @note Shutdown functions will not be executed if the process is killed with a SIGTERM or SIGKILL signal. While
+     * you cannot intercept a SIGKILL, you can use pcntl_signal() to install a handler for a SIGTERM which uses exit()
+     * to end cleanly.
+     * @note Shutdown functions run separately from the time tracked by max_execution_time. That means even if a
+     * process is terminated for running too long, shutdown functions will still be called.
+     * Additionally, if the max_execution_time runs out while a shutdown function is running it will not be terminated.
      */
     public static function registerShutdown (callable $callback, mixed ...$arguments):void {
 
@@ -112,11 +128,11 @@ final class Func {
      * Parameters for callback function.
      * </p>
      *
-     * @return void
+     * @return bool True on success or false on failure.
      */
-    public static function registerTick (callable $callback, mixed ...$arguments):void {
+    public static function registerTick (callable $callback, mixed ...$arguments):bool {
 
-        register_tick_function($callback, ...$arguments);
+        return register_tick_function($callback, ...$arguments);
 
     }
 

@@ -15,6 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 use FireHub\Core\Support\Enums\Side;
+use Error, ValueError;
 
 use const PHP_INT_MAX;
 
@@ -68,6 +69,9 @@ abstract class StrSafe {
      * </p>
      *
      * @return string Escaped string.
+     *
+     * @note The addSlashes() is sometimes incorrectly used to try to prevent SQL Injection. Instead, database-specific
+     * escaping functions and/or prepared statements should be used.
      */
     public static function addSlashes (string $string):string {
 
@@ -87,6 +91,12 @@ abstract class StrSafe {
      * </p>
      *
      * @return string String with backslashes stripped off.
+     *
+     * @note stripSlashes() is not recursive. If you want to apply this function to a multidimensional array,
+     * you need to use a recursive function.
+     *
+     * @tip stripSlashes() can be used if you aren't inserting this data into a place (such as a database) that requires
+     * escaping. For example, if you're simply outputting data straight from an HTML form.
      */
     public static function stripSlashes (string $string):string {
 
@@ -96,6 +106,10 @@ abstract class StrSafe {
 
     /**
      * ### Strip HTML and PHP tags from a string
+     *
+     * This function tries to return a string with all NULL bytes, HTML and PHP tags stripped from a given string. It
+     * uses the same tag stripping state machine as the fgetss() function.
+     * @since 1.0.0
      *
      * @param string $string <p>
      * The input string.
@@ -108,8 +122,6 @@ abstract class StrSafe {
      * </p>
      *
      * @return string the Stripped string.
-     *@since 1.0.0
-     *
      */
     public static function stripTags (string $string, null|string|array $allowed_tags = null):string {
 
@@ -124,20 +136,26 @@ abstract class StrSafe {
      * .\+*?[^]($).
      * @since 1.0.0
      *
-     * @param non-empty-string $string
+     * @param non-empty-string $string <p>
+     * The input string.
+     * </p>
      *
-     * @return string|false The string with meta characters quoted, or false if an empty string is given as string.
+     * @throws Error If empty string is given as string.
+     *
+     * @return string The string with meta characters quoted.
      */
-    final public static function quoteMeta (string $string):string|false {
+    final public static function quoteMeta (string $string):string {
 
-        return quotemeta($string);
+        return quotemeta($string)
+            ?: throw new Error('Empty string is given as string.');
 
     }
 
     /**
      * ### Replace all occurrences of the search string with the replacement string
      *
-     * Note that multibyte characters may not work as expected while $case_sensitive is on.
+     * This function returns a string or an array with all occurrences of search
+     * in subject replaced with the given replace value.
      * @since 1.0.0
      *
      * @param string|array<int, string> $search <p>
@@ -158,6 +176,13 @@ abstract class StrSafe {
      * </p>
      *
      * @return string String with the replaced values.
+     *
+     * @note Multibyte characters may not work as expected while $case_sensitive is on.
+     *
+     * @note Because method replaces left to right, it might replace a previously inserted value when doing
+     * multiple replacements.
+     *
+     * @tip To replace text based on a pattern rather than a fixed string, use preg_replace().
      */
     final public static function replace (string|array $search, string|array $replace, string $string, bool $case_sensitive = true, int &$count = null):string {
 
@@ -169,6 +194,8 @@ abstract class StrSafe {
 
     /**
      * ### Repeat a string
+     *
+     * Returns string repeated $times times.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -192,6 +219,9 @@ abstract class StrSafe {
 
     /**
      * ### Split a string by a string
+     *
+     * Returns an array of strings, each of which is a substring of string formed by splitting it on boundaries
+     * formed by the string separator.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -204,15 +234,14 @@ abstract class StrSafe {
      * If limit is set and positive, the returned array will contain a maximum of limit elements with the last element containing the rest of string.
      * If the limit parameter is negative, all components except the last -limit are returned.
      * If the limit parameter is zero, then this is treated as 1.
-     * </p.
+     * </p>
      *
-     * @return string[]|false If delimiter contains a value that is not contained in string and a negative limit is
+     * @throws ValueError If separator is an empty string.
+     *
+     * @return string[] If delimiter contains a value that is not contained in string and a negative limit is
      * used, then an empty array will be returned. For any other limit, an array containing string will be returned.
-     * Returns false is separator is empty.
      */
-    final public static function explode (string $string, string $separator, int $limit = PHP_INT_MAX):array|false {
-
-        if (empty($separator)) return false;
+    final public static function explode (string $string, string $separator, int $limit = PHP_INT_MAX):array {
 
         return explode($separator, $string, $limit);
 
@@ -220,6 +249,8 @@ abstract class StrSafe {
 
     /**
      * ### Join array elements with a string
+     *
+     * Join array elements with a $separator string.
      * @since 1.0.0
      *
      * @param string[] $array <p>
@@ -248,12 +279,12 @@ abstract class StrSafe {
      * Maximum length of the chunk.
      * </p>
      *
-     * @return array<int, string>|false If the optional length parameter is specified,
+     * @return array<int, string> If the optional length parameter is specified,
      * the returned array will be broken down into chunks with each being length in length,
      * except the final chunk which may be shorter if the string does not divide evenly.
      * The default length is 1, meaning every chunk will be one byte in size.
      */
-    abstract public static function split (string $string, int $length = 1):array|false;
+    abstract public static function split (string $string, int $length = 1):array;
 
     /**
      * ### Strip whitespace (or other characters) from the beginning and end of a string
@@ -272,9 +303,15 @@ abstract class StrSafe {
      * @param string $characters [optional] <p>
      * The stripped characters can also be specified using the char-list parameter.
      * Simply list all characters that you want to be stripped.
+     * With .. you can specify a range of characters.
      * </p>
      *
      * @return string The trimmed string.
+     *
+     * @note Because trim() trims characters from the beginning and end of a string, it may be confusing when characters
+     * are (or are not) removed from the middle. trim('abc', 'bad') removes both 'a' and 'b' because it trims 'a'
+     * thus moving 'b' to the beginning to also be trimmed. So, this is why it "works" whereas trim('abc', 'b')
+     * seemingly does not.
      */
     final public static function trim (string $string, Side $side = Side::BOTH, string $characters = " \n\r\t\v\x00"):string {
 
@@ -360,6 +397,8 @@ abstract class StrSafe {
 
     /**
      * ### Checks if a string starts with a given value
+     *
+     * Performs a case-sensitive check indicating if $string begins with $value.
      * @since 1.0.0
      *
      * @param non-empty-string $value <p>
@@ -379,6 +418,8 @@ abstract class StrSafe {
 
     /**
      * ### Checks if a string ends with a given value
+     *
+     * Performs a case-sensitive check indicating if $string ends with $value.
      * @since 1.0.0
      *
      * @param non-empty-string $value <p>
@@ -398,6 +439,8 @@ abstract class StrSafe {
 
     /**
      * ### Get part of string
+     *
+     * Returns the portion of string specified by the $start and $length parameters.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -420,6 +463,9 @@ abstract class StrSafe {
 
     /**
      * ### Get part of string
+     *
+     * Returns the number of times the needle substring occurs in the haystack string.
+     * Please note that needle is case-sensitive.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -435,6 +481,8 @@ abstract class StrSafe {
 
     /**
      * ### Find first part of a string
+     *
+     * Returns part of $string string starting from and including the first occurrence of $find to the end of $string.
      * @since 1.0.0
      *
      * @param string $find <p>
@@ -447,12 +495,15 @@ abstract class StrSafe {
      * If true, returns the part of the string before the first occurrence (excluding the find string).
      * </p>
      *
-     * @return string|false The portion of string, or false if needle is not found.
+     * @return string|false The portion of string or false if needle is not found.
      */
     abstract public static function firstPart (string $find, string $string, bool $before_needle = false):string|false;
 
     /**
      * ### Find last part of a string
+     *
+     * This function returns the portion of $string which starts at the last occurrence of $find and goes until the
+     * end of $string.
      * @since 1.0.0
      *
      * @param string $find <p>
@@ -500,6 +551,8 @@ abstract class StrSafe {
      *
      * @return int<-1, 1> -1 if string1 is less than string2; 1 if string1 is greater than string2, and 0 if they are
      * equal.
+     *
+     * @note This comparison is case-sensitive.
      */
     public static function compare (string $string_1, string $string_2):int {
 

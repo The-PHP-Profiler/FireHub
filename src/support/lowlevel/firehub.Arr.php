@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\LowLevel;
 use FireHub\Core\Support\Enums\{
     Order, Sort
 };
-use Throwable;
+use ArgumentCountError, Error, ValueError;
 
 use const ARRAY_FILTER_USE_BOTH;
 use const ARRAY_FILTER_USE_KEY;
@@ -105,13 +105,16 @@ final class Arr {
 
     /**
      * ### Checks whether a given array is a list
+     *
+     * Determines if the given array is a list.
+     * An array is considered a list if its keys consist of consecutive numbers from 0 to count($array)-1.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> $array <p>
      * The array being evaluated.
      * </p>
      *
-     * @return bool True if array is a list, false otherwise.
+     * @return ($array is list ? true: false) True if array is a list, false otherwise.
      *
      * @note This function returns true on empty arrays.
      */
@@ -123,15 +126,19 @@ final class Arr {
 
     /**
      * ### Pop the element off the end of array
+     *
+     * Pops and returns the value of the last element of array, shortening the array by one element.
      * @since 1.0.0
      *
      * @template TValue
      *
      * @param array<array-key, TValue> &$array <p>
-     * Array to pop.
+     * The array to get the value from.
      * </p>
      *
      * @return TValue|null The last value of array. If array is empty (or is not an array), null will be returned.
+     *
+     * @note This function will reset the array pointer of the input array after use.
      */
     public static function pop (array &$array):mixed {
 
@@ -141,6 +148,9 @@ final class Arr {
 
     /**
      * ### Push elements onto the end of array
+     *
+     * Method treats array as a stack, and pushes the passed variables onto the end of array. The length of array
+     * increases by the number of variables pushed.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> &$array <p>
@@ -163,6 +173,10 @@ final class Arr {
 
     /**
      * ### Removes an item at the beginning of an array
+     *
+     * Shifts the first value of the array off and returns it, shortening the array by one element and moving
+     * everything down. All numerical array keys will be modified to start counting from zero while literal keys won't
+     * be affected.
      * @since 1.0.0
      *
      * @template TValue
@@ -183,6 +197,10 @@ final class Arr {
 
     /**
      * ### Prepend one or more elements to the beginning of an array
+     *
+     * Method prepends passed elements to the front of the array.
+     * Note that the list of elements is prepended as a whole, so that the prepended elements stay in the same order.
+     * All numerical array keys will be modified to start counting from zero while literal keys won't be changed.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> &$array <p>
@@ -209,22 +227,25 @@ final class Arr {
      * @param array<array-key, mixed> $array <p>
      * Array to count.
      * </p>
-     * @param bool $multi_dimensional [optional] <p>
+     * @param bool $multidimensional [optional] <p>
      * Count multidimensional items.
      * </p>
      *
-     * @return non-negative-int Number of elements in array.
+     * @error\exeption E_WARNING if multidimensional is on and method detect recursion to avoid an infinite loop.
      *
-     * @caution Method can detect recursion to avoid an infinite loop, but will emit an E_WARNING every time it does (in case the array contains itself more than once) and return a count higher than may be expected.
+     * @return non-negative-int Number of elements in array.
      */
-    public static function count (array $array, bool $multi_dimensional = false):int {
+    public static function count (array $array, bool $multidimensional = false):int {
 
-        return count($array, $multi_dimensional ? COUNT_RECURSIVE : COUNT_NORMAL);
+        return count($array, $multidimensional ? COUNT_RECURSIVE : COUNT_NORMAL);
 
     }
 
     /**
      * ### Counts all the values of an array
+     *
+     * Returns an array using the values of array (which must be int-s or strings)
+     * as keys and their frequency in array as values.
      * @since 1.0.0
      *
      * @template TValue of array-key
@@ -232,6 +253,9 @@ final class Arr {
      * @param array<array-key, TValue> $array <p>
      * The array of values to count.
      * </p>
+     *
+     * @error\exeption E_WARNING for every element which is not string or int.
+     *
      * @return array<TValue, positive-int> An associative array of values from input as keys and their count
      * as value.
      */
@@ -243,6 +267,9 @@ final class Arr {
 
     /**
      * ### Split an array into chunks
+     *
+     * Chunks an array into arrays with length elements.
+     * The last chunk may contain less than length elements.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -260,18 +287,24 @@ final class Arr {
      * Default is false which will reindex the chunk numerically.
      * </p>
      *
+     * @throws ValueError If length is less than 1.
+     *
      * @return ($preserve_keys is true ? array<array<TKey, TValue>> : array<array<TValue>>)
      * Multidimensional numerically indexed array,
      * starting with zero, with each dimension containing size elements.
      */
     public static function chunk (array $array, int $length, bool $preserve_keys = false):array {
 
-        return array_chunk($array, $length < 1 ? 1 : $length, $preserve_keys);
+        return array_chunk($array, $length, $preserve_keys);
 
     }
 
     /**
      * ### Return the values from a single column in the input array
+     *
+     * Returns the values from a single column of the array, identified by the argument key. Optionally, an argument key
+     * may be provided to index the values in the returned array by the values from the index argument column of the
+     * input array.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -302,6 +335,9 @@ final class Arr {
 
     /**
      * ### Creates an array by using one array for keys and another for its values
+     *
+     * Creates an array by using the values from the keys array as keys and the values from the values array as the
+     * corresponding values.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -314,25 +350,21 @@ final class Arr {
      * Array of values to be used as values on combined array.
      * </p>
      *
-     * @return array<TKey, TValue>|false The combined array, false if the number of elements for each array isn't
-     * equal, if the arrays are empty or array key is not int nor string.
+     * @throws ValueError If arguments $keys and $values don't have same number of elements.
+     *
+     * @return array<TKey, TValue> The combined array.
      */
-    public static function combine (array $keys, array $values):array|false {
+    public static function combine (array $keys, array $values):array {
 
-        try {
-
-            return array_combine($keys, $values);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return array_combine($keys, $values);
 
     }
 
     /**
      * ### Computes the difference of arrays using values for comparison
+     *
+     * Compares array against one or more other arrays and returns the values in array that are not present in any of
+     * the other arrays.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -355,8 +387,72 @@ final class Arr {
     }
 
     /**
-     * ### Computes the difference of arrays using values for comparison by using
-     * a callback function for data comparison
+     * ### Computes the difference of arrays using values for comparison by using a callback function for data
+     * comparison
+     *
+     * Computes the difference of arrays by using a callback function for data comparison. This is unlike difference()
+     * which uses an internal function for comparing the data.
+     *
+     * @param array<TKey, TValue> $array <p>
+     * The array to compare from.
+     * </p>
+     * @param array<array-key, mixed> $excludes <p>
+     * An array to compare against.
+     * </p>
+     * @param callable(TValue $a, TValue $b):int<-1, 1> $callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     *
+     * @return array<TKey, TValue> An array containing all the entries from array1
+     * that are not present in any of the other arrays.
+     *
+     * @caution Returning non-integer values from the comparison function, such as float, will result in an internal
+     * cast to int of the callback's return value. So values such as 0.99 and 0.1 will both be cast to an integer
+     * value of 0, which will compare such values as equal.
+     *@since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     */
+    public static function differenceFunc (array $array, array $excludes, callable $callback):array {
+
+        return array_udiff($array, $excludes, $callback);
+
+    }
+
+    /**
+     * ### Computes the difference of arrays using keys for comparison
+     *
+     * Compares the keys from array against the keys from arrays and returns the difference. This function is like
+     * difference() except the comparison is done on the keys instead of the values.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> $array <p>
+     * The array to compare from.
+     * </p>
+     * @param array<array-key, mixed> ...$excludes [optional] <p>
+     * An array to compare against.
+     * </p>
+     *
+     * @return array<TKey, TValue> Returns an array containing all the entries from array whose keys are absent from
+     * all the other arrays.
+     */
+    public static function differenceKey (array $array, array ...$excludes):array {
+
+        return array_diff_key($array, ...$excludes);
+
+    }
+
+    /**
+     * ### Computes the difference of arrays using keys for comparison by using a callback function for data comparison
+     *
+     * Compares the keys from array against the keys from arrays and returns the difference. This function is like
+     * difference() except the comparison is done on the keys instead of the values.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -378,57 +474,6 @@ final class Arr {
      * @note The comparison function must return an integer less than, equal to, or greater than zero if the first
      * argument is considered to be respectively less than, equal to, or greater than the second.
      */
-    public static function differenceFunc (array $array, array $excludes, callable $callback):array {
-
-        return array_udiff($array, $excludes, $callback);
-
-    }
-
-    /**
-     * ### Computes the difference of arrays using keys for comparison
-     * @since 1.0.0
-     *
-     * @template TKey of array-key
-     * @template TValue
-     *
-     * @param array<TKey, TValue> $array <p>
-     * The array to compare from.
-     * </p>
-     * @param array<array-key, mixed> ...$excludes [optional] <p>
-     * An array to compare against.
-     * </p>
-     *
-     * @return array<TKey, TValue> An array containing all the entries from array1
-     * that are not present in any of the other arrays.
-     */
-    public static function differenceKey (array $array, array ...$excludes):array {
-
-        return array_diff_key($array, ...$excludes);
-
-    }
-
-    /**
-     * ### Computes the difference of arrays using keys for comparison by using a callback function for data comparison
-     * @since 1.0.0
-     *
-     * @template TKey of array-key
-     * @template TValue
-     *
-     * @param array<TKey, TValue> $array <p>
-     * The array to compare from.
-     * </p>
-     * @param array<array-key, mixed> $excludes <p>
-     * An array to compare against.
-     * </p>
-     * @param callable(TValue $a, TValue $b):int<-1, 1> $callback <p>
-     * The comparison function.
-     * </p>
-     *
-     * @return array<TKey, TValue> An array containing all the entries from array1
-     * that are not present in any of the other arrays.
-     *
-     * @note The comparison function must return an integer less than, equal to, or greater than zero if the first argument is considered to be respectively less than, equal to, or greater than the second.
-     */
     public static function differenceKeyFunc (array $array, array $excludes, callable $callback):array {
 
         return array_diff_ukey($array, $excludes, $callback);
@@ -437,6 +482,9 @@ final class Arr {
 
     /**
      * ### Computes the difference of arrays with additional index check
+     *
+     * Compares array against arrays and returns the difference. Unlike difference() the array keys are also used in
+     * the comparison.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -459,7 +507,10 @@ final class Arr {
     }
 
     /**
-     * ### Computes the difference of arrays with additional index check by using a callback function for value comparison
+     * ### Computes the difference of arrays with additional index check by using a callback function for value
+     * comparison
+     *
+     * Computes the difference of arrays with additional index check, compares data by a callback function.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -478,7 +529,8 @@ final class Arr {
      * @return array<TKey, TValue> An array containing all the entries from array1
      * that are not present in any of the other arrays.
      *
-     * @note The comparison function must return an integer less than, equal to, or greater than zero if the first argument is considered to be respectively less than, equal to, or greater than the second.
+     * @note The comparison function must return an integer less than, equal to, or greater than zero if the first
+     * argument is considered to be respectively less than, equal to, or greater than the second.
      */
     public static function differenceAssocFuncValue (array $array, array $excludes, callable $callback):array {
 
@@ -488,6 +540,10 @@ final class Arr {
 
     /**
      * ### Computes the difference of arrays with additional index check by using a callback function for key comparison
+     *
+     * Compares array against arrays and returns the difference.
+     * Unlike difference() the array keys are used in the comparison.
+     * Unlike differenceAssoc() a user supplied callback function is used for the indices comparison, not internal function.
      * @since 1.0.0
      *
      * @template TKey
@@ -516,7 +572,11 @@ final class Arr {
     }
 
     /**
-     * ### Computes the difference of arrays with additional index check by using a callback function for key and value comparison
+     * ### Computes the difference of arrays with additional index check by using a callback function for key and
+     * value comparison
+     *
+     * Computes the difference of arrays with additional index check, compares data and indexes by a callback function.
+     * Note that the keys are used in the comparison unlike difference() and differenceFunc().
      * @since 1.0.0
      *
      * @template TKey
@@ -549,9 +609,14 @@ final class Arr {
 
     /**
      * ### Filter elements in an array
+     *
+     * Iterates over each value in the array passing them to the callback function.
+     * If the callback function returns true, the current value from array is returned into the result array.
+     * Array keys are preserved, and may result in gaps if the array was indexed. The result array can be re-indexed
+     * using the values() function.
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\DataIs To find whether a variable is null.
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::null To find whether a variable is null.
      *
      * @template TKey of array-key
      * @template TValue
@@ -588,7 +653,10 @@ final class Arr {
     }
 
     /**
-     * ### Fill an array with values
+     * ### Fill an array with valued
+     *
+     * Fills an array with count entries of the value of the value parameter,
+     * keys starting at the start_index parameter.
      * @since 1.0.0
      *
      * @template TValue
@@ -603,6 +671,8 @@ final class Arr {
      * Number of elements to insert. Must be greater than or equal to zero.
      * </p>
      *
+     * @throws ValueError If $length is out of range.
+     *
      * @return array<int, TValue> Filled array.
      */
     public static function fill (mixed $value, int $start_index, int $length):array {
@@ -613,6 +683,8 @@ final class Arr {
 
     /**
      * ### Fill an array with values, specifying keys
+     *
+     * Fills an array with the value of the value parameter, using the values of the keys array as keys.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -625,6 +697,8 @@ final class Arr {
      * Value to use for filling.
      * </p>
      *
+     * @throws Error If key could not be converted to string.
+     *
      * @return array<TKey, TValue> The filled array.
      */
     public static function fillKeys (array $keys, mixed $value):array {
@@ -635,6 +709,9 @@ final class Arr {
 
     /**
      * ### Computes the intersection of arrays using values for comparison
+     *
+     * Returns an array containing all the values of array that are present in all the arguments.
+     * Note that keys are preserved.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -659,7 +736,10 @@ final class Arr {
     }
 
     /**
-     * ### Computes the intersection of arrays using values for comparison by using a callback function for data comparison
+     * ### Computes the intersection of arrays using values for comparison by using a callback function for data
+     * comparison
+     *
+     * Computes the intersection of arrays, compares data by a callback function.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -688,6 +768,8 @@ final class Arr {
 
     /**
      * ### Computes the intersection of arrays using keys for comparison
+     *
+     * Returns an array containing all the entries of array which have keys that are present in all the arguments.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -709,7 +791,11 @@ final class Arr {
     }
 
     /**
-     * ### Computes the intersection of arrays using keys for comparison by using a callback function for data comparison
+     * ### Computes the intersection of arrays using keys for comparison by using a callback function for data
+     * comparison
+     *
+     * Returns an array containing all the values of array which have matching keys
+     * that are present in all the arguments.
      * @since 1.0.0
      *
      * @template TKey
@@ -736,6 +822,9 @@ final class Arr {
 
     /**
      * ### Computes the intersection of arrays with additional index check
+     *
+     * Returns an array containing all the values of array that are present in all the arguments.
+     * Note that the keys are also used in the comparison unlike in intersect().
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -760,7 +849,12 @@ final class Arr {
     }
 
     /**
-     * ### Computes the intersection of arrays with additional index check by using a callback function for value comparison
+     * ### Computes the intersection of arrays with additional index check by using a callback function for value
+     * comparison
+     *
+     * Computes the intersection of arrays with additional index check, compares data by a callback function.
+     * Note that the keys are used in the comparison unlike in intersectFunc().
+     * The data is compared by using a callback function.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -786,7 +880,11 @@ final class Arr {
     }
 
     /**
-     * ### Computes the intersection of arrays with additional index check by using a callback function for key comparison
+     * ### Computes the intersection of arrays with additional index check by using a callback function for key
+     * comparison
+     *
+     * Computes the intersection of arrays with additional index check, compares data and indexes by separate
+     * callback functions.
      * @since 1.0.0
      *
      * @template TKey
@@ -815,18 +913,20 @@ final class Arr {
     }
 
     /**
-     * ### Computes the intersection of arrays with additional index check by using a callback function for key and value comparison
+     * ### Computes the intersection of arrays with additional index check by using a callback function for key and
+     * value comparison
+     *
+     * Computes the intersection of arrays with additional index check, compares data and indexes by separate
+     * callback functions.
      * @since 1.0.0
      *
      * @template TKey
      * @template TValue
      *
      * @param callable(TValue $a, TValue $b):int<-1, 1> $callback_value <p>
-     * ```callable(TValue $a, TValue $b):int<-1, 1>```
      * The comparison function for value.
      * </p>
      * @param callable(TKey $a, TKey $b):int<-1, 1> $callback_key <p>
-     * ```callable(TKey $a, TKey $b):int<-1, 1>```
      * The comparison function for key.
      * </p>
      * @param array<TKey, TValue> $array <p>
@@ -850,6 +950,12 @@ final class Arr {
 
     /**
      * ### Exchanges all keys with their associated values in array
+     *
+     * Returns an array in flip order, i.e. keys from array become values and values from array become keys.
+     * Note that the values of array need to be valid keys, i.e. they need to be either int or string.
+     * A warning will be emitted if a value has the wrong type,
+     * and the key/value pair in question will not be included in the result.
+     * If a value has several occurrences, the latest key will be used as its value, and all others will be lost.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -858,6 +964,8 @@ final class Arr {
      * @param array<TKey, TValue> $array <p>
      * The array to flip.
      * </p>
+     *
+     * @error\exeption E_WARNING if values on $array argument are neither int nor string.
      *
      * @return array<TValue, TKey> The flipped array.
      */
@@ -869,6 +977,8 @@ final class Arr {
 
     /**
      * ### Checks if the given key or index exists in the array
+     *
+     * Returns true if the given key is set in the array. Key can be any value possible for an array index.
      * @since 1.0.0
      *
      * @param array-key $key <p>
@@ -891,6 +1001,10 @@ final class Arr {
 
     /**
      * ### Return all the keys or a subset of the keys of an array
+     *
+     * Returns the keys, numeric and string, from the array.
+     * If a $filter is specified, then only the keys for that value are returned.
+     * Otherwise, all the keys from the array are returned.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -915,6 +1029,8 @@ final class Arr {
 
     /**
      * ### Get first key from array
+     *
+     * Get the first key of the given array without affecting the internal array pointer.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -933,6 +1049,8 @@ final class Arr {
 
     /**
      * ### Get last key from array
+     *
+     * Get the last key of the given array without affecting the internal array pointer.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -951,6 +1069,12 @@ final class Arr {
 
     /**
      * ### Applies the callback to the elements of the given array
+     *
+     * Returns an array containing the results of applying the callback to the corresponding value of array (and
+     * arrays if more arrays are provided) used as arguments for the callback.
+     * The number of parameters that the callback function accepts should match the number of arrays passed to map().
+     * Excess input arrays are ignored.
+     * An ArgumentCountError is thrown if an insufficient number of arguments is provided.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -961,7 +1085,11 @@ final class Arr {
      * </p>
      * @param callable(TValue $value):mixed $callback <p>
      * Callback function to run for each element in each array.
+     * Null can be passed as a value to $callback to perform a zip operation on multiple arrays.
+     * If only array is provided, map() will return the input array.
      * </p>
+     *
+     * @throws ArgumentCountError If an insufficient number of arguments is provided.
      *
      * @return array<TKey, mixed> Array containing all the elements of arr1 after applying the callback function.
      */
@@ -973,6 +1101,14 @@ final class Arr {
 
     /**
      * ### Merges the elements of one or more arrays together
+     *
+     * Merges the elements of one or more arrays together so that the values of one are appended
+     * to the end of the previous one. It returns the resulting array.
+     * If the input arrays have the same string keys, then the later value for that key will overwrite the previous one.
+     * If, however, the arrays contain numeric keys, the later value will not overwrite the original value, but will
+     * be appended.
+     * Values in the input arrays with numeric keys will be renumbered with incrementing keys starting from zero in
+     * the result array.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -984,7 +1120,8 @@ final class Arr {
      *
      * @return array<TKey, TValue>, TValue The resulting array.
      *
-     * @note If the input arrays have the same string keys, then the later value for that key will overwrite the previous one.
+     * @note If the input arrays have the same string keys, then the later value for that key will overwrite the
+     * previous one.
      * @note If the arrays contain numeric keys, the later value will be appended.
      * @note Numeric keys will be renumbered.
      */
@@ -996,6 +1133,13 @@ final class Arr {
 
     /**
      * ### Merge two or more arrays recursively
+     *
+     * Merges the elements of one or more arrays together so that the values of one are appended to the end of the
+     * previous one. It returns the resulting array.
+     * If the input arrays have the same string keys, then the values for these keys are merged together into an array,
+     * and this is done recursively, so that if one of the values is an array itself, the function will merge it with
+     * a corresponding entry in another array too. If, however, the arrays have the same numeric key, the later value
+     * will not overwrite the original value, but will be appended.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1006,13 +1150,6 @@ final class Arr {
      * </p>
      *
      * @return array<TKey, TValue> The resulting array.
-     *
-     * @note If the input arrays have the same string keys,
-     * then the values for these keys are merged together into an array, and this is done recursively,
-     * so that if one of the values is an array itself, the function will merge it with
-     * a corresponding entry in another array too.
-     * If, however, the arrays have the same numeric key, the later value will not overwrite the original value,
-     * but will be appended.
      */
     public static function mergeRecursive (array ...$arrays):array {
 
@@ -1024,7 +1161,6 @@ final class Arr {
      * ### Sort multiple or multidimensional arrays
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::firstKey() To get first key from array.
      * @uses \FireHub\Core\Support\LowLevel\Arr::column() To return the values from a single column in the input array.
      * @uses \FireHub\Core\Support\Enums\Order::DESC As order enum.
      *
@@ -1038,6 +1174,8 @@ final class Arr {
      * List of fields to sort by.
      * </p>
      *
+     * @throws ValueError If array sizes are inconsistent.
+     *
      * @return bool True on success, false otherwise.
      *
      * @note Resets array's internal pointer to the first element.
@@ -1046,17 +1184,13 @@ final class Arr {
 
         $multi_sort = [];
 
-        foreach ($fields as $field) {
-
-            $column = self::firstKey($field);
-            $order = isset($column) ? $field[$column] : null;
+        foreach ($fields as $column => $order) {
 
             $order = match($order) {
                 Order::DESC => SORT_DESC,
                 default => SORT_ASC
             };
 
-            /** @phpstan-ignore-next-line */
             $multi_sort[] = [...self::column($array, $column)];
 
             $multi_sort[] = $order;
@@ -1065,23 +1199,18 @@ final class Arr {
 
         $multi_sort[] = &$array;
 
-        try {
-
-            /** @phpstan-ignore-next-line */
-            array_multisort(...$multi_sort);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
-
-        return true;
+        /** @phpstan-ignore-next-line */
+        return array_multisort(...$multi_sort);
 
     }
 
     /**
      * ### Pad array to the specified length with a value
+     *
+     * Returns a copy of the array padded to size specified by $length with value $value.
+     * If length is positive then the array is padded on the right, if it's negative then on the left.
+     * If the absolute value of length is less than or equal to the length of the array then no padding takes place.
+     * It is possible to add at most 1048576 elements at a time.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1113,13 +1242,15 @@ final class Arr {
 
     /**
      * ### Calculate the product of values in an array
+     *
+     * Returns the product of values in an array.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> $array <p>
      * The array.
      * </p>
      *
-     * @return int|float The product of values in an array.
+     * @return int|float The product as an integer or float.
      */
     public static function product (array $array):int|float {
 
@@ -1129,6 +1260,8 @@ final class Arr {
 
     /**
      * ### Pick one or more random keys out of an array
+     *
+     * Picks one or more random entries out of an array, and returns the key (or keys) of the random entries.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> $array <p>
@@ -1138,25 +1271,21 @@ final class Arr {
      * Specifies how many entries should be picked.
      * </p>
      *
-     * @return array<int, array-key>|int|string|false When picking only one entry, array_rand() returns the key for a
+     * @throws ValueError If $number is not between 1 and the number of elements in argument.
+     *
+     * @return array<int, array-key>|int|string When picking only one entry, array_rand() returns the key for a
      * random entry. Otherwise, an array of keys for the random entries is returned.
      */
-    public static function random (array $array, int $number = 1):int|string|array|false {
+    public static function random (array $array, int $number = 1):int|string|array {
 
-        try {
-
-            return array_rand($array, $number);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return array_rand($array, $number);
 
     }
 
     /**
      * ### Iteratively reduce the array to a single value using a callback function
+     *
+     * Applies iteratively the callback function to the elements of the array, to reduce the array to a single value.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> $array <p>
@@ -1180,6 +1309,13 @@ final class Arr {
 
     /**
      * ### Replaces elements from passed arrays into the first array
+     *
+     * Replaces the values of array with values having the same keys in each of the following arrays.
+     * If a key from the first array exists in the second array, its value will be replaced by the value from the
+     * second array. If the key exists in the second array, and not the first, it will be created in the first array.
+     * If a key only exists in the first array, it will be left as is. If several arrays are passed for replacement,
+     * they will be processed in order, the later arrays overwriting the previous values.
+     * Method is not recursive, it will replace values in the first array by whatever type is in the second array.
      * @since 1.0.0
      *
      * @template TValue
@@ -1201,6 +1337,16 @@ final class Arr {
 
     /**
      * ### Replace two or more arrays recursively
+     *
+     * Replaces the values of array with the same values from all the following arrays.
+     * If a key from the first array exists in the second array, its value will be replaced by the value from the
+     * second array. If the key exists in the second array, and not the first, it will be created in the first array.
+     * If a key only exists in the first array, it will be left as is. If several arrays are passed for replacement,
+     * they will be processed in order, the later array overwriting the previous values.
+     *
+     * When the value in the first array is scalar, it will be replaced by the value in the second array, may it be
+     * scalar or array. When the value in the first array and the second array are both arrays, replaceRecursive() will
+     * replace their respective value recursively.
      * @since 1.0.0
      *
      * @template TValue
@@ -1213,12 +1359,6 @@ final class Arr {
      * </p>
      *
      * @return array<TValue> The resulting array.
-     *
-     * @note If the input arrays have the same string keys, then the values for these keys are merged together
-     * into an array, and this is done recursively, so that if one of the values is an array itself,
-     * the function will merge it with a corresponding entry in another array too.
-     * If, however, the arrays have the same numeric key, the later value will not overwrite the original value, but
-     * will be appended.
      */
     public static function replaceRecursive (array $array, array ...$replacements):array {
 
@@ -1228,6 +1368,8 @@ final class Arr {
 
     /**
      * ### Reverse the order of array items
+     *
+     * Takes an input array and returns a new array with the order of the elements reversed.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1258,12 +1400,17 @@ final class Arr {
      *
      * @param mixed $value <p>
      * The searched value.
+     * If $value is a string, the comparison is done in a case-sensitive manner.
      * </p>
      * @param array<TKey, TValue> $array <p>
      * Array to search.
      * </p>
      *
      * @return TKey|false The key for value if it is found in the array, false otherwise.
+     *
+     * @warning This method may return Boolean false, but may also return a non-Boolean value which evaluates to false.
+     * Please read the section on Booleans for more information. Use the === operator for testing the return value of
+     * this function.
      */
     public static function search (mixed $value, array $array):int|string|false {
 
@@ -1430,6 +1577,9 @@ final class Arr {
 
     /**
      * ### Remove a portion of the array and replace it with something else
+     *
+     * Removes the elements designated by offset and length from the array $array, and replaces them with the elements
+     * of the replacement array, if supplied.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1449,7 +1599,7 @@ final class Arr {
      * the end of the array.
      * </p>
      * @param mixed $replacement [optional] <p>
-     * If replacement array is specified, then the removed elements are replaced with elements from this array.
+     * If replacement array is specified, then the removed elements will be replaced with elements from this array.
      * If offset and length are such that nothing is removed, then the elements from the replacement array or array
      * was inserted in the place specified by the offset.
      * Keys in replacement array are not preserved.
@@ -1485,6 +1635,8 @@ final class Arr {
 
     /**
      * ### Removes duplicate values from an array
+     *
+     * Takes an input array and returns a new array without duplicate values.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1507,6 +1659,8 @@ final class Arr {
 
     /**
      * ### Return all the values from array
+     *
+     * Returns all the values from the array and indexes the array numerically.
      * @since 1.0.0
      *
      * @template TValue
@@ -1525,6 +1679,10 @@ final class Arr {
 
     /**
      * ### Apply a user function to every member of an array
+     *
+     * Applies the user-defined callback function to each element of the array $array.
+     * Method is not affected by the internal array pointer of array.
+     * Method will walk through the entire array regardless of pointer position.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1542,6 +1700,8 @@ final class Arr {
      * If the array that walk is applied to is changed, the behavior of this function is undefined, and unpredictable.
      * </p>
      *
+     * @throws ArgumentCountError If the $callback function requires more than 2 parameters.
+     *
      * @return bool True on success, false otherwise.
      */
     public static function walk (array &$array, callable $callback):bool {
@@ -1552,6 +1712,9 @@ final class Arr {
 
     /**
      * ### Apply a user function recursively to every member of an array
+     *
+     * Applies the user-defined callback function to each element of the array. This function will recurse into
+     * deeper arrays.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -1614,24 +1777,23 @@ final class Arr {
      * Step should be given as a positive number. If not specified, step will default to 1.
      * </p>
      *
+     * @throws ValueError If $step exceeds the specified range.
+     *
      * @return array<int, TValue>|false An array of elements from start to end, inclusive, false otherwise.
+     *
+     * @note Character sequence values are limited to a length of one. If a length greater than one is entered,
+     * only the first character is used.
      */
     public static function range (int|float|string $start, int|float|string $end, int|float $step = 1):array|false {
 
-        try {
-
-            return range($start, $end, $step);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return range($start, $end, $step);
 
     }
 
     /**
      * ### Shuffle an array
+     *
+     * This function shuffles (randomizes the order of the elements in) an array.
      * @since 1.0.0
      *
      * @param array<array-key, mixed> $array <p>
@@ -1639,6 +1801,10 @@ final class Arr {
      * </p>
      *
      * @return true Always returns true.
+     *
+     * @note This function assigns new keys to the elements in array.
+     * It will remove any existing keys that may have been assigned, rather than just reordering the keys.
+     * @note Resets array's internal pointer to the first element.
      */
     public static function shuffle (array &$array):true {
 

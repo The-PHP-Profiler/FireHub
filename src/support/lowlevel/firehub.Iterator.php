@@ -30,6 +30,9 @@ final class Iterator {
 
     /**
      * ### Count the elements in an iterator
+     *
+     * Count the elements in an iterator.
+     * Method is not guaranteed to retain the current position of the iterator.
      * @since 1.0.0
      *
      * @param Traversable<mixed, mixed> $iterator <p>
@@ -46,6 +49,8 @@ final class Iterator {
 
     /**
      * ### Copy the iterator into an array
+     *
+     * Copy the elements of an iterator into an array.
      * @since 1.0.0
      *
      * @template TKey of array-key
@@ -56,9 +61,17 @@ final class Iterator {
      * </p>
      * @param bool $preserve_keys [optional] <p>
      * Whether to use the iterator element keys as index.
+     * If a key is an array or object, a warning will be generated. Null keys will be converted to an empty string,
+     * float keys will be truncated to their int counterpart, resource keys will generate a warning and be converted
+     * to their resource ID, and bool keys will be converted to integers.
      * </p>
      *
-     * @return ($preserve_keys is true ? array<TKey, TValue> : array<array-key, TValue>) An array containing items of the iterator.
+     * @return ($preserve_keys is true ? array<TKey, TValue> : array<array-key, TValue>) An array containing items
+     * of the iterator.
+     *
+     * @note If this parameter $preserve_keys is not set or set to true, duplicate keys will be overwritten.
+     * The last value with a given key will be in the returned array.
+     * Set this parameter as false to get all the values in any case.
      */
     public static function toArray (iterable $iterator, bool $preserve_keys = true):array {
 

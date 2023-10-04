@@ -15,6 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 use FireHub\Core\Support\Enums\DateTime\Zone;
+use Error;
 
 use function date_default_timezone_get;
 use function date_default_timezone_set;
@@ -30,22 +31,34 @@ final class TimeZone {
 
     /**
      * ### Gets the default timezone used by all date/time functions in a script
+     *
+     * In order of preference, this function returns the default timezone by:
+     * - reading the timezone set using the setDefaultTimezone() method (if any)
+     * - reading the value of the date.timezone ini option (if set)
+     *
+     * If none of the above succeed, date_default_timezone_get() will return a default timezone of UTC.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\DateTime\Zone To check for valid timezone.
      *
-     * @return \FireHub\Core\Support\Enums\DateTime\Zone|false Timezone, false if timezone doesn't exist.
+     * @throws Error If we cannot get default timezone.
+     *
+     * @return \FireHub\Core\Support\Enums\DateTime\Zone|false Timezone enum.
      */
     public static function getDefaultTimezone ():Zone|false {
 
-        $default = date_default_timezone_get();
-
-        return ($time_zone = Zone::tryFrom($default)) ? $time_zone : false;
+        return ($time_zone = Zone::tryFrom(date_default_timezone_get()))
+            ? $time_zone
+            : throw new Error('Cannot get default timezone.');
 
     }
 
     /**
      * ### Sets the default timezone used by all date/time functions in a script
+     *
+     * Method sets the default timezone used by all date/time functions.
+     * Instead of using this function to set the default timezone in your script, you can also use the INI setting
+     * date.timezone to set the default timezone.
      * @since 1.0.0
      *
      * @param \FireHub\Core\Support\Enums\DateTime\Zone $time_zone <p>

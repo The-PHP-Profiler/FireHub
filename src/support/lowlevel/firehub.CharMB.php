@@ -15,6 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 use FireHub\Core\Support\Enums\String\Encoding;
+use Error;
 
 use function mb_chr;
 use function mb_ord;
@@ -41,11 +42,14 @@ final class CharMB extends CharSafe {
      * Character encoding. If it is null, the internal character encoding value will be used.
      * </p>
      *
+     * @throws Error If codepoint could not be converted to character.
+     *
      * @link https://en.wikipedia.org/wiki/List_of_Unicode_characters List of codepoint values
      */
-    public static function chr (int $codepoint, Encoding $encoding = null):string|false {
+    public static function chr (int $codepoint, Encoding $encoding = null):string {
 
-        return mb_chr($codepoint, $encoding?->value);
+        return mb_chr($codepoint, $encoding?->value)
+            ?: throw new Error ('Codepoint could not be converted to character.');
 
     }
 
@@ -62,10 +66,13 @@ final class CharMB extends CharSafe {
      * @param \FireHub\Core\Support\Enums\String\Encoding $encoding [optional] <p>
      * Character encoding. If it is null, the internal character encoding value will be used.
      * </p>
+     *
+     * @throws Error If character could not be converted to codepoint.
      */
-    public static function ord (string $character, Encoding $encoding = null):int|false {
+    public static function ord (string $character, Encoding $encoding = null):int {
 
-        return mb_ord($character, $encoding?->value);
+        return mb_ord($character, $encoding?->value)
+            ?: throw new Error ('Character could not be converted to codepoint');
 
     }
 

@@ -35,6 +35,8 @@ abstract class Num {
 
     /**
      * ### Absolute value
+     *
+     * Returns the absolute value of $number.
      * @since 1.0.0
      *
      * @param int|float $number <p>
@@ -51,6 +53,8 @@ abstract class Num {
 
     /**
      * ### Round fractions up
+     *
+     * Returns the next highest integer value by rounding up $number if necessary.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\NumFloat::round() To round a float.
@@ -69,6 +73,8 @@ abstract class Num {
 
     /**
      * ### Round fractions down
+     *
+     * Returns the next lowest integer value (as float) by rounding down $number if necessary.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\NumFloat::round() To round a float.
@@ -87,6 +93,9 @@ abstract class Num {
 
     /**
      * ### Rounds a float
+     *
+     * Returns the rounded value of $number to specified $precision (number of digits after the decimal point).
+     * $precision can also be negative or zero (default).
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\Number\Round::HALF_UP Round number enum.
@@ -99,6 +108,10 @@ abstract class Num {
      * </p>
      * @param int $precision [optional] <p>
      * Number of decimal digits to round to.
+     * If the precision is positive, num is rounded to precision significant digits after the decimal point.
+     * If the precision is negative, num is rounded to precision significant digits before the decimal point, i.e. to
+     * the nearest multiple of pow(10, -$precision), e.g. for a precision of -1 num is rounded to tens, for a precision
+     * of -2 to hundreds, etc.
      * </p>
      * @param \FireHub\Core\Support\Enums\Number\Round $round [optional] <p>
      * Specify the mode in which rounding occurs.
@@ -172,7 +185,11 @@ abstract class Num {
      * The exponent.
      * </p>
      *
-     * @return int|float Base raised to the power of exponent. If both arguments are non-negative integers and the result can be represented as an integer, the result will be returned with int type, otherwise it will be returned as a float.
+     * @return int|float Base raised to the power of exponent.
+     * If both arguments are non-negative integers and the result can be represented as an integer,
+     * the result will be returned with int type, otherwise it will be returned as a float.
+     *
+     * @note It is possible to use the ** operator instead.
      */
     final public static function power (int|float $base, int|float $exponent):int|float {
 
@@ -182,6 +199,8 @@ abstract class Num {
 
     /**
      * ### Format a number with grouped thousands
+     *
+     * Formats a number with grouped thousands and optionally decimal digits using the rounding half up rule.
      * @since 1.0.0
      *
      * @param int|float $number <p>

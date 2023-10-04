@@ -14,7 +14,7 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
-use Throwable;
+use Error, TypeError;
 
 use function class_implements;
 use function class_parents;
@@ -44,22 +44,15 @@ abstract class ClsObj {
      * The class name or an object instance.
      * </p>
      *
-     * @return array<string>|false Returns an array of method names defined for the class,
-     * or false if class doesn't exist.
+     * @throws TypeError If $object_or_class is not object or a valid class name.
+     *
+     * @return array<string> Returns an array of method names defined for the class.
      *
      * @note Result depends on the current scope.
      */
-    final public static function methods (string|object $object_or_class):array|false {
+    final public static function methods (string|object $object_or_class):array {
 
-        try {
-
-            return get_class_methods($object_or_class);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return get_class_methods($object_or_class);
 
     }
 
@@ -86,6 +79,8 @@ abstract class ClsObj {
 
     /**
      * ### Checks if the object or class has a property
+     *
+     * This method checks if the given property exists in the specified class.
      * @since 1.0.0
      *
      * @param class-string|object $object_or_class <p>
@@ -97,6 +92,7 @@ abstract class ClsObj {
      *
      * @return null|bool True if the property exists, false if it doesn't exist or null in case of an error.
      *
+     * @note As opposed with isset(), property_exists() returns true even if the property has the value null.
      * @note This method cannot detect properties that are magically accessible using the __get magic method.
      * @note Using this function will use any registered autoloaders if the class is not already known.
      */
@@ -115,10 +111,7 @@ abstract class ClsObj {
      * </p>
      *
      * @return class-string|false The name of the parent class of the class of which object_or_class is an instance
-     * or the name.
-     *
-     * @note If the object does not have a parent or the class given does not exist false will be returned.
-     * @note If called without parameter outside object, this function returns false.
+     * or the name, or false if object_or_class doesn't have parent.
      */
     final public static function parentClass (string|object $object_or_class):string|false {
 
@@ -139,11 +132,15 @@ abstract class ClsObj {
      * Whether to allow this function to load the class automatically through the __autoload magic method.
      * </p>
      *
-     * @return array<string, class-string>|false An array on success, or false when the given class doesn't exist.
+     * @throws Error If $object_or_class does not exist and could not be loaded.
+     * @error\exeption E_WARNING If $object_or_class does not exist and could not be loaded.
+     *
+     * @return array<string, class-string> An array on success.
      */
-    final public static function parents (object|string $object_or_class, bool $autoload = true):array|false {
+    final public static function parents (object|string $object_or_class, bool $autoload = true):array {
 
-        return class_parents($object_or_class, $autoload);
+        return class_parents($object_or_class, $autoload)
+            ?: throw new Error('$object_or_class does not exist and could not be loaded.');
 
     }
 
@@ -161,11 +158,15 @@ abstract class ClsObj {
      * Whether to allow this function to load the class automatically through the __autoload magic method.
      * </p>
      *
-     * @return array<string, class-string>|false An array on success, or false when the given class doesn't exist.
+     * @throws Error If $object_or_class does not exist and could not be loaded.
+     * @error\exeption E_WARNING If $object_or_class does not exist and could not be loaded.
+     *
+     * @return array<string, class-string> An array.
      */
-    final public static function implements (object|string $object_or_class, bool $autoload = true):array|false {
+    final public static function implements (object|string $object_or_class, bool $autoload = true):array {
 
-        return class_implements($object_or_class, $autoload);
+        return class_implements($object_or_class, $autoload)
+            ?: throw new Error('$object_or_class does not exist and could not be loaded.');
 
     }
 
@@ -183,16 +184,22 @@ abstract class ClsObj {
      * Whether to allow this function to load the class automatically through the __autoload magic method.
      * </p>
      *
-     * @return array<string, class-string>|false An array on success, or false when the given class doesn't exist.
+     * @throws Error If $object_or_class does not exist and could not be loaded.
+     * @error\exeption E_WARNING If $object_or_class does not exist and could not be loaded.
+     *
+     * @return array<string, class-string> An array.
      */
-    final public static function uses (object|string $object_or_class, bool $autoload = true):array|false {
+    final public static function uses (object|string $object_or_class, bool $autoload = true):array {
 
-        return class_uses($object_or_class, $autoload);
+        return class_uses($object_or_class, $autoload)
+            ?: throw new Error('$object_or_class does not exist and could not be loaded.');
 
     }
 
     /**
      * ### Checks whether the object or class is of a given type or subtype
+     *
+     * Checks if the given $object_or_class is of this object type or has this object type as one of its supertypes.
      * @since 1.0.0
      *
      * @param class-string|object $object_or_class <p>
@@ -216,6 +223,8 @@ abstract class ClsObj {
 
     /**
      * ### Checks if class has this class as one of its parents or implements it
+     *
+     * Checks if the given object_or_class has the class $class as one of its parents or implements it.
      * @since 1.0.0
      *
      * @param class-string|object $object_or_class <p>

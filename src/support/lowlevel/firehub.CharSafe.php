@@ -30,9 +30,11 @@ abstract class CharSafe {
      * The codepoint value.
      * </p>
      *
-     * @return string|false A string containing the requested character, false otherwise.
+     * @return string A string containing the requested character.
+     *
+     * @note This method complements ord() method.
      */
-    abstract public static function chr (int $codepoint):string|false;
+    abstract public static function chr (int $codepoint):string;
 
     /**
      * ### Get codepoint value of character
@@ -42,8 +44,10 @@ abstract class CharSafe {
      * A character.
      * </p>
      *
-     * @return int|false The codepoint value of character, false otherwise.
+     * @return int The codepoint value of character.
+     *
+     * @note This method complements chr() method.
      */
-    abstract public static function ord (string $character):int|false;
+    abstract public static function ord (string $character):int;
 
 }

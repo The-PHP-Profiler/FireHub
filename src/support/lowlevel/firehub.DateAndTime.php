@@ -15,7 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 use FireHub\Core\Support\Enums\Data\Type;
-use Throwable;
+use Error, ValueError;
 
 use function checkdate;
 use function date;
@@ -42,6 +42,9 @@ final class DateAndTime {
 
     /**
      * ### Check for valid date
+     *
+     * Checks the validity of the date formed by the arguments.
+     * A date is considered valid if each parameter is properly defined.
      * @since 1.0.0
      *
      * @param int<1, 32767> $year <p>
@@ -64,6 +67,8 @@ final class DateAndTime {
 
     /**
      * ### Returns associative array with detailed info about given date/time
+     *
+     * Method parses the given datetime string according to the same rules as stringToTimestamp().
      * @since 1.0.0
      *
      * @param non-empty-string $datetime <p>
@@ -71,6 +76,9 @@ final class DateAndTime {
      * </p>
      *
      * @return array<string, mixed> Associative array with detailed info about given date/time.
+     *
+     * @warning The number of array elements in the warnings and errors arrays might be less than warning_count or
+     * error_count if they occurred at the same position.
      */
     public static function parse (string $datetime):array {
 
@@ -89,25 +97,26 @@ final class DateAndTime {
      * String representing the date/time.
      * </p>
      *
+     * @throws ValueError If $datetime contains NULL-bytes.
+     *
      * @return array<string, mixed>|false Associative array with detailed info about given date/time
      * or false in case the date/time format has an error.
+     *
+     * @warning The number of array elements in the warnings and errors arrays might be less than warning_count or
+     * error_count if they occurred at the same position.
      */
     public static function parseFromFormat (string $format, string $datetime):array|false {
 
-        try {
-
-            return date_parse_from_format($format, $datetime);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return date_parse_from_format($format, $datetime);
 
     }
 
     /**
      * ### Format a Unix timestamp
+     *
+     * Returns a string formatted according to the given format string using the given integer timestamp
+     * (Unix timestamp) or the current time if no timestamp is given. In other words, timestamp is optional and defaults
+     * to the value of time().
      * @since 1.0.0
      *
      * @param string $format [optional] <p>
@@ -121,6 +130,8 @@ final class DateAndTime {
      * Format a GMT/UTC date/time.
      * </p>
      *
+     * @error\exeption E_WARNING If the time zone is not valid.
+     *
      * @return string String formatted according to the given format string using the given integer timestamp.
      *
      * @link https://www.php.net/manual/en/datetime.format.php To check valid $format formats.
@@ -133,6 +144,9 @@ final class DateAndTime {
 
     /**
      * ### Format a Unix timestamp as integer
+     *
+     * Returns a number formatted according to the given format string using the given integer timestamp or the current
+     * local time if no timestamp is given. In other words, timestamp is optional and defaults to the value of time().
      * @since 1.0.0
      *
      * @param 'B'|'d'|'h'|'H'|'i'|'I'|'L'|'m'|'s'|'t'|'U'|'w'|'W'|'y'|'Y'|'z'|'Z' $format <p>
@@ -142,6 +156,8 @@ final class DateAndTime {
      * The optional timestamp parameter is an integer Unix timestamp that defaults to the current local time
      * if a timestamp is not given.
      * </p>
+     *
+     * @error\exeption E_WARNING If the time zone is not valid.
      *
      * @return int|false Formatted date as integer, false otherwise.
      *
@@ -161,6 +177,8 @@ final class DateAndTime {
      * The optional timestamp parameter is an int Unix timestamp that defaults to the current local time
      * if timestamp is omitted or null.
      * </p>
+     *
+     * @error\exeption E_WARNING if the time zone is not valid.
      *
      * @return array{
      *  seconds: int<0, 59>,
@@ -203,6 +221,8 @@ final class DateAndTime {
      * Longitude in degrees.
      * </p>
      *
+     * @throws Error If we could not get information about sunset and twilight.
+     *
      * @return array{
      *  sunrise: int|bool,
      *  sunset: int|bool,
@@ -221,12 +241,17 @@ final class DateAndTime {
          * PHPStan reports that date_sun_info returns array<string, bool|int>
          * @phpstan-ignore-next-line
          */
-        return date_sun_info($timestamp, $latitude, $longitude);
+        return date_sun_info($timestamp, $latitude, $longitude)
+            ?: throw new Error('Could not get information about sunset and twilight.');
 
     }
 
     /**
      * ### Parse about any English textual datetime description into a Unix timestamp
+     *
+     * The method expects to be given a string containing an English date format and will try to parse that format
+     * into a Unix timestamp (the number of seconds since January 1, 1970 00:00:00 UTC), relative to the timestamp
+     * given in baseTimestamp, or the current time if baseTimestamp is not supplied.
      * @since 1.0.0
      *
      * @param non-empty-string $datetime <p>
@@ -236,7 +261,10 @@ final class DateAndTime {
      * The timestamp which is used as a base for the calculation of relative dates.
      * </p>
      *
-     * @return int|false A timestamp on success, false otherwise.
+     * @throws Error If we could not convert string to timestamp.
+     * @error\exeption E_WARNING if the time zone is not valid.
+     *
+     * @return int A timestamp.
      *
      * @link https://www.php.net/manual/en/datetime.formats.php To check how to pass $datetime parameter.
      *
@@ -248,9 +276,10 @@ final class DateAndTime {
      * 32-bit signed integer.). For 64-bit versions of PHP, the valid range of a timestamp is effectively infinite,
      * as 64 bits can represent approximately 293 billion years in either direction.
      */
-    public static function stringToTimestamp (string $datetime, int $timestamp = null):int|false {
+    public static function stringToTimestamp (string $datetime, int $timestamp = null):int {
 
-        return strtotime($datetime, $timestamp);
+        return strtotime($datetime, $timestamp)
+            ?: throw new Error('Could not convert string to timestamp.');
 
     }
 
@@ -299,14 +328,17 @@ final class DateAndTime {
      * Get a GMT/UTC timestamp.
      * </p>
      *
-     * @return int|false The Unix timestamp of the arguments given,
-     * or false if the timestamp doesn't fit in a PHP integer.
+     * @throws Error If timestamp doesn't fit in a PHP integer.
+     *
+     * @return int The Unix timestamp of the arguments given.
      */
-    public static function toTimestamp (int $hour, int $minute = null, int $second = null, int $year = null, int $month = null, int $day = null, bool $gmt = false):int|false {
+    public static function toTimestamp (int $hour, int $minute = null, int $second = null, int $year = null, int $month = null, int $day = null, bool $gmt = false):int {
 
-        return $gmt
+        return (
+            $gmt
             ? gmmktime($hour, $minute, $second, $month, $day, $year)
-            : mktime($hour, $minute, $second, $month, $day, $year);
+            : mktime($hour, $minute, $second, $month, $day, $year)
+            ) ?: throw new Error("Timestamp doesn't fit in a PHP integer.");
 
     }
 
@@ -317,6 +349,8 @@ final class DateAndTime {
      * @since 1.0.0
      *
      * @return int The current timestamp.
+     *
+     * @tip Timestamp of the start of the request is available in $_SERVER['REQUEST_TIME'].
      */
     public static function time ():int {
 
@@ -326,6 +360,9 @@ final class DateAndTime {
 
     /**
      * ### Get current Unix microseconds
+     *
+     * Method returns the current Unix timestamp with microseconds. This function is only available on operating
+     * systems that support the gettimeofday() system call.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\StrSB::explode() To split microtime function.
@@ -333,11 +370,16 @@ final class DateAndTime {
      * @uses \FireHub\Core\Support\Enums\Data\Type::T_INT To set microtime as integer.
      * @uses \FireHub\Core\Support\LowLevel\StrSB::part() To get part of microtime.
      *
-     * @return int<0, 999999>|false Current microseconds, false otherwise.
+     * @throws Error If separator is empty string.
+     *
+     * @return int<0, 999999> Current microseconds.
+     *
+     * @tip For performance measurements, using hrtime() is recommended.
      */
-    public static function microtime ():int|false {
+    public static function microtime ():int {
 
-        if (!$time_list = StrSB::explode(microtime(), ' ')) return false;
+        if (!$time_list = StrSB::explode(microtime(), ' '))
+            throw new Error('Separator cannot be empty string.');
 
         /** @phpstan-ignore-next-line */
         return Data::setType(StrSB::part($time_list[0], 2, 6), Type::T_INT);

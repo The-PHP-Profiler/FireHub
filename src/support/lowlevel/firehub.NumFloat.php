@@ -48,6 +48,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Finds whether a value is a legal finite number
+     *
+     * Checks whether $number is a legal finite on this platform.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -65,6 +67,9 @@ final class NumFloat extends Num {
 
     /**
      * ### Finds whether a value is infinite
+     *
+     * Returns true if num is infinite (positive or negative), like the result of log(0) or any value too big to fit
+     * into a float on this platform.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -81,6 +86,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Finds whether a value is not a number
+     *
+     * Checks whether num is 'not a number', like the result of acos(1.01).
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -119,6 +126,10 @@ final class NumFloat extends Num {
 
     /**
      * ### Get the floating point remainder (modulo) of the division of the arguments
+     *
+     * Returns the floating point remainder of dividing the dividend ($dividend) by the divisor ($divisor).
+     * The remainder (r) is defined as: $dividend = i * $divisor + r, for some integer i. If $divisor is non-zero,
+     * r has the same sign as $dividend and a magnitude less than the magnitude of $divisor.
      * @since 1.0.0
      *
      * @param float $dividend <p>
@@ -138,6 +149,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Cosine
+     *
+     * Method returns the cosine of the $number parameter. The $number parameter is in radians.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -154,6 +167,9 @@ final class NumFloat extends Num {
 
     /**
      * ### Arc cosine
+     *
+     * Returns the arc cosine of num in radians. cosineArc() is the inverse function of cosine(), which means that
+     * $number == cosine(cosineArc($number)) for every value of a that is within cosineArc() range.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -170,13 +186,15 @@ final class NumFloat extends Num {
 
     /**
      * ### Hyperbolic cosine
+     *
+     * Returns the hyperbolic cosine of $number, defined as (exponent($number) + exponent(-$number))/2.
      * @since 1.0.0
      *
      * @param float $number <p>
      * The argument to process.
      * </p>
      *
-     * @return float Hyperbolic cosine of number, defined as (exp($number) + exp(-$number))/2.
+     * @return float Hyperbolic cosine of number.
      */
     public static function cosineHyperbolic (float $number):float {
 
@@ -186,6 +204,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Inverse hyperbolic cosine
+     *
+     * Returns the inverse hyperbolic cosine of $number, i.e. the value whose hyperbolic cosine is $number.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -202,6 +222,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Sine
+     *
+     * Method returns the sine of the num parameter. The num parameter is in radians.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -218,6 +240,9 @@ final class NumFloat extends Num {
 
     /**
      * ### Arc sine
+     *
+     * Returns the arc sine of $number in radians. sineArc() is the inverse function of sine(), which means that
+     * $num == sine(sineArc($number)) for every value of a that is within sineArc()'s range.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -234,6 +259,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Hyperbolic sine
+     *
+     * Returns the hyperbolic sine of num, defined as (exponent($number) - exponent(-$number))/2.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -250,6 +277,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Inverse hyperbolic tangent
+     *
+     * Returns the inverse hyperbolic sine of $number, i.e. the value whose hyperbolic sine is $number.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -266,6 +295,8 @@ final class NumFloat extends Num {
 
     /**
      * ### Tangent
+     *
+     * Returns the tangent of the num parameter. The num parameter is in radians.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -282,6 +313,9 @@ final class NumFloat extends Num {
 
     /**
      * ### Arc tangent
+     *
+     * Returns the arc tangent of num in radians. tangentArc() is the inverse function of tangent(), which means that
+     * $num == tangent(tangentArc($number)) for every value of a that is within tangentArc()'s range.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -300,7 +334,9 @@ final class NumFloat extends Num {
      * ### Arc tangent of two variables
      *
      * This method calculates the arc tangent of the two variables x and y.
-     * It is similar to calculating the arc tangent of y / x, except that the signs of both arguments are used to determine the quadrant of the result.
+     * It is similar to calculating the arc tangent of y / x, except that the signs of both arguments are used to
+     * determine the quadrant of the result.
+     * The function returns the result in radians, which is between -PI and PI (inclusive).
      * @since 1.0.0
      *
      * @param float $x <p>
@@ -319,7 +355,9 @@ final class NumFloat extends Num {
     }
 
     /**
-     * ### Hyperbolic Tangent
+     * ### Hyperbolic tangent
+     *
+     * Returns the hyperbolic tangent of $number, defined as sineHyperbolic($number)/cosineHyperbolic($number).
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -386,6 +424,9 @@ final class NumFloat extends Num {
 
     /**
      * ### Calculate the length of the hypotenuse of a right-angle triangle
+     *
+     * Method returns the length of the hypotenuse of a right-angle triangle with sides of length x and y, or the
+     * distance of the point (x, y) from the origin. This is equivalent to sqrt($x*$x + $y*$y).
      * @since 1.0.0
      *
      * @param float $x <p>

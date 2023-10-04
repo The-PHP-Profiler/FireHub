@@ -14,7 +14,7 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
-use Throwable;
+use Error;
 
 use function constant;
 use function define;
@@ -36,28 +36,22 @@ final class Constant {
      * The constant name.
      * </p>
      *
-     * @return mixed The value of the constant, or null if the constant is not defined.
+     * @throws Error If the constant is not defined.
+     *
+     * @return mixed The value of the constant.
      *
      * @note This function works also with class constants and enum cases.
-     *
-     * @warning Constant can also have null value, be carefully when checking those constants.
      */
     public static function value (string $name):mixed {
 
-        try {
-
-            return constant($name);
-
-        } catch (Throwable) {
-
-            return null;
-
-        }
+        return constant($name);
 
     }
 
     /**
      * ### Defines a named constant
+     *
+     * Defines a named constant at runtime.
      * @since 1.0.0
      *
      * @param non-empty-string $name <p>
@@ -86,6 +80,8 @@ final class Constant {
      * </p>
      *
      * @return bool True if the named constant given by name parameter has been defined, false otherwise.
+     *
+     * @note This function works also with class constants and enum cases.
      */
     public static function defined (string $name):bool {
 

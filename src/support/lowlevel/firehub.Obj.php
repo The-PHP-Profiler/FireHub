@@ -42,6 +42,8 @@ final class Obj extends ClsObj {
      *
      * @return positive-int An integer identifier that is unique for each currently existing object and is always
      * the same for each object.
+     *
+     * @note When an object is destroyed, its id may be reused for other objects.
      */
     public static function id (object $object):int {
 
@@ -65,6 +67,10 @@ final class Obj extends ClsObj {
      *
      * @return non-empty-string A string that is unique for each currently existing object and is always
      * the same for each object.
+     *
+     * @note When an object is destroyed, its hash may be reused for other objects.
+     * @note Object hashes should be compared for identity with === and !==, because the returned hash could be a
+     * numeric string. For example: 0000000000000e600000000000000000.
      */
     public static function hash (object $object):string {
 
@@ -91,6 +97,8 @@ final class Obj extends ClsObj {
 
     /**
      * ### Gets the properties of the given object
+     *
+     * Gets the accessible non-static properties of the given object according to scope.
      * @since 1.0.0
      *
      * @param object $object <p>
@@ -99,6 +107,8 @@ final class Obj extends ClsObj {
      *
      * @return array<non-empty-string, mixed> An associative array of defined object accessible non-static properties for the
      * specified object in scope.
+     *
+     * @note Uninitialized properties are considered inaccessible, and thus will not be included in the array.
      */
     public static function properties (object $object):array {
 

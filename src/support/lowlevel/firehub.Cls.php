@@ -14,8 +14,6 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
-use Throwable;
-
 use function class_alias;
 use function class_exists;
 use function enum_exists;
@@ -33,6 +31,8 @@ final class Cls extends ClsObj {
 
     /**
      * ### Checks if class name exist
+     *
+     * This method checks whether the given class has been defined.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Cls::isEnum() To check if enum name exist.
@@ -54,6 +54,8 @@ final class Cls extends ClsObj {
 
     /**
      * ### Checks if interface name exist
+     *
+     * Checks if the given interface has been defined.
      * @since 1.0.0
      *
      * @param class-string $name <p>
@@ -73,6 +75,8 @@ final class Cls extends ClsObj {
 
     /**
      * ### Checks if enum name exist
+     *
+     * This method checks whether the given enum has been defined.
      * @since 1.0.0
      *
      * @param class-string $name <p>
@@ -127,6 +131,11 @@ final class Cls extends ClsObj {
      * </p>
      *
      * @return bool True on success or false on failure.
+     *
+     * @note Class names are case-insensitive in PHP, and this is reflected in this function.
+     * Aliases created by class_alias() are declared in lowercase.
+     * This means that for a class MyClass, the class_alias('MyClass', 'MyClassAlias') call will declare a new class
+     * alias named myclassalias.
      */
     public static function alias (string $class, string $alias, bool $autoload = true):bool {
 
@@ -144,23 +153,15 @@ final class Cls extends ClsObj {
      * The class name.
      * </p>
      *
-     * @return array<non-empty-string, mixed>|false Returns an associative array of declared properties visible from the current
-     * scope, with their default value.
+     * @return array<non-empty-string, mixed> Returns an associative array of declared properties visible from the
+     * current scope, with their default value.
      *
      * @note Result depends on the current scope.
      * @note Using this function will use any registered autoloaders if the class is not already known.
      */
-    public static function properties (string $class):array|false {
+    public static function properties (string $class):array {
 
-        try {
-
-            return get_class_vars($class);
-
-        } catch (Throwable) {
-
-            return false;
-
-        }
+        return get_class_vars($class);
 
     }
 

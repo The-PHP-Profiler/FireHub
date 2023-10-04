@@ -33,6 +33,9 @@ final class Declared {
      * @since 1.0.0
      *
      * @return array<class-string> Array of the names of the declared classes in the current script.
+     *
+     * @note Note that depending on what extensions you have compiled or loaded into PHP, additional classes could be
+     * present. This means that you will not be able to define your own classes using these names.
      */
     public static function classes ():array {
 
@@ -66,6 +69,9 @@ final class Declared {
 
     /**
      * ### Gets the declared constants
+     *
+     * Returns the names and values of all the constants currently defined. This includes those created by extensions
+     * as well as those created with the define() function.
      * @since 1.0.0
      *
      * @param bool $categorize [optional] <p>
