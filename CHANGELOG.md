@@ -12,6 +12,8 @@
 - Created Iterator low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [0353028](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/0353028))
 - Created SPLAutoload low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [c95fc46](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/c95fc46))
 - Created date and time low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [7c46025](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/7c46025))
+- Created files low level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [9a8b563](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/9a8b563))
+- Created support constants ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [45ea60f](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/45ea60f))
 
 ## [v0.1.2](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.1-alpha.1...v0.1.2-alpha.1) - (2023-09-21)
 
