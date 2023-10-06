@@ -14,11 +14,16 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
-use FireHub\Core\Support\Enums\FileSystem\Permission;
+use FireHub\Core\Support\Enums\ {
+    Order, FileSystem\Permission
+};
 use Error, ValueError;
 
 use const FireHub\Core\Support\Constants\Path\DS;
 use const GLOB_ONLYDIR;
+use const SCANDIR_SORT_ASCENDING;
+use const SCANDIR_SORT_DESCENDING;
+use const SCANDIR_SORT_NONE;
 
 use function basename;
 use function chgrp;
@@ -45,6 +50,7 @@ use function pathinfo;
 use function readlink;
 use function realpath;
 use function rename;
+use function scandir;
 use function symlink;
 use function stat;
 use function touch;
@@ -624,6 +630,36 @@ class FileSystem {
 
         return fileinode($path)
             ?: throw new Error("Could not get inode for path: $path.");
+
+    }
+
+    /**
+     * ### List files and directories inside the specified folder
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Enums\Order::ASC As sorting order.
+     * @uses \FireHub\Core\Support\Enums\Order::DESC As sorting order.
+     *
+     * @param non-empty-string $folder <p>
+     * The folder that will be scanned.
+     * </p>
+     * @param null|\FireHub\Core\Support\Enums\Order $order [optional] <p>
+     * Result order.
+     * </p>
+     *
+     * @throws Error If $folder is empty, or we could not list files and directories inside the specified folder.
+     * @error\exeption E_WARNING upon failure.
+     *
+     * @return string[] An array of filenames.
+     */
+    final public static function list (string $folder, Order $order = null):array {
+
+        return scandir($folder, match ($order) {
+                Order::ASC => SCANDIR_SORT_ASCENDING,
+                Order::DESC => SCANDIR_SORT_DESCENDING,
+                default => SCANDIR_SORT_NONE
+        })
+            ?: throw new Error("Could not list files and directories inside the specified folder: $folder.");
 
     }
 
