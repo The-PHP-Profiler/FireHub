@@ -39,7 +39,7 @@ enum Sort:int {
     case SORT_STRING = 2;
 
     /**
-     * ### Compare items as strings, based on the current locale. It uses the locale, which can be changed using setlocale()
+     * ### Compare items as strings, based on the current locale
      * @since 1.0.0
      */
     case SORT_LOCALE_STRING = 5;

@@ -624,7 +624,7 @@ final class Arr {
      * @param array<TKey, TValue> $array <p>
      * The array to iterate over.
      * </p>
-     * @param null|callable(TValue $value):bool $callback [optional] <p>
+     * @param null|callable(TValue $value, TKey $key):bool $callback [optional] <p>
      * The callback function to use.
      * If no callback is supplied, all empty and false entries of array will be removed.
      * </p>
@@ -644,6 +644,7 @@ final class Arr {
 
         if (DataIs::null($callback)) return array_filter($array);
 
+        /** @phpstan-ignore-next-line */
         return array_filter($array, $callback,
             $pass_key && $pass_value
                 ? ARRAY_FILTER_USE_BOTH

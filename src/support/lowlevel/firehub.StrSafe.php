@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\LowLevel;
 use FireHub\Core\Support\Enums\Side;
 use Error, ValueError;
 
-use const PHP_INT_MAX;
+use const FireHub\Core\Support\Constants\Number\MAX;
 
 use function addslashes;
 use function explode;
@@ -230,7 +230,7 @@ abstract class StrSafe {
      * @param non-empty-string $separator <p>
      * The boundary string.
      * </p>
-     * @param int $limit [optional] <p>
+     * @param int<min, max> $limit [optional] <p>
      * If limit is set and positive, the returned array will contain a maximum of limit elements with the last element containing the rest of string.
      * If the limit parameter is negative, all components except the last -limit are returned.
      * If the limit parameter is zero, then this is treated as 1.
@@ -241,7 +241,7 @@ abstract class StrSafe {
      * @return string[] If delimiter contains a value that is not contained in string and a negative limit is
      * used, then an empty array will be returned. For any other limit, an array containing string will be returned.
      */
-    final public static function explode (string $string, string $separator, int $limit = PHP_INT_MAX):array {
+    final public static function explode (string $string, string $separator, int $limit = MAX):array {
 
         return explode($separator, $string, $limit);
 
