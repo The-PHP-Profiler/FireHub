@@ -155,7 +155,7 @@ final class Cls extends ClsObj {
      * The class name.
      * </p>
      *
-     * @throws Error If $class is not valid class name or there was an error while trying to get properties for class.
+     * @throws Error If $class is not valid class name.
      *
      * @return array<non-empty-string, mixed> Returns an associative array of declared properties visible from
      * current scope, with their default value.
@@ -165,8 +165,7 @@ final class Cls extends ClsObj {
      */
     public static function properties (string $class):array {
 
-        return ($properties = get_class_vars($class)) !== false
-            ? $properties : throw new Error ("There was an error while trying to get properties for class: $class.");
+        return get_class_vars($class);
 
     }
 
