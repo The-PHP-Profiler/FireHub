@@ -26,7 +26,7 @@ use function pow;
 use function round;
 
 /**
- * ### Number low level class
+ * ### Number low-level class
  *
  * Class contains methods that are used on all number types.
  * @since 1.0.0
@@ -109,7 +109,7 @@ abstract class Num {
      * @param int $precision [optional] <p>
      * Number of decimal digits to round to.
      * If the precision is positive, num is rounded to precision significant digits after the decimal point.
-     * If the precision is negative, num is rounded to precision significant digits before the decimal point, i.e. to
+     * If the precision is negative, num is rounded to precision significant digits before the decimal point, i.e., to
      * the nearest multiple of pow(10, -$precision), e.g. for a precision of -1 num is rounded to tens, for a precision
      * of -2 to hundreds, etc.
      * </p>
@@ -187,7 +187,7 @@ abstract class Num {
      *
      * @return int|float Base raised to the power of exponent.
      * If both arguments are non-negative integers and the result can be represented as an integer,
-     * the result will be returned with int type, otherwise it will be returned as a float.
+     * the result will be returned with an int type, otherwise it will be returned as a float.
      *
      * @note It is possible to use the ** operator instead.
      */
@@ -213,7 +213,7 @@ abstract class Num {
      * Sets the separator for the decimal point.
      * </p>
      * @param string $thousands_separator <p>
-     * Sets the thousands separator.
+     * Sets the separator for thousands.
      * </p>
      *
      * @return string A formatted version of number.

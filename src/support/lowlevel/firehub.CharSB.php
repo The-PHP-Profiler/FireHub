@@ -18,9 +18,9 @@ use function chr;
 use function ord;
 
 /**
- * ### Single-byte character low level class
+ * ### Single-byte character low-level class
  *
- * Class allow you to manipulate characters in various ways.
+ * Class allows you to manipulate characters in various ways.
  * @since 1.0.0
  */
 final class CharSB extends CharSafe {

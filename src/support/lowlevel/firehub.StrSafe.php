@@ -38,7 +38,7 @@ use function trim;
 
 
 /**
- * ### Safe string low level class
+ * ### Safe string low-level class
  *
  * Class contains methods that are safe to use on normal as well as on multibyte encoding.
  * @since 1.0.0
@@ -83,17 +83,17 @@ abstract class StrSafe {
      * ### Un-quotes a quoted string
      *
      * Backslashes are removed:
-     * (backslashes becomes single quote, double backslashes are made into a single backslash).
+     * (backslashes become single quote, double backslashes are made into a single backslash).
      * @since 1.0.0
      *
      * @param string $string <p>
-     * The string to be un-quoted.
+     * The string to be unquoted.
      * </p>
      *
      * @return string String with backslashes stripped off.
      *
-     * @note stripSlashes() is not recursive. If you want to apply this function to a multidimensional array,
-     * you need to use a recursive function.
+     * @note stripSlashes() is not recursive.
+     * If you want to apply this function to a multidimensional array, you need to use a recursive function.
      *
      * @tip stripSlashes() can be used if you aren't inserting this data into a place (such as a database) that requires
      * escaping. For example, if you're simply outputting data straight from an HTML form.
@@ -142,7 +142,7 @@ abstract class StrSafe {
      *
      * @throws Error If empty string is given as string.
      *
-     * @return string The string with meta characters quoted.
+     * @return string The string with meta-characters quoted.
      */
     final public static function quoteMeta (string $string):string {
 
@@ -155,7 +155,7 @@ abstract class StrSafe {
      * ### Replace all occurrences of the search string with the replacement string
      *
      * This function returns a string or an array with all occurrences of search
-     * in subject replaced with the given replace value.
+     * in a subject replaced with the given replacement value.
      * @since 1.0.0
      *
      * @param string|array<int, string> $search <p>
@@ -231,8 +231,9 @@ abstract class StrSafe {
      * The boundary string.
      * </p>
      * @param int<min, max> $limit [optional] <p>
-     * If limit is set and positive, the returned array will contain a maximum of limit elements with the last element containing the rest of string.
-     * If the limit parameter is negative, all components except the last -limit are returned.
+     * If the limit is set and positive, the returned array will contain a maximum of limit elements with the
+     * last element containing the rest of the string.
+     * If the limit parameter is negative, all components except the last - limit are returned.
      * If the limit parameter is zero, then this is treated as 1.
      * </p>
      *
@@ -302,14 +303,15 @@ abstract class StrSafe {
      * </p>
      * @param string $characters [optional] <p>
      * The stripped characters can also be specified using the char-list parameter.
-     * Simply list all characters that you want to be stripped.
-     * With .. you can specify a range of characters.
+     * List all characters that you want to be stripped.
+     * With '..', you can specify a range of characters.
      * </p>
      *
      * @return string The trimmed string.
      *
      * @note Because trim() trims characters from the beginning and end of a string, it may be confusing when characters
-     * are (or are not) removed from the middle. trim('abc', 'bad') removes both 'a' and 'b' because it trims 'a'
+     * are (or are not) removed from the middle.
+     * Trim('abc', 'bad') removes both 'a' and 'b' because it trims 'a'
      * thus moving 'b' to the beginning to also be trimmed. So, this is why it "works" whereas trim('abc', 'b')
      * seemingly does not.
      */
@@ -440,7 +442,7 @@ abstract class StrSafe {
     /**
      * ### Get part of string
      *
-     * Returns the portion of string specified by the $start and $length parameters.
+     * Returns the portion of the string specified by the $start and $length parameters.
      * @since 1.0.0
      *
      * @param string $string <p>
@@ -450,7 +452,7 @@ abstract class StrSafe {
      * If start is non-negative, the returned string will start at the start position in string, counting from zero.
      * For instance, in the string 'abcdef', the character at position 0 is 'a',
      * the character at position 2 is 'c', and so forth.
-     * If start is negative, the returned string will start at the start character from the end of string.
+     * If the start is negative, the returned string will start at the start character from the end of the string.
      * </p>
      * @param null|int $length [optional] <p>
      * Maximum number of characters to use from string.
@@ -482,7 +484,7 @@ abstract class StrSafe {
     /**
      * ### Find first part of a string
      *
-     * Returns part of $string string starting from and including the first occurrence of $find to the end of $string.
+     * Returns part of $string starting from and including the first occurrence of $find to the end of $string.
      * @since 1.0.0
      *
      * @param string $find <p>
@@ -492,7 +494,7 @@ abstract class StrSafe {
      * The string being searched.
      * </p>
      * @param bool $before_needle [optional] <p>
-     * If true, returns the part of the string before the first occurrence (excluding the find string).
+     * If true, return the part of the string before the first occurrence (excluding the find string).
      * </p>
      *
      * @return string|false The portion of string or false if needle is not found.
@@ -530,7 +532,7 @@ abstract class StrSafe {
      * The string to search in.
      * </p>
      *
-     * @return bool True if string contains value, false otherwise.
+     * @return bool True if a string contains value, false otherwise.
      */
     final public static function contains (string $value, string $string):bool {
 

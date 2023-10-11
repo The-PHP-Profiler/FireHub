@@ -36,7 +36,7 @@ use function readfile;
 use function unlink;
 
 /**
- * ### File low level class
+ * ### File low-level class
  *
  * Class contains methods related to files.
  * @since 1.0.0
@@ -78,7 +78,7 @@ final class File extends FileSystem {
      * @return bool True if the filename exists and is an executable file, false otherwise.
      *
      * @note On POSIX systems, a file is executable if the executable bit of the file permissions is set.
-     * On Windows, a file is considered executable, if it is a properly executable file as reported by the
+     * On Windows, a file is considered executable if it is a properly executable file as reported by the
      * Win API GetBinaryType(); for BC reasons, files with a .bat or .cmd extension are also considered executable.
      * @note The results of this function are cached. See clearCache() for more details.
      */
@@ -145,7 +145,7 @@ final class File extends FileSystem {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Constants\Path\DS To separate folders.
-     * @uses \FireHub\Core\Support\LowLevel\File::basename() To get base name component of path.
+     * @uses \FireHub\Core\Support\LowLevel\File::basename() To get a base name component of a path.
      *
      * @param non-empty-string $path <p>
      * Path to filename.
@@ -156,7 +156,7 @@ final class File extends FileSystem {
      * </p>
      *
      * @throws Error If we could not copy file.
-     * @error\exeption W_WARNING if we could not copy file.
+     * @error\exeption W_WARNING if we could not copy the file.
      *
      * @return void
      *
@@ -179,7 +179,7 @@ final class File extends FileSystem {
      * Path to file.
      * </p>
      *
-     * @throws Error If we could not delete file.
+     * @throws Error If we could not delete the file.
      * @error\exeption E_WARNING upon failure.
      *
      * @return void
@@ -202,7 +202,7 @@ final class File extends FileSystem {
      * The link name.
      * </p>
      *
-     * @throws Error If we could not create hard link for path.
+     * @throws Error If we could not create a hard link for a path.
      * @error\exeption E_WARNING if method fails, if $link already exists, or if $path does not exist.
      *
      * @return void
@@ -231,11 +231,11 @@ final class File extends FileSystem {
      * offsets, but this is unpredictable because it works on the buffered stream.
      * </p>
      * @param null|non-negative-int $length [optional] <p>
-     * Maximum length of data read. The default is to read until end of file is reached. Note that this parameter is
-     * applied to the stream processed by the filters.
+     * Maximum length of data read. The default is to read until the end of the file is reached. Note that this
+     * parameter is applied to the stream processed by the filters.
      * </p>
      *
-     * @throws Error If we cannot get content from path.
+     * @throws Error If we cannot get content from a path.
      * @error\exeption E_WARNING if filename cannot be found, length is less than zero, seeking to the specified
      * offset in the stream fails or $path is folder.
      *
@@ -271,17 +271,17 @@ final class File extends FileSystem {
      * Omit newline at the end of each array element.
      * </p>
      *
-     * @throws Error If we cannot get content from path.
+     * @throws Error If we cannot get content from a path.
      * @error\exeption E_WARNING if filename doesn't exist.
      *
-     * @return string[] The file in an array. Each element of the array corresponds to a line in the file, with the
+     * @return string[] The file in an array. Each element of the array corresponds to a line in the file, with
      * newline still attached.
      *
      * @warning When using SSL, Microsoft IIS will violate the protocol by closing the connection without sending a
      * close_notify indicator. PHP will report this as "SSL: Fatal Protocol Error" when you reach the end of the data.
      * To work around this, the value of error_reporting should be lowered to a level that does not include warnings.
      * PHP can detect buggy IIS server software when you open the stream using the https:// wrapper and will suppress
-     * the warning. When using fsockopen() to create an ssl:// socket, the developer is responsible for detecting and
+     * the warning. When using fsockopen() to create a ssl:// socket, the developer is responsible for detecting and
      * suppressing this warning.
      *
      * @note Each line in the resulting array will include the line ending, unless $ignore_new_lines is used.
@@ -322,10 +322,10 @@ final class File extends FileSystem {
      * Acquire an exclusive lock on the file while proceeding to the writing.
      * </p>
      * @param bool $create_file [optional] <p>
-     * Is true, method will create new file if one doesn't exist.
+     * Is true, method will create a new file if one doesn't exist.
      * </p>
      *
-     * @throws Error If $create_file option is off and $path is not file, or could not put content on path.
+     * @throws Error If $create_file option is off and $path is not file, or could not put content on a path.
      * @error\exeption E_WARNING if permission denied to write to file.
      *
      * @return non-negative-int Number of bytes that were written to the file, false otherwise.
@@ -353,13 +353,13 @@ final class File extends FileSystem {
      * The filename path being read.
      * </p>
      *
-     * @throws Error If we could not put read file on path, or path is empty.
+     * @throws Error If we could not put read file on a path, or a path is empty.
      * @error\exeption E_WARNING upon failure.
      *
      * @return int The number of bytes read from the file.
      *
-     * @note read() will not present any memory issues, even when sending large files, on its own. If you encounter an
-     * out of memory error ensure that output buffering is off with ob_get_level().
+     * @note read() will not present any memory issues, even when sending large files, on its own. If you encounter
+     * out of memory error ensures that output buffering is off with ob_get_level().
      */
     public static function read (string $path):int {
 
@@ -383,14 +383,14 @@ final class File extends FileSystem {
      * Destination of the moved file.
      * </p>
      *
-     * @throws Error If we could not move uploaded file.
+     * @throws Error If we could not move the uploaded file.
      * @error\exeption E_WARNING upon failure.
      *
      * @return void
      *
      * @warning If the destination file already exists, it will be overwritten.
      *
-     * @note moveUploaded() is open_basedir aware. However, restrictions are placed only on the path as to allow the
+     * @note moveUploaded() is open_basedir aware. However, restrictions are placed only on the path as to allow
      * moving of uploaded files in which from may conflict with such restrictions. moveUploaded() ensures the safety of
      * this operation by allowing only those files uploaded through PHP to be moved.
      */

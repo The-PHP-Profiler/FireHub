@@ -36,7 +36,7 @@ use function mb_substr;
 use function mb_substr_count;
 
 /**
- * ### Multibyte string low level class
+ * ### Multibyte string low-level class
  *
  * Class provides multibyte specific string functions that help you deal with multibyte encodings.
  * @since 1.0.0
@@ -234,7 +234,7 @@ final class StrMB extends StrSafe {
      * If start is non-negative, the returned string will start at the start position in string, counting from zero.
      * For instance, in the string 'abcdef', the character at position 0 is 'a',
      * the character at position 2 is 'c', and so forth.
-     * If start is negative, the returned string will start at the start character from the end of string.
+     * If the start is negative, the returned string will start at the start character from the end of the string.
      * </p>
      * @param null|int $length [optional] <p>
      * Maximum number of characters to use from string.
@@ -287,7 +287,7 @@ final class StrMB extends StrSafe {
      * The string being searched.
      * </p>
      * @param bool $before_needle [optional] <p>
-     * If true, returns the part of the string before the first occurrence (excluding the find string).
+     * If true, return the part of the string before the first occurrence (excluding the find string).
      * </p>
      * @param bool $case_sensitive [optional] <p>
      * Is string to find case-sensitive or not.
@@ -318,7 +318,7 @@ final class StrMB extends StrSafe {
      * The string being searched.
      * </p>
      * @param bool $before_needle [optional] <p>
-     * If true, returns the part of the string before the last occurrence (excluding the find string).
+     * If true, return the part of the string before the last occurrence (excluding the find string).
      * </p>
      * @param bool $case_sensitive [optional] <p>
      * Is string to find case-sensitive or not.
@@ -398,8 +398,8 @@ final class StrMB extends StrSafe {
     /**
      * ### Convert a string from one character encoding to another
      *
-     * Converts string from $from, or the current internal encoding, to $to. If string is an array, all its $string
-     * values will be converted recursively.
+     * Converts string from $from, or the current internal encoding, to $to.
+     * If a string is an array, all its $string values will be converted recursively.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\String\Encoding As parameter.

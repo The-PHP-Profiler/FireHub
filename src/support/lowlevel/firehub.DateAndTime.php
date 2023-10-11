@@ -33,7 +33,7 @@ use function strtotime;
 use function time;
 
 /**
- * ### Date and time low level class
+ * ### Date and time low-level class
  *
  * Class allows you to represent date/time information.
  * @since 1.0.0

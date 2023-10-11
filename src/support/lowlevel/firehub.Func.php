@@ -21,7 +21,7 @@ use function register_tick_function;
 use function unregister_tick_function;
 
 /**
- * ### Function low level class
+ * ### Function low-level class
  *
  * Class allows you to obtain information about functions.
  * @since 1.0.0
@@ -29,7 +29,7 @@ use function unregister_tick_function;
 final class Func {
 
     /**
-     * ### Checks if function name exist
+     * ### Checks if function name exists
      *
      * Checks the list of defined functions, both built-in (internal) and user-defined, for function.
      * @since 1.0.0
@@ -38,7 +38,7 @@ final class Func {
      * The function name.
      * </p>
      *
-     * @return bool True if interface exist, false otherwise.
+     * @return bool True if the interface exists, false otherwise.
      *
      * @note This function will return false for constructs, such as include_once and echo.
      * @note A function name may exist even if the function itself is unusable due to configuration or compiling
@@ -91,7 +91,7 @@ final class Func {
      *
      * @param callable $callback <p>
      * The shutdown callback to register.
-     * The shutdown callbacks are executed as the part of the request, so it's possible to send output from them and
+     * The shutdown callbacks are executed as part of the request, so it's possible to send output from them and
      * access output buffers.
      * </p>
      * @param mixed ...$arguments <p>
@@ -107,7 +107,7 @@ final class Func {
      * to end cleanly.
      * @note Shutdown functions run separately from the time tracked by max_execution_time. That means even if a
      * process is terminated for running too long, shutdown functions will still be called.
-     * Additionally, if the max_execution_time runs out while a shutdown function is running it will not be terminated.
+     * Additionally, if the max_execution_time runs out while a shutdown function is running, it will not be terminated.
      */
     public static function registerShutdown (callable $callback, mixed ...$arguments):void {
 
@@ -143,7 +143,7 @@ final class Func {
      * @since 1.0.0
      *
      * @param callable $callback <p>
-     * The function to de-register.
+     * The function to deregister.
      * </p>
      *
      * @return void

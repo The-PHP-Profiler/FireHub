@@ -51,9 +51,9 @@ use function ucwords;
 use function wordwrap;
 
 /**
- * ### Single-byte string low level class
+ * ### Single-byte string low-level class
  *
- * Class allow you to manipulate strings in various ways.
+ * Class allows you to manipulate strings in various ways.
  * @since 1.0.0
  */
 final class StrSB extends StrSafe {
@@ -81,7 +81,7 @@ final class StrSB extends StrSafe {
      * The examined string.
      * </p>
      *
-     * @return array<int, int> An array with the byte-value as key with a frequency greater than zero are listed.
+     * @return array<int, int> An array with the byte-value as a key with a frequency greater than zero are listed.
      */
     public static function countByChar (string $string):array {
 
@@ -95,7 +95,7 @@ final class StrSB extends StrSafe {
      *
      * ### Quote string with slashes
      *
-     * If $characters is not set then backslashes are added before characters that need to be escaped:
+     * If $characters are not set then backslashes are added before characters that need to be escaped:
      * (single quote, double quote, backslash, NUL).
      * @since 1.0.0
      *
@@ -125,7 +125,7 @@ final class StrSB extends StrSafe {
      * @uses \FireHub\Core\Support\LowLevel\StrSafe::stripSlashes() To un-quotes a quoted string.
      *
      * @param string $string <p>
-     * The string to be un-quoted.
+     * The string to be unquoted.
      * </p>
      * @param bool $c_representation [optional] <p>
      * If true, octal and hexadecimal representation from addSlashes method are recognized.
@@ -159,9 +159,9 @@ final class StrSB extends StrSafe {
      * @param null|int $length [optional] <p>
      * If given and is positive, it represents the length of the portion of string which is to be replaced.
      * If it is negative, it represents the number of characters from the end of string at which to stop replacing.
-     * If it is not given, then it will default to strlen( string ); i.e. end the replacing at the end of string.
-     * Of course, if length is zero then this function will have the effect of
-     * inserting replace into string at the given offset.
+     * If it is not given, then it will default to strlen(string); i.e., end the replacing at the end of string.
+     * Of course, if length is zero, then this function will have the effect of
+     * inserting $replace into string at the given offset.
      * </p>
      *
      * @return string String with the replaced values.
@@ -175,7 +175,7 @@ final class StrSB extends StrSafe {
     /**
      * ### Split a string into smaller chunks
      *
-     * Can be used to split a string into smaller chunks which is useful for e.g. converting base64_encode() output to
+     * Can be used to split a string into smaller chunks, which is useful for e.g., converting base64_encode() output to
      * match RFC 2045 semantics. It inserts $separator every $length characters.
      * @since 1.0.0
      *
@@ -186,7 +186,7 @@ final class StrSB extends StrSafe {
      * The chunk length.
      * </p>
      * @param string $separator [optional] <p>
-     * The line ending sequence.
+     * The line-ending sequence.
      * </p>
      *
      * @throws Error If length is less than 1.
@@ -204,8 +204,8 @@ final class StrSB extends StrSafe {
     /**
      * ### Pad a string to a certain length with another string
      *
-     * This method returns the $string string padded on the left, the right, or both sides to the specified padding
-     * length. If the optional argument $pad is not supplied, the $string is padded with spaces, otherwise it is padded
+     * This method returns the $string padded on the left, the right, or both sides to the specified padding length.
+     * If the optional argument $pad is not supplied, the $string is padded with spaces; otherwise it is padded
      * with characters from $pad up to the limit.
      * @since 1.0.0
      *
@@ -228,7 +228,7 @@ final class StrSB extends StrSafe {
      * Pad side.
      * </p>
      *
-     * @throws Error If pad is empty.
+     * @throws Error If the pad is empty.
      *
      * @return string Padded string.
      */
@@ -443,7 +443,7 @@ final class StrSB extends StrSafe {
      * The string being searched.
      * </p>
      * @param bool $before_needle [optional] <p>
-     * If true, returns the part of the string before the first occurrence (excluding the find string).
+     * If true, return the part of the string before the first occurrence (excluding the find string).
      * </p>
      * @param bool $case_sensitive [optional] <p>
      * Is string to find case-sensitive or not.
@@ -479,7 +479,7 @@ final class StrSB extends StrSafe {
      * This parameter is case-sensitive.
      * </p>
      * @param string $string <p>
-     * The string where characters is looked for.
+     * The string where characters are looked for.
      * </p>
      *
      * @return string|false String starting from the character found, or false if it is not found.
@@ -495,7 +495,7 @@ final class StrSB extends StrSafe {
      *
      * Counts the number of words inside string. If the optional format is not specified, then the return value will
      * be an integer representing the number of words found. In the event the format is specified,
-     * the return value will be an array, content of which is dependent on the format.
+     * the return value will be an array, the content of which is dependent on the format.
      * The possible value for the format and the resultant outputs are listed below.
      * @since 1.0.0
      *
@@ -536,7 +536,7 @@ final class StrSB extends StrSafe {
      * </p>
      * @param int $offset [optional] <p>
      * The position in subject to start searching.
-     * If start is given and is non-negative, then strspn will begin examining subject at the start position.
+     * If start is given and is non-negative, then strspn will begin examining the subject at the start position.
      * For instance, in the string 'abcdef', the character at position 0 is 'a',
      * the character at position 2 is 'c', and so forth.
      * If start is given and is negative,
@@ -545,15 +545,15 @@ final class StrSB extends StrSafe {
      * @param int|null $length [optional] <p>
      * The length of the segment from subject to examine.
      * If length is given and is non-negative,
-     * then subject will be examined for length characters after the starting position.
+     * then the subject will be examined for length characters after the starting position.
      * If length is given and is negative,
-     * then subject will be examined from the starting position up to length characters from the end of subject.
+     * then the subject will be examined from the starting position up-to-length characters from the end of the subject.
      * </p>
      *
      * @return int The length of the initial segment of string which consists entirely of characters in characters.
      *
-     * @note When offset parameter is set, the returned length is counted starting from this position, not from the
-     * beginning of string.
+     * @note When offset parameter is set, the returned length is counted starting from this position, not from
+     * beginning of the string.
      */
     public static function segmentMatching (string $string, string $characters, int $offset = 0, ?int $length = null):int {
 
@@ -575,7 +575,7 @@ final class StrSB extends StrSafe {
      * </p>
      * @param int $offset [optional] <p>
      * The position in subject to start searching.
-     * If start is given and is non-negative, then strspn will begin examining subject at the start position.
+     * If start is given and is non-negative, then strspn will begin examining the subject at the start position.
      * For instance, in the string 'abcdef', the character at position 0 is 'a',
      * the character at position 2 is 'c', and so forth.
      * If start is given and is negative, then strspn will begin examining subject at the start position
@@ -584,15 +584,15 @@ final class StrSB extends StrSafe {
      * @param int|null $length [optional] <p>
      * The length of the segment from subject to examine.
      * If length is given and is non-negative,
-     * then subject will be examined for length characters after the starting position.
-     * If length is given and is negative, then subject will be examined from the starting position up to length
-     * characters from the end of subject.
+     *  then the subject will be examined for length characters after the starting position.
+     * If length is given and is negative, then the subject will be examined from the starting position up-to-length
+     * characters from the end of the subject.
      * </p>
      *
      * @return int The length of the initial segment of string which consists entirely of characters not in characters.
      *
-     * @note When offset parameter is set, the returned length is counted starting from this position, not from the
-     * beginning of string.
+     * @note When offset parameter is set, the returned length is counted starting from this position, not from
+     * beginning of the string.
      */
     public static function segmentNotMatching (string $string, string $characters, int $offset = 0, ?int $length = null):int {
 
@@ -611,7 +611,7 @@ final class StrSB extends StrSafe {
      * An array of key-value pairs for translation.
      * </p>
      * @param string $to <p>
-     * The string replacing from.
+     * The string replaced from.
      * </p>
      *
      * @return string The translated string.

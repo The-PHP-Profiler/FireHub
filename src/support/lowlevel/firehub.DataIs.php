@@ -31,7 +31,7 @@ use function is_scalar;
 use function is_string;
 
 /**
- * ### DataIs low level class
+ * ### DataIs low-level class
  *
  * Class contains all methods that evaluate data type.
  * @since 1.0.0

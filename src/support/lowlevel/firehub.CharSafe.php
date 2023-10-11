@@ -15,7 +15,7 @@
 namespace FireHub\Core\Support\LowLevel;
 
 /**
- * ### Char string low level class
+ * ### Char string low-level class
  *
  * Class contains methods that are safe to use on normal as well as on multibyte encoding.
  * @since 1.0.0

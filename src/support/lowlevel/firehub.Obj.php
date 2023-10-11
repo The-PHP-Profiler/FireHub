@@ -21,7 +21,7 @@ use function spl_object_hash;
 use function spl_object_id;
 
 /**
- * ### Object low level class
+ * ### Object low-level class
  *
  * Class allows you to obtain information about objects.
  * @since 1.0.0
@@ -53,7 +53,7 @@ final class Obj extends ClsObj {
     }
 
     /**
-     * ### Return hash id for given object
+     * ### Return hash id for a given object
      *
      * This function returns a unique identifier for the object.
      * This id can be used as a hash key for storing objects, or for identifying an object,
@@ -70,7 +70,8 @@ final class Obj extends ClsObj {
      *
      * @note When an object is destroyed, its hash may be reused for other objects.
      * @note Object hashes should be compared for identity with === and !==, because the returned hash could be a
-     * numeric string. For example: 0000000000000e600000000000000000.
+     * numeric string.
+     * For example, 0000000000000e600000000000000000.
      */
     public static function hash (object $object):string {
 
@@ -105,8 +106,8 @@ final class Obj extends ClsObj {
      * An object instance.
      * </p>
      *
-     * @return array<non-empty-string, mixed> An associative array of defined object accessible non-static properties for the
-     * specified object in scope.
+     * @return array<non-empty-string, mixed> An associative array of defined object-accessible non-static properties
+     * for specified object in scope.
      *
      * @note Uninitialized properties are considered inaccessible, and thus will not be included in the array.
      */
@@ -131,7 +132,8 @@ final class Obj extends ClsObj {
      * An object instance.
      * </p>
      *
-     * @return array<non-empty-string, mixed> An array containing all properties, regardless of visibility, of object.
+     * @return array<non-empty-string, mixed> An array containing all properties, regardless of visibility, of an
+     * object.
      */
     public static function mangledProperties (object $object):array {
 

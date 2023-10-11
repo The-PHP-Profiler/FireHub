@@ -27,7 +27,7 @@ use function is_a;
 use function is_subclass_of;
 
 /**
- * ### Class and object low level class
+ * ### Class and object low-level class
  *
  * Class allows you to obtain information about classes and objects.
  * @since 1.0.0
@@ -44,11 +44,11 @@ abstract class ClsObj {
      * The class name or an object instance.
      * </p>
      *
-     * @throws TypeError If $object_or_class is not object or a valid class name.
+     * @throws TypeError If $object_or_class is not an object or a valid class name.
      *
      * @return array<string> Returns an array of method names defined for the class.
      *
-     * @note Result depends on the current scope.
+     * @note The result depends on the current scope.
      */
     final public static function methods (string|object $object_or_class):array {
 
@@ -103,14 +103,14 @@ abstract class ClsObj {
     }
 
     /**
-     * ### Retrieves the parent class name for object or class
+     * ### Retrieves the parent class name for an object or class
      * @since 1.0.0
      *
      * @param class-string|object $object_or_class <p>
      * The tested object or class name. This parameter is optional if called from the object's method.
      * </p>
      *
-     * @return class-string|false The name of the parent class of the class of which object_or_class is an instance
+     * @return class-string|false The name of the parent class of the class that object_or_class is an instance
      * or the name, or false if object_or_class doesn't have parent.
      */
     final public static function parentClass (string|object $object_or_class):string|false {
@@ -174,7 +174,7 @@ abstract class ClsObj {
      * ### Return the traits used by the given class
      *
      * This function returns an array with the names of the traits that the given object_or_class uses.
-     * This does however not include any traits used by a parent class.
+     * This does, however, not include any traits used by a parent class.
      * @since 1.0.0
      *
      * @param class-string|object $object_or_class <p>

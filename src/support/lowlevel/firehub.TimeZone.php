@@ -22,9 +22,9 @@ use function date_default_timezone_set;
 use function timezone_abbreviations_list;
 
 /**
- * ### Timezone low level class
+ * ### Timezone low-level class
  *
- * A time zone is an area which observes a uniform standard time for legal, commercial and social purposes.
+ * A time zone is an area that observes a uniform standard time for legal, commercial and social purposes.
  * @since 1.0.0
  */
 final class TimeZone {
@@ -34,14 +34,14 @@ final class TimeZone {
      *
      * In order of preference, this function returns the default timezone by:
      * - reading the timezone set using the setDefaultTimezone() method (if any)
-     * - reading the value of the date.timezone ini option (if set)
+     * - reading the value of the 'date.timezone' ini option (if set)
      *
      * If none of the above succeed, date_default_timezone_get() will return a default timezone of UTC.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\DateTime\Zone To check for valid timezone.
      *
-     * @throws Error If we cannot get default timezone.
+     * @throws Error If we cannot get the default timezone.
      *
      * @return \FireHub\Core\Support\Enums\DateTime\Zone|false Timezone enum.
      */
@@ -58,7 +58,7 @@ final class TimeZone {
      *
      * Method sets the default timezone used by all date/time functions.
      * Instead of using this function to set the default timezone in your script, you can also use the INI setting
-     * date.timezone to set the default timezone.
+     * 'date.timezone' to set the default timezone.
      * @since 1.0.0
      *
      * @param \FireHub\Core\Support\Enums\DateTime\Zone $time_zone <p>
@@ -74,7 +74,7 @@ final class TimeZone {
     }
 
     /**
-     * ### Get associative array containing dst, offset and the timezone name alias
+     * ### Get an associative array containing dst, offset and the timezone name alias
      * @since 1.0.0
      *
      * @return array<string, array<int, array{
@@ -83,7 +83,7 @@ final class TimeZone {
      *  timezone_id: string|null
      * }>> List of timezone abbreviations.
      */
-    public static function abbreviationsList ():array {
+    public static function abbreviationList ():array {
 
         return timezone_abbreviations_list();
 

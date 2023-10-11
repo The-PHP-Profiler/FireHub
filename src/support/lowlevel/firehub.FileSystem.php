@@ -56,9 +56,9 @@ use function stat;
 use function touch;
 
 /**
- * ### File System low level class
+ * ### File System low-level class
  *
- * Class contains methods related to file system.
+ * Class contains methods related to a file system.
  * @since 1.0.0
  */
 class FileSystem {
@@ -96,7 +96,7 @@ class FileSystem {
      * If renaming a directory and $new_name exists, this function will emit a warning.
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\FileSystem::parent() To return parent folder path.
+     * @uses \FireHub\Core\Support\LowLevel\FileSystem::parent() To return a parent folder path.
      * @uses \FireHub\Core\Support\Constants\Path\DS To separate folders.
      *
      * @param non-empty-string $path <p>
@@ -106,7 +106,7 @@ class FileSystem {
      * The new name.
      * </p>
      *
-     * @throws Error If we could not rename path.
+     * @throws Error If we could not rename a path.
      * @error\exeption E_WARNING upon failure.
      *
      * @return void
@@ -182,7 +182,7 @@ class FileSystem {
     }
 
     /**
-     * ### Returns trailing name component of path
+     * ### Returns a trailing name component of a path
      *
      * Given a string containing the path to a file or directory, this function will return the trailing name component.
      * @since 1.0.0
@@ -193,14 +193,14 @@ class FileSystem {
      * In other environments, it is the forward slash (/).
      * </p>
      * @param string $suffix [optional] <p>
-     * If the name component ends in suffix this will also be cut off.
+     * If the name component ends in suffix, this will also be cut off.
      * </p>
      *
      * @return string The base name of the given path.
      *
      * @caution Method is locale aware, so for it to see the correct basename with multibyte character paths,
      * the matching locale must be set using the setlocale() function.
-     * If path contains characters which are invalid for the current locale, the behavior of basename() is undefined.
+     * If a path contains characters which are invalid for the current locale, the behavior of basename() is undefined.
      *
      * @note Method operates naively on the input string, and is not aware of the actual filesystem,
      * or path components such as "..".
@@ -259,8 +259,8 @@ class FileSystem {
      * The path being checked.
      * </p>
      *
-     * @throws Error If we could not get absolute path for path, file doesn't exist or script doesn't have executable
-     * permissions.
+     * @throws Error If we could not get absolute path for path, file doesn't exist or a script doesn't have
+     * executable permissions.
      *
      * @return string The canonical absolute pathname.
      *
@@ -269,7 +269,7 @@ class FileSystem {
      * @note The running script must have executable permissions on all directories in the hierarchy, otherwise
      * absolutePath() will return false.
      * @note For case-insensitive filesystems absolutePath() may or may not normalize the character case.
-     * @note The function absolutePath() will not work for a file which is inside a Phar as such path would be a virtual
+     * @note The function absolutePath() will not work for a file which is inside a Phar as such path would be virtual
      * path, not a real one.
      * @note On Windows, junctions and symbolic links to directories are only expanded by one level.
      * @note Because PHP's integer type is signed and many platforms use 32bit integers, some filesystem functions
@@ -296,7 +296,7 @@ class FileSystem {
      * The number of parent folders to go up. This must be an integer greater than 0.
      * </p>
      *
-     * @throws ValueError If $levels is less than 1.
+     * @throws ValueError If $levels are less than 1.
      *
      * @return string The parent folder name of the given path. If there are no slashes in path, a dot ('.') is
      * returned, indicating the current folder.
@@ -320,8 +320,8 @@ class FileSystem {
      * Path of the file or folder.
      * </p>
      *
-     * @throws Error If we could not get group for file.
-     * @error\exeption E_WARNING if we could not get group for file.
+     * @throws Error If we could not get a group for file.
+     * @error\exeption E_WARNING if we could not get a group for file.
      *
      * @return int The group ID of the file.
      *
@@ -353,7 +353,7 @@ class FileSystem {
      * A group name or number.
      * </p>
      *
-     * @throws Error If we could not set group for file or folder.
+     * @throws Error If we could not set a group for file or folder.
      *
      * @return void
      *
@@ -376,8 +376,8 @@ class FileSystem {
      * Path of the file or folder.
      * </p>
      *
-     * @throws Error If we could not get owner for file or folder.
-     * @error\exeption E_WARNING if we could not get owner for file or folder.
+     * @throws Error If we could not get an owner for file or folder.
+     * @error\exeption E_WARNING if we could not get an owner for file or folder.
      *
      * @return int The user ID of the owner of the file or folder.
      *
@@ -405,7 +405,7 @@ class FileSystem {
      * A username or number.
      * </p>
      *
-     * @throws Error If we could not get owner for file or folder.
+     * @throws Error If we could not get an owner for file or folder.
      *
      * @return void
      *
@@ -436,7 +436,7 @@ class FileSystem {
      * The path.
      * </p>
      *
-     * @throws Error If we could not get permissions for path.
+     * @throws Error If we could not get permissions for a path.
      *
      * @return string Path permissions.
      *
@@ -474,8 +474,8 @@ class FileSystem {
      * Everyone's permission.
      * </p>
      *
-     * @throws Error If we could not set permissions for path.
-     * @error\exeption E_WARNING if we could not set permissions for path.
+     * @throws Error If we could not set permissions for a path.
+     * @error\exeption E_WARNING if we could not set permissions for a path.
      *
      * @return void
      *
@@ -502,13 +502,13 @@ class FileSystem {
      * Path to file or folder.
      * </p>
      *
-     * @throws Error If we could not get last accessed time for path.
-     * @error\exeption E_WARNING if we could not get last accessed time for path.
+     * @throws Error If we could not get last accessed time for a path.
+     * @error\exeption E_WARNING if we could not get last accessed time for a path.
      *
      * @return int The time the file was last accessed. The time is returned as a Unix timestamp.
      *
      * @note The atime of a file is supposed to change whenever the data blocks of a file are being read. This can be
-     * costly performance-wise when an application regularly accesses a very large number of files or directories.
+     * costly performance-wise when an application regularly accesses a huge number of files or directories.
      * Some Unix filesystems can be mounted with atime updates disabled to increase the performance of such applications;
      * USENET news spools are a common example. On such filesystems this function will be useless.
      * @note Note that time resolution may differ from one file system to another.
@@ -522,7 +522,7 @@ class FileSystem {
     }
 
     /**
-     * ### Gets last modification time of path
+     * ### Gets last modification time of a path
      *
      * Represents when the data or content is changed or modified, not including that of metadata such as ownership or owner group.
      * @since 1.0.0
@@ -531,8 +531,8 @@ class FileSystem {
      * Path to file or folder.
      * </p>
      *
-     * @throws Error If we could not get last modified time for path.
-     * @error\exeption E_WARNING if we could not get last modified time for path.
+     * @throws Error If we could not get last modified time for a path.
+     * @error\exeption E_WARNING if we could not get last modified time for a path.
      *
      * @return int The time the file was last modified. The time is returned as a Unix timestamp.
      *
@@ -557,8 +557,8 @@ class FileSystem {
      * Path to file or folder.
      * </p>
      *
-     * @throws Error If we could not get last changed time for path.
-     * @error\exeption E_WARNING if we could not get last changed time for path.
+     * @throws Error If we could not get last changed time for a path.
+     * @error\exeption E_WARNING if we could not get last changed time for a path.
      *
      * @return int The time the file was last changed. The time is returned as a Unix timestamp.
      *
@@ -577,7 +577,7 @@ class FileSystem {
     }
 
     /**
-     * ### Sets last access and modification time of path
+     * ### Sets last access and modification time of a path
      *
      * Attempts to set the access and modification times of the file named in the filename parameter to the value
      * given in mtime. Note that the access time is always modified, regardless of the number of parameters.
@@ -594,7 +594,7 @@ class FileSystem {
      * Otherwise, it is set to the value passed to the mtime parameter. If both are null, the current system time is used.
      * </p>
      *
-     * @throws Error If we could not set last access and modification time of path.
+     * @throws Error If we could not set last access and modification time of a path.
      *
      * @return bool True on success or false on failure.
      *
@@ -619,8 +619,8 @@ class FileSystem {
      * Path to file or folder.
      * </p>
      *
-     * @throws Error If we not get inode for path.
-     * @error\exeption E_WARNING if we not get inode for path.
+     * @throws Error If we don't get inode for a path.
+     * @error\exeption E_WARNING if we not get inode for a path.
      *
      * @return int The inode number of the file.
      *
@@ -666,7 +666,7 @@ class FileSystem {
     /**
      * ### Find path-names matching a pattern
      *
-     * This method searches for all the path-names matching pattern according to the rules used by the libc glob()
+     * This method searches for all the path-names matching patterns according to the rules used by the libc glob()
      * function, which is similar to the rules used by common shells.
      * @since 1.0.0
      *
@@ -687,13 +687,13 @@ class FileSystem {
      * Return only directory entries which match the pattern.
      * </p>
      *
-     * @throws Error If there was an error while searching for path.
+     * @throws Error If there was an error while searching for a path.
      *
      * @return string[] An array containing the matched files/directories, an empty array if no file matched.
      *
      * @note This function will not work on remote files as the file to be examined must be accessible via the
      * server's filesystem.
-     * @note This function isn't available on some systems (e.g. old Sun OS).
+     * @note This function isn't available on some systems (e.g., old Sun OS).
      */
     final public static function search (string $pattern, bool $only_folders = false):array {
 
@@ -715,8 +715,8 @@ class FileSystem {
      * The link name.
      * </p>
      *
-     * @throws Error If we could not create symlink for path with link.
-     * @error\exeption E_WARNING if link already exist, permission denied or on Windows $path doesn't exist.
+     * @throws Error If we could not create symlink for a path with link.
+     * @error\exeption E_WARNING if a link already exists, permission denied or on Windows $path doesn't exist.
      *
      * @return void
      */
@@ -735,7 +735,7 @@ class FileSystem {
      * Path to the symlink.
      * </p>
      *
-     * @throws Error If we could not target for path.
+     * @throws Error If we could not target for a path.
      *
      * @return string The contents of the symbolic link path.
      */
@@ -761,7 +761,7 @@ class FileSystem {
      * The group specified by name or number.
      * </p>
      *
-     * @throws Error If we could not change symlink group.
+     * @throws Error If we could not change a symlink group.
      *
      * @return void
      *
@@ -813,7 +813,7 @@ class FileSystem {
      * ### Gives information about a file or folder
      *
      * Gathers the statistics of the file named by filename. If filename is a symbolic link, statistics are from the
-     * file itself, not the symlink - use $symlink argument to change that behaviour.
+     * file itself, not the symlink - use $symlink argument to change that behavior.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::filter() To filter elements in an array.
@@ -823,10 +823,10 @@ class FileSystem {
      * Path to the file or folder.
      * </p>
      * @param bool $symlink [optional] <p>
-     * If true, gives information about a file or symbolic link.
+     * If true, the method gives information about a file or symbolic link.
      * </p>
      *
-     * @throws Error If we could not get statistics for path.
+     * @throws Error If we could not get statistics for a path.
      *
      * @return array{
      *  'dev': int,
@@ -868,7 +868,7 @@ class FileSystem {
      * information that PHP caches about a file.
      *
      * You should also note that PHP doesn't cache information about non-existent files. So, if you call file_exists()
-     * on a file that doesn't exist, it will return false until you create the file. If you create the file, it will
+     * on a file which doesn't exist, it will return false until you create the file. If you create the file, it will
      * return true even if you then delete the file. However, unlink() clears the cache automatically.
      * @since 1.0.0
      *

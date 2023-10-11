@@ -24,7 +24,7 @@ use function quoted_printable_decode;
 use function quoted_printable_encode;
 
 /**
- * ### Encoding low level class
+ * ### Encoding low-level class
  *
  * Encoding is the process of assigning numbers to graphical characters, especially the written characters
  * of human language, allowing them to be stored, transmitted, and transformed using digital computers.
@@ -115,7 +115,7 @@ final class Encoding {
     }
 
     /**
-     * ### Convert an 8 bit string to a quoted-printable data
+     * ### Convert a 8bit string to a quoted-printable data
      * @since 1.0.0
      *
      * @param string $string <p>

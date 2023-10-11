@@ -38,7 +38,7 @@ use const PHP_SYSCONFDIR;
  * ### System definition for separating folders, platform specific
  *
  * Convert '\\' and '/' for different operating systems.
- * This is just shorter version of PHP internal DIRECTORY_SEPARATOR constant.
+ * This is just a shorter version of PHP internal DIRECTORY_SEPARATOR constant.
  * @since 1.0.0
  *
  * @var string \FireHub\Core\Support\Constants\Path\DS
@@ -62,7 +62,7 @@ const DS = DIRECTORY_SEPARATOR;
 const SEPARATOR = PATH_SEPARATOR;
 
 /**
- * ### The maximum length of filenames (including path) supported by this build of PHP
+ * ### The maximum length of filenames (including a path) supported by this build of PHP
  * @since 1.0.0
  *
  * @var int \FireHub\Core\Support\Constants\Path\MAX_LENGTH
@@ -114,7 +114,7 @@ const PEAR_EXTENSION_DIR = PHP_PEAR_EXTENSION_DIR;
 const EXTENSION_DIR = PHP_EXTENSION_DIR;
 
 /**
- * ### The value --prefix was set to at configure
+ * ### The value --prefix was set to at configuring
  *
  * On Windows, it is the value --with-prefix was set to at configure-
  * @since 1.0.0
@@ -126,9 +126,9 @@ const EXTENSION_DIR = PHP_EXTENSION_DIR;
 const PREFIX = PHP_PREFIX;
 
 /**
- * ### The value --bindir was set to at configure
+ * ### The value --bindir was set to at configuring
  *
- * On Windows, it is the value --with-prefix was set to at configure.
+ * On Windows, it is the value --with-prefix was set to at configuring.
  * @since 1.0.0
  *
  * @var string \FireHub\Core\Support\Constants\Path\BINDIR
@@ -188,7 +188,7 @@ const SYSCONFDIR = PHP_SYSCONFDIR;
 const LOCALSTATEDIR = PHP_LOCALSTATEDIR;
 
 /**
- * ### Specifies config file path
+ * ### Specifies a config file path
  * @since 1.0.0
  *
  * @var string \FireHub\Core\Support\Constants\Path\CONFIG_FILE

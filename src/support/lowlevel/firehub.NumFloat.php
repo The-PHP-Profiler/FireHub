@@ -38,7 +38,7 @@ use function tan;
 use function tanh;
 
 /**
- * ### Float number low level class
+ * ### Float number low-level class
  *
  * Floating point numbers (also known as "floats", "doubles", or "real numbers") can be specified using any of the
  * following syntax's: 1.234, 1.2e3, 7E-10, 1_234.567.
@@ -49,7 +49,7 @@ final class NumFloat extends Num {
     /**
      * ### Finds whether a value is a legal finite number
      *
-     * Checks whether $number is a legal finite on this platform.
+     * Checks whether $number is legally finite on this platform.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -76,7 +76,7 @@ final class NumFloat extends Num {
      * The value to check.
      * </p>
      *
-     * @return bool True if number is infinite, false otherwise.
+     * @return bool True if the number is infinite, false otherwise.
      */
     public static function infinite (float $number):bool {
 
@@ -205,7 +205,7 @@ final class NumFloat extends Num {
     /**
      * ### Inverse hyperbolic cosine
      *
-     * Returns the inverse hyperbolic cosine of $number, i.e. the value whose hyperbolic cosine is $number.
+     * Returns the inverse hyperbolic cosine of $number, i.e., the value whose hyperbolic cosine is $number.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -278,7 +278,7 @@ final class NumFloat extends Num {
     /**
      * ### Inverse hyperbolic tangent
      *
-     * Returns the inverse hyperbolic sine of $number, i.e. the value whose hyperbolic sine is $number.
+     * Returns the inverse hyperbolic sine of $number, i.e., the value whose hyperbolic sine is $number.
      * @since 1.0.0
      *
      * @param float $number <p>
@@ -430,10 +430,10 @@ final class NumFloat extends Num {
      * @since 1.0.0
      *
      * @param float $x <p>
-     * Length of first side.
+     * Length of the first side.
      * </p>
      * @param float $y <p>
-     * Length of second side.
+     * Length of the second side.
      * </p>
      *
      * @return float Calculated length of the hypotenuse.

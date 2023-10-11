@@ -21,7 +21,7 @@ use function mb_chr;
 use function mb_ord;
 
 /**
- * ### Multibyte character low level class
+ * ### Multibyte character low-level class
  *
  * Class provides multibyte specific character functions that help you deal with multibyte encodings.
  * @since 1.0.0

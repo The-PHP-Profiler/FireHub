@@ -23,7 +23,7 @@ namespace FireHub\Core\Support\Enums\Data;
 enum Category {
 
     /**
-     * ### Scalar (predefined) category can hold only single value
+     * ### Scalar (predefined) category can hold only a single value
      * @since 1.0.0
      */
     case SCALAR;

@@ -22,7 +22,7 @@ use const PHP_EOL;
 /**
  * ### System definition for separating file lines, platform specific
  *
- * This is just shorter version of PHP internal PHP_EOL constant.
+ * This is just a shorter version of PHP internal PHP_EOL constant.
  * @since 1.0.0
  *
  * @var string \FireHub\Core\Support\Constants\PHP\EOL

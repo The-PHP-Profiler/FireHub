@@ -71,7 +71,7 @@ const VERSION_MAJOR = PHP_MAJOR_VERSION;
 const VERSION_MINOR = PHP_MINOR_VERSION;
 
 /**
- * ### The current PHP "release" version as an integer (e.g., int(7) from version "5.2.7-extra")
+ * ### The current PHP "release" version as an integer (e.g., int(7) from a version "5.2.7-extra")
  * @since 1.0.0
  *
  * @var int \FireHub\Core\Support\Constants\PHP\VERSION_RELEASE

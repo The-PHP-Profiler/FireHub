@@ -23,7 +23,7 @@ use function settype;
 use function unserialize;
 
 /**
- * ### Data low level class
+ * ### Data low-level class
  *
  * Class contains variable handling methods.
  * @since 1.0.0
@@ -47,9 +47,9 @@ final class Data {
      * The variable being type checked.
      * </p>
      *
-     * @throws Error If type of value is unknown.
+     * @throws Error If a type of value is unknown.
      *
-     * @return \FireHub\Core\Support\Enums\Data\Type|false Type of data, false if type is unknown.
+     * @return \FireHub\Core\Support\Enums\Data\Type|false Type of data, false if a type is unknown.
      */
     public static function getType (mixed $value):Type|false {
 
@@ -86,7 +86,7 @@ final class Data {
      * Type to convert variable to.
      * </p>
      *
-     * @throws Error If type cannot be set to resource.
+     * @throws Error If a type cannot be set to resource.
      *
      * @return (
      *      $type is Type::T_ARRAY
@@ -148,7 +148,7 @@ final class Data {
      * @warning When serialize() serializes objects, the leading backslash is not included in the class name
      * of namespaced classes for maximum compatibility.
      *
-     * @note This is a binary string which may include null bytes, and needs to be stored and handled as such.
+     * @note This is a binary string that may include null bytes and needs to be stored and handled as such.
      * For example, serialize() output should generally be stored in a BLOB field in a database, rather than a CHAR or
      * TEXT field.
      */

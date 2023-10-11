@@ -21,7 +21,7 @@ use function get_defined_constants;
 use function get_defined_functions;
 
 /**
- * ### Declared low level class
+ * ### Declared low-level class
  *
  * Class allows you to get information about declared classes and objects.
  * @since 1.0.0

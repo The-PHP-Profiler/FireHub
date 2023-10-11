@@ -21,7 +21,7 @@ use function iterator_count;
 use function iterator_to_array;
 
 /**
- * ### Iterator low level class
+ * ### Iterator low-level class
  *
  * An iterator are objects that can be iterated themselves internally.
  * @since 1.0.0
@@ -87,11 +87,11 @@ final class Iterator {
      * @template TValue
      *
      * @param Traversable<TKey, TValue> $iterator <p>
-     * The iterator object to iterate over.
+     * The iterator objects to iterate over.
      * </p>
      * @param callable(TValue $value, TKey $key):bool $callback <p>
      * The callback function to call on every element
-     * The function must return true in order to continue iterating over the iterator.
+     * The function must return true to continue iterating over the iterator.
      * </p>
      * @param null|array<mixed> $arguments <p>
      * An array of arguments; each element of args is passed to the callback as separate argument.

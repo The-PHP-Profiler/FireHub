@@ -21,7 +21,7 @@ use function define;
 use function defined;
 
 /**
- * ### Constant low level class
+ * ### Constant low-level class
  *
  * Class allows you to obtain information about constants.
  * @since 1.0.0
@@ -30,6 +30,9 @@ final class Constant {
 
     /**
      * ### Returns the value of a constant
+     *
+     * Method value() is useful if you need to retrieve the value of a constant, but do not know its name.
+     * I.e., it is stored in a variable or returned by a function.
      * @since 1.0.0
      *
      * @param non-empty-string $name <p>

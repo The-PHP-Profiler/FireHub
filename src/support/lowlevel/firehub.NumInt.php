@@ -19,7 +19,7 @@ use ArithmeticError, DivisionByZeroError;
 use function intdiv;
 
 /**
- * ### Integer number low level class
+ * ### Integer number low-level class
  *
  * An int is a number of the set Z = {..., -2, -1, 0, 1, 2, ...}.
  * Int can be specified in decimal (base 10), hexadecimal (base 16), octal (base 8) or binary (base 2) notation.

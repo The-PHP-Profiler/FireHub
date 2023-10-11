@@ -33,7 +33,7 @@ final class SPLAutoload {
      * ### Default autoload implementation
      *
      * This function is intended to be used as a default implementation for autoload().
-     * If nothing else is specified and register method is called without any parameters
+     * If nothing else is specified and register method is called without any parameters,
      * then this function will be used for any later call to autoload.
      * @since 1.0.0
      *
@@ -64,7 +64,7 @@ final class SPLAutoload {
      *
      * @param null|non-empty-string $file_extensions [optional] <p>
      * If null, it simply returns the current list of extensions each separated by comma.
-     * To modify the list of file extensions, simply invoke the functions with the new list of file extensions to use
+     * To modify the list of file extensions, invoke the functions with the new list of file extensions to use
      * in a single string with each extension separated by comma.
      * </p>
      *
@@ -81,7 +81,8 @@ final class SPLAutoload {
     /**
      * ### Register new autoload implementation
      *
-     * Register a function with the provided autoload queue. If the queue is not yet activated it will be activated.
+     * Register a function with the provided autoload queue.
+     * If the queue is not yet activated, it will be activated.
      *
      * If there must be multiple autoload functions, this method allows for this.
      * It effectively creates a queue of autoload functions, and runs through each of them in the order they are defined.
@@ -109,14 +110,14 @@ final class SPLAutoload {
      * ### Unregister autoload implementation
      *
      * Removes a function from the autoload queue. If the queue is activated and empty after removing the given
-     * function then it will be deactivated.
+     * function, then it will be deactivated.
      *
      * When this function results in the queue being deactivated, any autoload function that previously existed will
      * not be reactivated.
      * @since 1.0.0
      *
      * @param callable(class-string $class):void $callback [optional] <p>
-     * The autoload function being unregistered.
+     * The autoload function that will be unregistered.
      * </p>
      *
      * @return bool True if autoloader was unregistered, false otherwise.

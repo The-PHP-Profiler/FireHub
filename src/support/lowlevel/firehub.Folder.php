@@ -24,7 +24,7 @@ use function mkdir;
 use function rmdir;
 
 /**
- * ### Folder low level class
+ * ### Folder low-level class
  *
  * Class contains methods related to folders.
  * @since 1.0.0
@@ -56,7 +56,7 @@ final class Folder extends FileSystem {
      * If true, then any parent folders to the $path specified will also be created, with the same permissions.
      * </p>
      *
-     * @throws Error If we could not create folder.
+     * @throws Error If we could not create a folder.
      * @error\exeption E_WARNING if the folder already exists or if the relevant permissions prevent creating folder.
      *
      * @return void
@@ -81,8 +81,8 @@ final class Folder extends FileSystem {
      * Path to folder.
      * </p>
      *
-     * @throws Error If we could not delete folder.
-     * @error\exeption E_WARNING if the folder is not empty, or relevant permissions doesn't must permit this.
+     * @throws Error If we could not delete the folder.
+     * @error\exeption E_WARNING if the folder is not empty, or relevant permissions mustn't permit this.
      *
      * @return void
      */
@@ -100,7 +100,7 @@ final class Folder extends FileSystem {
      * @param string $path <p>
      * Path to the folder.
      * If filename is a relative filename, it will be checked relative to the current working folder. If filename
-     * is a symbolic or hard link then the link will be resolved and checked. If you have enabled open_basedir
+     * is a symbolic or hard link, then the link will be resolved and checked. If you have enabled open_basedir
      * further restrictions may apply.
      * </p>
      *
@@ -124,12 +124,12 @@ final class Folder extends FileSystem {
      * Path to folder ot disk partition.
      * </p>
      *
-     * @throws Error If we could not get disk space for path.
-     * @error\exeption E_WARNING if we could not get disk space for path.
+     * @throws Error If we could not get disk space for a path.
+     * @error\exeption E_WARNING if we could not get disk space for a path.
      *
      * @return float Returns the total number of bytes as a float.
      *
-     * @note Given a file name instead of a folder, the behaviour of the function is unspecified and may differ
+     * @note Given a file name instead of a folder, the behavior of the function is unspecified and may differ
      * between operating systems and PHP versions.
      * @note This function will not work on remote files as the file to be examined must be accessible via the
      * server's filesystem.
@@ -149,12 +149,12 @@ final class Folder extends FileSystem {
      * Path to folder or disk partition.
      * </p>
      *
-     * @throws Error If we could not get disk space for path.
-     * @error\exeption E_WARNING if we could not get disk space for path.
+     * @throws Error If we could not get disk space for a path.
+     * @error\exeption E_WARNING if we could not get disk space for a path.
      *
      * @return float Returns the total free space of bytes as a float.
      *
-     * @note Given a file name instead of a folder, the behaviour of the function is unspecified and may differ
+     * @note Given a file name instead of a folder, the behavior of the function is unspecified and may differ
      * between operating systems and PHP versions.
      * @note This function will not work on remote files as the file to be examined must be accessible via the
      * server's filesystem.
