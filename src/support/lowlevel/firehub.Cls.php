@@ -14,6 +14,8 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use Error;
+
 use function class_alias;
 use function class_exists;
 use function enum_exists;
@@ -153,6 +155,8 @@ final class Cls extends ClsObj {
      * The class name.
      * </p>
      *
+     * @throws Error If $class is not valid class name or there was an error while trying to get properties for class.
+     *
      * @return array<non-empty-string, mixed> Returns an associative array of declared properties visible from
      * current scope, with their default value.
      *
@@ -161,7 +165,8 @@ final class Cls extends ClsObj {
      */
     public static function properties (string $class):array {
 
-        return get_class_vars($class);
+        return ($properties = get_class_vars($class)) !== false
+            ? $properties : throw new Error ("There was an error while trying to get properties for class: $class.");
 
     }
 
