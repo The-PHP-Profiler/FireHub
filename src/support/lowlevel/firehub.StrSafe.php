@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use FireHub\Core\Support\Enums\Side;
 use Error, ValueError;
 
@@ -43,7 +46,13 @@ use function trim;
  * Class contains methods that are safe to use on normal as well as on multibyte encoding.
  * @since 1.0.0
  */
-abstract class StrSafe {
+abstract class StrSafe implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Get string length

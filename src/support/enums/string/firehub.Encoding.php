@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums\String;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Supported character encodings enum
  * @since 1.0.0
  */
-enum Encoding:string {
+enum Encoding:string implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * @since 1.0.0

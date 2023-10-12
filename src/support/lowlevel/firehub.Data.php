@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use FireHub\Core\Support\Enums\Data\Type;
 use Error;
 
@@ -28,7 +31,13 @@ use function unserialize;
  * Class contains variable handling methods.
  * @since 1.0.0
  */
-final class Data {
+final class Data implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Gets data type

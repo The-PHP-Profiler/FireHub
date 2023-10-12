@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Side enum
  * @since 1.0.0
  */
-enum Side {
+enum Side implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### Use left side

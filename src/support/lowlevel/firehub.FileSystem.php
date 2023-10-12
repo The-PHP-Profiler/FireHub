@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use FireHub\Core\Support\Enums\ {
     Order, FileSystem\Permission
 };
@@ -61,7 +64,13 @@ use function touch;
  * Class contains methods related to a file system.
  * @since 1.0.0
  */
-class FileSystem {
+class FileSystem implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Checks whether a file or folder exists

@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use Error;
 
 use function base64_decode;
@@ -30,7 +33,13 @@ use function quoted_printable_encode;
  * of human language, allowing them to be stored, transmitted, and transformed using digital computers.
  * @since 1.0.0
  */
-final class Encoding {
+final class Encoding implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Encodes string with MIME base64

@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use LogicException;
 
 use function spl_autoload;
@@ -27,7 +30,13 @@ use function spl_autoload_unregister;
  * ### SPL Autoload low level class
  * @since 1.0.0
  */
-final class SPLAutoload {
+final class SPLAutoload implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Default autoload implementation

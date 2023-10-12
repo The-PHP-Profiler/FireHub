@@ -14,13 +14,23 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
+
 /**
  * ### Char string low-level class
  *
  * Class contains methods that are safe to use on normal as well as on multibyte encoding.
  * @since 1.0.0
  */
-abstract class CharSafe {
+abstract class CharSafe implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Generate character from codepoint value

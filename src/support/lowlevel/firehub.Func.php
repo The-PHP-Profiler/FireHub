@@ -14,6 +14,10 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
+
 use function function_exists;
 use function call_user_func;
 use function register_shutdown_function;
@@ -26,7 +30,13 @@ use function unregister_tick_function;
  * Class allows you to obtain information about functions.
  * @since 1.0.0
  */
-final class Func {
+final class Func implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Checks if function name exists

@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Sorting enum
  * @since 1.0.0
  */
-enum Sort:int {
+enum Sort:int implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### Compare items normally

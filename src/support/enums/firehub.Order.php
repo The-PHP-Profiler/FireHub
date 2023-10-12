@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Ordering enum
  * @since 1.0.0
  */
-enum Order:string {
+enum Order:string implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### Arranging in ascending order

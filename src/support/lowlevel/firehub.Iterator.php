@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use Traversable;
 
 use function iterator_apply;
@@ -26,7 +29,13 @@ use function iterator_to_array;
  * An iterator are objects that can be iterated themselves internally.
  * @since 1.0.0
  */
-final class Iterator {
+final class Iterator implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Count the elements in an iterator

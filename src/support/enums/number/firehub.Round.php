@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums\Number;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Round number enum
  * @since 1.0.0
  */
-enum Round {
+enum Round implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### Rounds number away from zero when it is half way there, making 1.5 into 2 and -1.5 into -2

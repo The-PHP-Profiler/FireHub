@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums\String;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### String case folding enum
  * @since 1.0.0
  */
-enum CaseFolding {
+enum CaseFolding implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### Performs a full upper-case folding

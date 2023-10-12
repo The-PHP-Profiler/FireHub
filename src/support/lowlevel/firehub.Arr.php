@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use FireHub\Core\Support\Enums\{
     Order, Sort
 };
@@ -101,7 +104,13 @@ use function usort;
  * As array values can be other arrays, trees and multidimensional arrays are also possible.
  * @since 1.0.0
  */
-final class Arr {
+final class Arr implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Checks whether a given array is a list

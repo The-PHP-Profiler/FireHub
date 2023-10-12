@@ -14,11 +14,21 @@
 
 namespace FireHub\Core\Support\Enums\FileSystem;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### File permission enum
  * @since 1.0.0
  */
-enum Permission:int {
+enum Permission:int implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### User has no permissions

@@ -14,6 +14,10 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
+
 use function get_declared_classes;
 use function get_declared_interfaces;
 use function get_declared_traits;
@@ -26,7 +30,13 @@ use function get_defined_functions;
  * Class allows you to get information about declared classes and objects.
  * @since 1.0.0
  */
-final class Declared {
+final class Declared implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Gets the declared classes

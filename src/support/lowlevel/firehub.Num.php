@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use FireHub\Core\Support\Enums\Number\Round;
 
 use function abs;
@@ -31,7 +34,13 @@ use function round;
  * Class contains methods that are used on all number types.
  * @since 1.0.0
  */
-abstract class Num {
+abstract class Num implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Absolute value

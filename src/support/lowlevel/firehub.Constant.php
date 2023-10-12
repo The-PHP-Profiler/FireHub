@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use Error;
 
 use function constant;
@@ -26,7 +29,13 @@ use function defined;
  * Class allows you to obtain information about constants.
  * @since 1.0.0
  */
-final class Constant {
+final class Constant implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Returns the value of a constant

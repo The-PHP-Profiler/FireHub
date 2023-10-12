@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use Countable;
 
 use function is_array;
@@ -36,7 +39,13 @@ use function is_string;
  * Class contains all methods that evaluate data type.
  * @since 1.0.0
  */
-final class DataIs {
+final class DataIs implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Checks if value is array

@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use Error, TypeError;
 
 use function class_implements;
@@ -32,7 +35,13 @@ use function is_subclass_of;
  * Class allows you to obtain information about classes and objects.
  * @since 1.0.0
  */
-abstract class ClsObj {
+abstract class ClsObj implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Gets the class or object methods names

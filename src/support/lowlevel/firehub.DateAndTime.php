@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\LowLevel;
 
+use FireHub\Core\Base\ {
+    BaseStatic, MasterStatic
+};
 use FireHub\Core\Support\Enums\Data\Type;
 use Error, ValueError;
 
@@ -38,7 +41,13 @@ use function time;
  * Class allows you to represent date/time information.
  * @since 1.0.0
  */
-final class DateAndTime {
+final class DateAndTime implements MasterStatic {
+
+    /**
+     * ### FireHub base static class trait
+     * @since 1.0.0
+     */
+    use BaseStatic;
 
     /**
      * ### Check for valid date

@@ -14,13 +14,23 @@
 
 namespace FireHub\Core\Support\Enums\Data;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Data type enum
  *
  * Data type defines the type of data a variable can store.
  * @since 1.0.0
  */
-enum Type {
+enum Type implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### A bool expresses a truth value, it can be either true or false

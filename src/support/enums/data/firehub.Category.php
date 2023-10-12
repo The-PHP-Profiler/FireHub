@@ -14,13 +14,23 @@
 
 namespace FireHub\Core\Support\Enums\Data;
 
+use FireHub\Core\Base\ {
+    BaseEnum, MasterEnum
+};
+
 /**
  * ### Data category enum
  *
  * Data category defines the category of data type.
  * @since 1.0.0
  */
-enum Category {
+enum Category implements MasterEnum {
+
+    /**
+     * ### FireHub base enum class trait
+     * @since 1.0.0
+     */
+    use BaseEnum;
 
     /**
      * ### Scalar (predefined) category can hold only a single value
