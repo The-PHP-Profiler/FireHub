@@ -14,9 +14,6 @@
 
 namespace FireHub\Core\Initializers\Enums;
 
-use FireHub\Core\Base\ {
-    BaseEnum, MasterEnum
-};
 use FireHub\Core\Initializers\Kernel as BaseKernel;
 use FireHub\Core\Kernel\ {
     HTTP\Kernel as HTTP_Kernel,
@@ -28,13 +25,7 @@ use FireHub\Core\Kernel\ {
  * ### Enum for available Kernel types
  * @since 1.0.0
  */
-enum Kernel implements MasterEnum {
-
-    /**
-     * ### FireHub base enum class trait
-     * @since 1.0.0
-     */
-    use BaseEnum;
+enum Kernel {
 
     /**
      * ### Fully functional HTTP Kernel
