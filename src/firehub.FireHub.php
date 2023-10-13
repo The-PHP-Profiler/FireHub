@@ -63,6 +63,7 @@ final class FireHub {
         \FireHub\Core\Base\Base::class,
         \FireHub\Core\Base\BaseStatic::class,
         \FireHub\Core\Base\BaseEnum::class,
+        \FireHub\Core\Support\Path::class,
         \FireHub\Core\Support\LowLevel\Arr::class,
         \FireHub\Core\Support\LowLevel\DataIs::class,
         \FireHub\Core\Support\LowLevel\FileSystem::class,
