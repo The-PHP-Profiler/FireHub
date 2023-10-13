@@ -1,8 +1,15 @@
 # Release Notes for v0.x.x.pre-alpha
 
-## [Unreleased](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.3-alpha.1...develop-pre-alpha-m1)
+## [Unreleased](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.4-alpha.1...develop-pre-alpha-m1)
 
-## [v0.1.3](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.1-alpha.1...v0.1.2-alpha.1) - (2023-10-12)
+## [v0.1.4](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.3-alpha.1...v0.1.4-alpha.1) - (2023-10-13)
+
+### Added
+- Created Path support class ([#7](https://github.com/The-FireHub-Project/FireHub/issues/7), [0486894](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/0486894))
+- Created Autoload class ([#7](https://github.com/The-FireHub-Project/FireHub/issues/7), [758328b](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/758328b))
+- Added autoload to the main FireHub class ([#7](https://github.com/The-FireHub-Project/FireHub/issues/7), [0ff12d2](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/0ff12d2))
+
+## [v0.1.3](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.2-alpha.1...v0.1.3-alpha.1) - (2023-10-12)
 
 ### Added
 - Created String, Encoding and Data low-level classes ([#5](https://github.com/The-FireHub-Project/FireHub/issues/5), [d43be6d](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/d43be6d))
