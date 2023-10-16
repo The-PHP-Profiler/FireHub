@@ -376,6 +376,7 @@ final class Autoload {
 
                 if (File::isFile($path)) include $path;
 
+                /** @phpstan-ignore-next-line */
                 self::invokeAutoload($class);
 
             };
@@ -434,7 +435,6 @@ final class Autoload {
 
         try {
 
-            /** @phpstan-ignore-next-line */
             if (Cls::isClass($class) && Cls::methodExist($class, '_autoload'))
                 $class::_autoload();
 
