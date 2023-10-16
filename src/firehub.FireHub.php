@@ -65,12 +65,14 @@ final class FireHub {
         \FireHub\Core\Base\BaseEnum::class,
         \FireHub\Core\Support\Path::class,
         \FireHub\Core\Support\LowLevel\Arr::class,
+        \FireHub\Core\Support\LowLevel\ClsObj::class,
+        \FireHub\Core\Support\LowLevel\Cls::class,
         \FireHub\Core\Support\LowLevel\DataIs::class,
         \FireHub\Core\Support\LowLevel\FileSystem::class,
         \FireHub\Core\Support\LowLevel\File::class,
         \FireHub\Core\Support\LowLevel\SPLAutoload::class,
         \FireHub\Core\Support\LowLevel\StrSafe::class,
-        \FireHub\Core\Support\LowLevel\StrSB::class,
+        \FireHub\Core\Support\LowLevel\StrSB::class
     ];
 
     /**
