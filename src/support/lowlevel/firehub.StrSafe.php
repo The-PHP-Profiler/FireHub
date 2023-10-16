@@ -473,7 +473,7 @@ abstract class StrSafe implements MasterStatic {
     abstract public static function part (string $string, int $start, ?int $length = null):string;
 
     /**
-     * ### Get part of string
+     * ### Get number of times the searched substring occurs in the string
      *
      * Returns the number of times the needle substring occurs in the haystack string.
      * Please note that needle is case-sensitive.
