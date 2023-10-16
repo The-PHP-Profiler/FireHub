@@ -15,7 +15,7 @@
 namespace FireHub\Core\Initializers;
 
 use FireHub\Core\Support\LowLevel\ {
-    Arr, DataIs, File, SPLAutoload, StrSB
+    Arr, Cls, DataIs, File, SPLAutoload, StrSB
 };
 use Closure, Error;
 
@@ -38,7 +38,7 @@ final class Autoload {
      * ### List of active autoloaders
      * @since 1.0.0
      *
-     * @var array<non-empty-string, Closure(string $class):void>
+     * @var array<non-empty-string, Closure(class-string $class):void>
      */
     private static array $autoloaders = [];
 
@@ -51,11 +51,11 @@ final class Autoload {
      * @param non-empty-string $alias <p>
      * Autoloader implementation name.
      * </p>
-     * @param Closure(string $class):void $callback $callback <p>
+     * @param Closure(class-string $class):void $callback $callback <p>
      * The autoload function being registered.
      * </p>
      *
-     * @throws Error If autoloader alias is empty.
+     * @throws Error If autoloader alias is empty or already exist.
      *
      * @return void
      */
@@ -298,7 +298,7 @@ final class Autoload {
      * // ['MyApp' => object, 'OtherImplementations' => object]
      * ```
      *
-     * @return array<non-empty-string, Closure(string $class):void> List of autoloader implementations.
+     * @return array<non-empty-string, Closure(class-string $class):void> List of autoloader implementations.
      */
     public static function implementations ():array {
 
@@ -336,6 +336,7 @@ final class Autoload {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Initializers\Autoload::classComponents() To get class components from class FQN.
+     * @uses \FireHub\Core\Initializers\Autoload::invokeAutoload() To invoke _autoload method on class.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::callable() To verify that the contents of a variable can be
      * called as a function.
      * @uses \FireHub\Core\Support\LowLevel\File::isFile() To tell whether the path is a regular file.
@@ -346,9 +347,10 @@ final class Autoload {
      * All namespace components will be resolved as folders inside a root path.
      * </p>
      *
-     * @throws Error If class doesn't have at least two namespace levels.
+     * @throws Error If a class doesn't have at least two namespace levels or _autoload method is not declared as
+     * static.
      *
-     * @return Closure(string $class):void The autoload function being registered.
+     * @return Closure(class-string $class):void The autoload function being registered.
      */
     private static function callback (string|callable $path):Closure {
 
@@ -367,10 +369,14 @@ final class Autoload {
                 $class_components = self::classComponents($class);
 
                 $path = DataIs::callable($path)
-                    ? (($path_callable = $path($class_components['namespace'], $class_components['classname'])) ? $path_callable : '')
+                    ? (($path_callable = $path($class_components['namespace'], $class_components['classname']))
+                        ? $path_callable
+                        : '')
                     : $path.DS.$class.'.php';
 
                 if (File::isFile($path)) include $path;
+
+                self::invokeAutoload($class);
 
             };
 
@@ -406,6 +412,37 @@ final class Autoload {
             'namespace' => $namespace,
             'classname' => $classname
         ];
+
+    }
+
+    /**
+     * ### Invoke _autoload method on class
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Cls::isClass() To check if class name exists.
+     * @uses \FireHub\Core\Support\LowLevel\Cls::methodExist() To check if the class method exists.
+     *
+     * @param class-string $class <p>
+     * Fully qualified class name that is being called.
+     * </p>
+     *
+     * @throws Error If _autoload method is not declared as static.
+     *
+     * @return void
+     */
+    private static function invokeAutoload (string $class):void {
+
+        try {
+
+            /** @phpstan-ignore-next-line */
+            if (Cls::isClass($class) && Cls::methodExist($class, '_autoload'))
+                $class::_autoload();
+
+        } catch (Error) {
+
+            throw new Error("Method _autoload must be declared as static in $class.");
+
+        }
 
     }
 
