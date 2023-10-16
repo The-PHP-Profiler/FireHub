@@ -87,7 +87,7 @@ final class StrMB extends StrSafe {
     public static function split (string $string, int $length = 1, Encoding $encoding = null):array {
 
         return !$length < 1
-            ? mb_str_split($string, $length)
+            ? mb_str_split($string, $length, $encoding?->value)
             : throw new Error('Length must be at least 1.');
 
     }
