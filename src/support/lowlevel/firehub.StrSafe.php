@@ -167,11 +167,11 @@ abstract class StrSafe implements MasterStatic {
      * in a subject replaced with the given replacement value.
      * @since 1.0.0
      *
-     * @param string|array<int, string> $search <p>
+     * @param string|list<string> $search <p>
      * The replacement value that replaces found search values.
      * An array may be used to designate multiple replacements.
      * </p>
-     * @param string|array<int, string> $replace <p>
+     * @param string|list<string> $replace <p>
      * The string being searched and replaced on.
      * </p>
      * @param string $string <p>
@@ -210,13 +210,16 @@ abstract class StrSafe implements MasterStatic {
      * @param string $string <p>
      * The string to be repeated.
      * </p>
-     * @param positive-int $times <p>
+     * @param non-negative-int $times <p>
      * Number of time the input string should be repeated.
-     * Multiplier has to be greater than or equal to 0. If the multiplier is set to 0, the function will return an empty string.
+     * Multiplier has to be greater than or equal to 0.
+     * If the multiplier is set to 0, the function will return an empty string.
      * </p>
      * @param string $separator [optional] <p>
      * Separator in between any repeated string.
      * </p>
+     *
+     * @throws Error If $times argument is not 0 or greater.
      *
      * @return string Repeated string.
      */
@@ -232,6 +235,8 @@ abstract class StrSafe implements MasterStatic {
      * Returns an array of strings, each of which is a substring of string formed by splitting it on boundaries
      * formed by the string separator.
      * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Constants\Number\MAX As the largest integer supported in this build of PHP.
      *
      * @param string $string <p>
      * The input string.
@@ -298,6 +303,16 @@ abstract class StrSafe implements MasterStatic {
 
     /**
      * ### Strip whitespace (or other characters) from the beginning and end of a string
+     *
+     * This function returns a string with whitespace stripped from the beginning and end of string. Without the
+     * second parameter, trim() will strip these characters.
+     *
+     * - " " (ASCII 32 (0x20)), an ordinary space.
+     * - "\t" (ASCII 9 (0x09)), a tab.
+     * - "\n" (ASCII 10 (0x0A)), a new line (line feed).
+     * - "\r" (ASCII 13 (0x0D)), a carriage return.
+     * - "\0" (ASCII 0 (0x00)), the NUL-byte.
+     * - "\v" (ASCII 11 (0x0B)), a vertical tab.
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Enums\Side::BOTH As parameter.
@@ -486,7 +501,7 @@ abstract class StrSafe implements MasterStatic {
      * The string being found.
      * </p>
      *
-     * @return int Number of times the searched substring occurs in the string.
+     * @return non-negative-int Number of times the searched substring occurs in the string.
      */
     abstract public static function partCount (string $string, string $search):int;
 

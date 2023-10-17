@@ -19,6 +19,7 @@ use FireHub\Core\Support\Enums\String\ {
 };
 use Error, ValueError;
 
+use function mb_check_encoding;
 use function mb_convert_case;
 use function mb_convert_encoding;
 use function mb_detect_encoding;
@@ -423,6 +424,26 @@ final class StrMB extends StrSafe {
 
         return mb_convert_encoding($string, $to->value, $from?->value)
             ?: throw new Error('Could not convert string.');
+
+    }
+
+    /**
+     * ### Check if strings are valid for the specified encoding
+     * @since 1.0.0
+     *
+     * @param string $string <p>
+     * The string to check encoding on.
+     * </p>
+     * @param \FireHub\Core\Support\Enums\String\Encoding $encoding <p>
+     * The expected encoding.
+     * </p>
+     *
+     * @return True on success or false on failure.
+     */
+    public static function checkEncoding (string $string, Encoding $encoding):bool {
+
+        /** @phpstan-ignore-next-line */
+        return mb_check_encoding($string, $encoding->value);
 
     }
 
