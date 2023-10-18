@@ -23,6 +23,7 @@ use function mb_check_encoding;
 use function mb_convert_case;
 use function mb_convert_encoding;
 use function mb_detect_encoding;
+use function mb_internal_encoding;
 use function mb_str_split;
 use function mb_strpos;
 use function mb_strrchr;
@@ -367,6 +368,36 @@ final class StrMB extends StrSafe {
             CaseFolding::LOWER => 1,
             CaseFolding::TITLE => 2
         }, $encoding?->value);
+
+    }
+
+    /**
+     * ### Set/Get internal character encoding
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Enums\String\Encoding As parameter.
+     *
+     * @param null|\FireHub\Core\Support\Enums\String\Encoding $encoding <p>
+     * Encoding is the character encoding name used for the HTTP input character encoding conversion, HTTP output
+     * character encoding conversion,
+     * and the default character encoding for string functions defined by the mbstring module.
+     * You should notice that the internal encoding is totally different from the one for multibyte regex.
+     * </p>
+     *
+     * @throws ValueError If the value of encoding is an invalid encoding.
+     * @throws Error If we could not get current encoding.
+     *
+     * @return \FireHub\Core\Support\Enums\String\Encoding|bool If encoding is set, then returns true on success or
+     * false on failure.
+     * In this case, the character encoding for multibyte regex is NOT changed.
+     * If encoding is omitted, then the current character encoding name is returned.
+     */
+    public static function encoding (Encoding $encoding = null):Encoding|bool {
+
+        return $encoding
+            ? mb_internal_encoding($encoding->value)
+            : (($encoding = Encoding::tryFrom(mb_internal_encoding()))
+                ? $encoding : throw new Error('Could not get current encoding.'));
 
     }
 
