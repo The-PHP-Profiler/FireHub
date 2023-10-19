@@ -51,6 +51,7 @@ final class Char implements Master, Stringable {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\CharMB::chr() To generate character from codepoint value.
+     * @uses \FireHub\Core\Support\LowLevel\StrMB::encoding() To set/get internal character encoding.
      *
      * @param int $codepoint <p>
      * Codepoint to use.
@@ -153,11 +154,13 @@ final class Char implements Master, Stringable {
      * // false
      * ```
      *
+     * @throws Error If we could not get current regex encoding.
+     *
      * @return bool True if character is lowercase, false otherwise.
      */
     public function isLower ():bool {
 
-        return RegexMB::match('.*[[:lower:]]', $this->character);
+        return $this->regexMatch('.*[[:lower:]]');
 
     }
 
@@ -165,7 +168,7 @@ final class Char implements Master, Stringable {
      * ### Checks if character is uppercase
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\RegexMB::match() To perform a regular expression match.
+     * @uses \FireHub\Core\Support\Char::regexMatch() To perform a regular expression match.
      *
      * @example
      * ```php
@@ -176,11 +179,13 @@ final class Char implements Master, Stringable {
      * // false
      * ```
      *
+     * @throws Error If we could not get current regex encoding.
+     *
      * @return bool True if character is uppercase, false otherwise.
      */
     public function isUpper ():bool {
 
-        return RegexMB::match('.*[[:upper:]]', $this->character);
+        return $this->regexMatch('.*[[:upper:]]');
 
     }
 
@@ -188,22 +193,24 @@ final class Char implements Master, Stringable {
      * ### Checks if character is alphabetic
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\RegexMB::match() To perform a regular expression match.
+     * @uses \FireHub\Core\Support\Char::regexMatch() To perform a regular expression match.
      *
      * @example
      * ```php
      * use FireHub\Core\Support\Char;
      *
-     * Char::from('F')->isAlpha();
+     * Char::from('F')->isAlphabetic();
      *
      * // true
      * ```
      *
+     * @throws Error If we could not get current regex encoding.
+     *
      * @return bool True if character is alphabetic, false otherwise.
      */
-    public function isAlpha ():bool {
+    public function isAlphabetic ():bool {
 
-        return RegexMB::match('.*[[:alpha:]]', $this->character);
+        return $this->regexMatch('.*[[:alpha:]]');
 
     }
 
@@ -211,7 +218,7 @@ final class Char implements Master, Stringable {
      * ### Checks if character is whitespace
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\RegexMB::match() To perform a regular expression match.
+     * @uses \FireHub\Core\Support\Char::regexMatch() To perform a regular expression match.
      *
      * @example
      * ```php
@@ -222,11 +229,13 @@ final class Char implements Master, Stringable {
      * // false
      * ```
      *
+     * @throws Error If we could not get current regex encoding.
+     *
      * @return bool True if character is whitespace, false otherwise.
      */
     public function isBlank ():bool {
 
-        return RegexMB::match('.*[[:space:]]', $this->character);
+        return $this->regexMatch('.*[[:space:]]');
 
     }
 
@@ -234,7 +243,7 @@ final class Char implements Master, Stringable {
      * ### Checks if character is hexadecimal
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\RegexMB::match() To perform a regular expression match.
+     * @uses \FireHub\Core\Support\Char::regexMatch() To perform a regular expression match.
      *
      * @example
      * ```php
@@ -245,11 +254,13 @@ final class Char implements Master, Stringable {
      * // true
      * ```
      *
+     * @throws Error If we could not get current regex encoding.
+     *
      * @return bool True if character is hexadecimal, false otherwise.
      */
     public function isHexadecimal ():bool {
 
-        return RegexMB::match('.*[[:xdigit:]]', $this->character);
+        return $this->regexMatch('.*[[:xdigit:]]');
 
     }
 
@@ -371,6 +382,39 @@ final class Char implements Master, Stringable {
     public function asCodepoint ():int {
 
         return $this->codepoint;
+
+    }
+
+    /**
+     * ### Perform a regular expression match
+     *
+     * Searches subject for a match to the regular expression given in a pattern.
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\RegexMB::encoding() To set/get character encoding for multibyte regex.
+     * @uses \FireHub\Core\Support\LowLevel\RegexMB::match() To perform a regular expression match.
+     *
+     * @param string $pattern <p>
+     * The regular expression pattern.
+     * </p>
+     *
+     * @throws Error If we could not get current regex encoding.
+     *
+     * @return bool True if string matches the regular expression pattern, false if not.
+     */
+    private function regexMatch (string $pattern):bool {
+
+        $regex_encoding = ($regex_encoding = RegexMB::encoding()) instanceof Encoding
+            ? $regex_encoding
+            : throw new Error('Could not get current regex encoding.');
+
+        RegexMB::encoding($this->encoding);
+
+        $match = RegexMB::match($pattern, $this->character);
+
+        RegexMB::encoding($regex_encoding);
+
+        return $match;
 
     }
 
