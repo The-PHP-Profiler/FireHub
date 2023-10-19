@@ -37,6 +37,7 @@ use function stristr;
 use function strlen;
 use function strpbrk;
 use function strrchr;
+use function strrev;
 use function strspn;
 use function strstr;
 use function strtolower;
@@ -487,6 +488,22 @@ final class StrSB extends StrSafe {
     public static function partFrom (string $characters, string $string):string|false {
 
         return strpbrk($string, $characters);
+
+    }
+
+    /**
+     * ### Reverse a string
+     * @since 1.0.0
+     *
+     * @param string $string <p>
+     * The string to be reversed.
+     * </p>
+     *
+     * @return string The reversed string.
+     */
+    public static function reverse (string $string):string {
+
+        return strrev($string);
 
     }
 
