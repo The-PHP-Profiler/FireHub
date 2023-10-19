@@ -18,6 +18,7 @@ use Error;
 
 use function preg_match;
 use function preg_replace;
+use function preg_replace_callback;
 
 /**
  * @inheritDoc
@@ -75,6 +76,37 @@ final class RegexSB extends Regex {
     public static function replace (string $pattern, string $replacement, string $string, int $limit = -1):string {
 
         return preg_replace($pattern, $replacement, $string, $limit)
+            ?? throw new Error("Error while performing a regular expression search and replace.");
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @param string $pattern <p>
+     * The regular expression pattern.
+     * </p>
+     * @param callable(list<string> $matches):string $callback <p>
+     * A callback that will be called and passed an array of matched elements in the subject string.
+     * The callback should return the replacement string.
+     * This is the callback signature.
+     * </p>
+     * @param string $string <p>
+     * The string being evaluated.
+     * </p>
+     * @param int $limit [optional] <p>
+     * The maximum possible replacements for each pattern in each subject string. Defaults to -1 (no limit).
+     * </p>
+     *
+     * @throws Error If error while performing a regular expression search and replace.
+     * @error\exeption E_WARNING using the "\e" modifier, or If the regex pattern passed does not compile to valid
+     * regex.
+     */
+    public static function replaceFunc (string $pattern, callable $callback, string $string, int $limit = -1):string {
+
+        return preg_replace_callback($pattern, $callback, $string, $limit)
             ?? throw new Error("Error while performing a regular expression search and replace.");
 
     }

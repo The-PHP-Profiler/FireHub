@@ -19,6 +19,7 @@ use Error;
 
 use function mb_ereg;
 use function mb_ereg_replace;
+use function mb_ereg_replace_callback;
 use function mb_eregi;
 use function mb_regex_encoding;
 
@@ -67,10 +68,25 @@ final class RegexMB extends Regex {
      * @note The internal encoding or the character encoding specified by encoding() will be used as character
      * encoding for this function.
      */
-    public static function replace (string $pattern, string $replacement, string $string, int $limit = -1):string {
+    public static function replace (string $pattern, string $replacement, string $string):string {
 
         return mb_ereg_replace($pattern, $replacement, $string)
             ?: throw new Error("Error while perform a regular expression search and replace.");
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @throws Error If string is not valid for the current encoding, or while performing a regular expression search
+     * and replace.
+     */
+    public static function replaceFunc (string $pattern, callable $callback, string $string):string {
+
+        return mb_ereg_replace_callback($pattern, $callback, $string)
+            ?? throw new Error("Error while performing a regular expression search and replace.");
 
     }
 

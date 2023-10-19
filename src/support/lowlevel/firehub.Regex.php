@@ -73,4 +73,26 @@ abstract class Regex implements MasterStatic {
      */
     abstract public static function replace (string $pattern, string $replacement, string $string):string;
 
+    /**
+     * ### Perform a regular expression search and replace using a callback
+     *
+     * Searches $subject for matches to $pattern and replaces them with $replacement.
+     * @since 1.0.0
+     *
+     * @param string $pattern <p>
+     * The regular expression pattern.
+     * </p>
+     * @param callable(list<string> $matches):string $callback <p>
+     * A callback that will be called and passed an array of matched elements in the subject string.
+     * The callback should return the replacement string.
+     * This is the callback signature.
+     * </p>
+     * @param string $string <p>
+     * The string being evaluated.
+     * </p>
+     *
+     * @return string Replaced string.
+     */
+    abstract public static function replaceFunc (string $pattern, callable $callback, string $string):string;
+
 }
