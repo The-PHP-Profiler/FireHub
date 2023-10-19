@@ -86,7 +86,7 @@ final class RegexMB extends Regex {
     public static function replaceFunc (string $pattern, callable $callback, string $string):string {
 
         return mb_ereg_replace_callback($pattern, $callback, $string)
-            ?? throw new Error("Error while performing a regular expression search and replace.");
+            ?: throw new Error("Error while performing a regular expression search and replace.");
 
     }
 

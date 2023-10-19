@@ -88,7 +88,7 @@ final class RegexSB extends Regex {
      * @param string $pattern <p>
      * The regular expression pattern.
      * </p>
-     * @param callable(list<string> $matches):string $callback <p>
+     * @param callable(array<array-key, string> $matches):string $callback <p>
      * A callback that will be called and passed an array of matched elements in the subject string.
      * The callback should return the replacement string.
      * This is the callback signature.
