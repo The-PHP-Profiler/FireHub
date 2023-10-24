@@ -3,14 +3,14 @@
 /**
  * This file is part of FireHub Web Application Framework package
  *
- * This file contains all system definitions.
+ * This file contains all path constants.
  * @since 1.0.0
  *
  * @author Danijel Galić <danijel.galic@outlook.com>
  * @copyright 2023 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @package FireHub\Core\Initializers
+ * @package FireHub\Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
  */

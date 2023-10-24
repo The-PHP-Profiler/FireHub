@@ -3,7 +3,7 @@
 /**
  * This file is part of FireHub Web Application Framework package
  *
- * This file contains all system definitions.
+ * This file contains all number constants.
  * @since 1.0.0
  *
  * @author Danijel Galić <danijel.galic@outlook.com>
