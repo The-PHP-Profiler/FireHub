@@ -274,6 +274,9 @@ abstract class StrSafe implements MasterStatic {
      * @param string $separator [optional] <p>
      * The boundary string.
      * </p>
+     *
+     * @throws Error If array item could not be converted to string.
+     *
      * @return string Returns a string containing a string representation of all the array elements in the same order,
      * with the separator string between each element.
      */
