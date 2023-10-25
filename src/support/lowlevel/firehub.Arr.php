@@ -84,11 +84,16 @@ use function array_walk_recursive;
 use function arsort;
 use function asort;
 use function count;
+use function current;
+use function end;
+use function rsort;
 use function in_array;
 use function krsort;
 use function ksort;
+use function next;
+use function prev;
 use function range;
-use function rsort;
+use function reset;
 use function shuffle;
 use function sort;
 use function uasort;
@@ -298,7 +303,7 @@ final class Arr implements MasterStatic {
      *
      * @throws ValueError If length is less than 1.
      *
-     * @return ($preserve_keys is true ? array<array<TKey, TValue>> : array<array<TValue>>)
+     * @return ($preserve_keys is true ? list<array<TKey, TValue>> : list<list<TValue>>)
      * Multidimensional numerically indexed array,
      * starting with zero, with each dimension containing size elements.
      */
@@ -402,6 +407,10 @@ final class Arr implements MasterStatic {
      *
      * Computes the difference of arrays by using a callback function for data comparison. This is unlike difference()
      * which uses an internal function for comparing the data.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
      *
      * @param array<TKey, TValue> $array <p>
      * The array to compare from.
@@ -420,10 +429,6 @@ final class Arr implements MasterStatic {
      * @caution Returning non-integer values from the comparison function, such as float, will result in an internal
      * cast to int of the callback's return value. So values such as 0.99 and 0.1 will both be cast to an integer
      * value of 0, which will compare such values as equal.
-     *@since 1.0.0
-     *
-     * @template TKey of array-key
-     * @template TValue
      *
      */
     public static function differenceFunc (array $array, array $excludes, callable $callback):array {
@@ -474,7 +479,7 @@ final class Arr implements MasterStatic {
      * @param array<array-key, mixed> $excludes <p>
      * An array to compare against.
      * </p>
-     * @param callable(TValue $a, TValue $b):int<-1, 1> $callback <p>
+     * @param callable(TKey $a, TKey $b):int<-1, 1> $callback <p>
      * The comparison function.
      * </p>
      *
@@ -486,6 +491,7 @@ final class Arr implements MasterStatic {
      */
     public static function differenceKeyFunc (array $array, array $excludes, callable $callback):array {
 
+        /** @phpstan-ignore-next-line */
         return array_diff_ukey($array, $excludes, $callback);
 
     }
@@ -1826,6 +1832,164 @@ final class Arr implements MasterStatic {
     public static function shuffle (array &$array):true {
 
         return shuffle($array);
+
+    }
+
+    /**
+     * ### Return the current element in an array
+     *
+     * Every array has an internal pointer to its "current" element, which is initialized to the first element
+     * inserted into the array.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> $array <p>
+     * The array.
+     * </p>
+     *
+     * @return TValue|false The current() function simply returns the value of the array element that is being pointed
+     * to with the internal pointer.
+     * It does not move the pointer in any way.
+     * If the internal pointer points beyond the end of the elements list or the array is empty, current() returns
+     * false.
+     *
+     * @warning This function may return Boolean false, but may also return
+     * a non-Boolean value which evaluates to false.
+     * Please read the section on Booleans for more information.
+     * Use the === operator for testing the return value of this function.
+     *
+     * @note The results of calling current() on an empty array and on an array, whose internal pointer points beyond
+     * the end of the elements is indistinguishable from a bool false element.
+     * To properly traverse an array which may contain false elements, see the foreach control structure.
+     * To still use current() and properly check if the value is really an element of the array,
+     * the key() of the current() element should be checked to be strictly different from null.
+     */
+    public static function current (array $array):mixed {
+
+        return current($array);
+
+    }
+
+    /**
+     * ### Rewind the internal array pointer
+     *
+     * Method prev() behaves just like next(), except it rewinds the internal array pointer one place instead of
+     * advancing it.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> &$array <p>
+     * The input array.
+     * </p>
+     *
+     * @return TValue|false Returns the array value in the previous place that's
+     * pointed to by the internal array pointer,
+     * or false if there are no more elements.
+     *
+     * @warning This function may return Boolean false, but may also return
+     * a non-Boolean value which evaluates to false.
+     * Please read the section on Booleans for more information.
+     * Use the === operator for testing the return value of this function.
+     *
+     * @note  The beginning of an array is indistinguishable from a bool false element.
+     * To make the distinction, check that the key() of the prev() element is not null.
+     */
+    public static function prev (array &$array):mixed {
+
+        return prev($array);
+
+    }
+
+    /**
+     * ### Advance the internal pointer of an array
+     *
+     * Method next() behaves like current(), with one difference.
+     * It advances the internal array pointer one place forward before returning the element value.
+     * That means it returns the next array value and advances the internal array pointer by one.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> &$array <p>
+     * The array being affected.
+     * </p>
+     *
+     * @return TValue|false Returns the array value in the next place that's pointed to by the internal array
+     * pointer, or false if there are no more elements.
+     *
+     * @warning This function may return Boolean false, but may also return
+     * a non-Boolean value which evaluates to false.
+     * Please read the section on Booleans for more information.
+     * Use the === operator for testing the return value of this function.
+     *
+     * @note The end of an array is indistinguishable from a bool false element.
+     * To properly traverse an array which may contain false elements, see the foreach function.
+     * To still use next() and properly check if the end of the array has been reached, verify that the key() is null.
+     */
+    public static function next (array &$array):mixed {
+
+        return next($array);
+
+    }
+
+    /**
+     * ### Set the internal pointer of an array to its first element
+     *
+     * Method reset() rewinds array's internal pointer to the first element
+     * and returns the value of the first array element.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> &$array <p>
+     * The input array.
+     * </p>
+     *
+     * @return TValue|false Returns the value of the first array element, or false if the array is empty.
+     *
+     * @warning This function may return Boolean false, but may also return
+     * a non-Boolean value which evaluates to false.
+     * Please read the section on Booleans for more information.
+     * Use the === operator for testing the return value of this function.
+     *
+     * @note  The return value for an empty array is indistinguishable from the return value in case
+     * of an array which has a bool false first element.
+     * To properly check the value of the first element of an array which may contain false elements, first check the
+     * count() of the array, or check that key() is not null, after calling reset().
+     */
+    public static function reset (array &$array):mixed {
+
+        return reset($array);
+
+    }
+
+    /**
+     * ### Set the internal pointer of an array to its last element
+     *
+     * Method end() advances array's internal pointer to the last element, and returns its value.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> &$array <p>
+     * The array.
+     * Reference passes this array because it is modified by the function.
+     * This means you must pass it a real variable and not a function returning an array because only actual
+     * variables may be passed by reference.
+     * </p>
+     *
+     * @return TValue|false Returns the value of the last element or false for an empty array.
+     */
+    public static function end (array &$array):mixed {
+
+        return end($array);
 
     }
 
