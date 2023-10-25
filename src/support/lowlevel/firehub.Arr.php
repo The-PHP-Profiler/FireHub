@@ -88,6 +88,7 @@ use function current;
 use function end;
 use function rsort;
 use function in_array;
+use function key;
 use function krsort;
 use function ksort;
 use function next;
@@ -1832,6 +1833,30 @@ final class Arr implements MasterStatic {
     public static function shuffle (array &$array):true {
 
         return shuffle($array);
+
+    }
+
+    /**
+     * ### Fetch a key from an array
+     *
+     * Method key() returns the index element of the current array position.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> $array <p>
+     * The array.
+     * </p>
+     *
+     * @return null|TKey The key() function simply returns the key of the array element
+     * that's currently being pointed to by the internal pointer.
+     * It does not move the pointer in any way.
+     * If the internal pointer points beyond the end of the elements list or the array is empty, key() returns null.
+     */
+    public static function key (array $array):int|string|null {
+
+        return key($array);
 
     }
 
