@@ -12,7 +12,7 @@
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Support\Contracts\Iterator;
+namespace FireHub\Core\Support\Contracts;
 
 use Countable as InternalCountable;
 
