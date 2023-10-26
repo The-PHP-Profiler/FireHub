@@ -28,8 +28,10 @@ trait UnCloneable {
      * @since 1.0.0
      *
      * @throws Error If you try to clone this object.
+     *
+     * @return never
      */
-    public function __clone ():void {
+    public function __clone ():never {
 
         throw new Error('You are not allowed to clone '.static::class);
 

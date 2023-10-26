@@ -28,8 +28,10 @@ trait UnOverloadable {
      * @since 1.0.0
      *
      * @throws Error If you try to get property.
+     *
+     * @return never
      */
-    public function __get (string $name):mixed {
+    public function __get (string $name):never {
 
         throw new Error("You are not allowed to get property $name in ".static::class);
 
@@ -41,8 +43,10 @@ trait UnOverloadable {
      * @since 1.0.0
      *
      * @throws Error If you try to set property.
+     *
+     * @return never
      */
-    public function __set (string $name, mixed $value):void {
+    public function __set (string $name, mixed $value):never {
 
         throw new Error("You are not allowed to set property $name to ".static::class);
 
@@ -54,8 +58,10 @@ trait UnOverloadable {
      * @since 1.0.0
      *
      * @throws Error If property doesn't exist.
+     *
+     * @return never
      */
-    public function __isset (string $name):bool {
+    public function __isset (string $name):never {
 
         throw new Error("Property $name doesn't exist in ".static::class);
 
@@ -67,8 +73,10 @@ trait UnOverloadable {
      * @since 1.0.0
      *
      * @throws Error If property doesn't exist.
+     *
+     * @return never
      */
-    public function __unset (string $name):void {
+    public function __unset (string $name):never {
 
         throw new Error("Property $name doesn't exist in ".static::class);
 

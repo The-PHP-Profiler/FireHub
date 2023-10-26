@@ -28,8 +28,10 @@ trait UnSerializable {
      * @since 1.0.0
      *
      * @throws Error If you try to serialize an object.
+     *
+     * @return never
      */
-    public function __serialize ():array {
+    public function __serialize ():never {
 
         throw new Error('You are not allowed to serialize '.static::class);
 
@@ -41,8 +43,10 @@ trait UnSerializable {
      * @since 1.0.0
      *
      * @throws Error If you try to unserialize an object.
+     *
+     * @return never
      */
-    public function __unserialize (array $data):void {
+    public function __unserialize (array $data):never {
 
         throw new Error('You are not allowed to unserialize '.static::class);
 

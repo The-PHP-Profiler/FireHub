@@ -28,8 +28,10 @@ trait UnCallables {
      * @since 1.0.0
      *
      * @throws Error If method doesn't exist.
+     *
+     * @return never
      */
-    public function __call (string $method, array $arguments):mixed {
+    public function __call (string $method, array $arguments):never {
 
         throw new Error("Method $method doesn't exist in ".static::class);
 
@@ -41,8 +43,10 @@ trait UnCallables {
      * @since 1.0.0
      *
      * @throws Error If static method doesn't exist.
+     *
+     * @return never
      */
-    public static function __callStatic (string $method, array $arguments):mixed {
+    public static function __callStatic (string $method, array $arguments):never {
 
         throw new Error("Method $method doesn't exist in ".static::class);
 

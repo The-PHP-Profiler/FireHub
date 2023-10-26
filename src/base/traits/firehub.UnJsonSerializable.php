@@ -28,8 +28,10 @@ trait UnJsonSerializable {
      * @since 1.0.0
      *
      * @throws Error If you try to json_encode an object.
+     *
+     * @return never
      */
-    public function jsonSerialize ():array {
+    public function jsonSerialize ():never {
 
         throw new Error('You are not allowed to json_encode '.static::class);
 
