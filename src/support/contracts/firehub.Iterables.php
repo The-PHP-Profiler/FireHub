@@ -14,79 +14,66 @@
 
 namespace FireHub\Core\Support\Contracts;
 
-use ArrayAccess, IteratorAggregate, Traversable;
+use Iterator;
 
 /**
  * ### Base iterator contract
  *
- * The Contract contains all methods that every iterator type must have.
+ * Interface contains all methods that every iterator type must have.
  * @since 1.0.0
  *
  * @template TKey
  * @template TValue
  *
- * @extends ArrayAccess<TKey, TValue>
- * @extends IteratorAggregate<TKey, TValue>
+ * @extends Iterator<TKey, TValue>
  */
-interface Iterables extends ArrayAccess, IteratorAggregate {
+interface Iterables extends Iterator {
 
     /**
-     * ### Whether an offset exists
+     * ### Checks if the current position is valid
+     *
+     * This method is called after rewind() and next() to check if the current position is valid.
      * @since 1.0.0
      *
-     * @param TKey $offset <p>
-     * Offset to check for.
-     * </p>
-     *
-     * @return bool True on success, false otherwise.
+     * @return bool True on success or false on failure.
      */
-    public function offsetExists (mixed $offset):bool;
+    public function valid ():bool;
 
     /**
-     * ### Offset to retrieve
+     * ### Return the current element
      * @since 1.0.0
      *
-     * @param TKey $offset <p>
-     * Offset to retrieve.
-     * </p>
-     *
-     * @return TValue Offset value.
+     * @return TValue Current element.
      */
-    public function offsetGet (mixed $offset):mixed;
+    public function current ():mixed;
 
     /**
-     * ### Assign a value to the specified offset
+     * ### Return the key of the current element
      * @since 1.0.0
      *
-     * @param TKey $offset <p>
-     * Offset to assign the value to.
-     * </p>
-     * @param TValue $value <p>
-     * Value to set.
-     * </p>
+     * @error\exeption E_NOTICE on failure.
+     *
+     * @return null|TKey Key of the current element.
+     */
+    public function key ():mixed;
+
+    /**
+     * ### Move forward to next element
+     * @since 1.0.0
      *
      * @return void
      */
-    public function offsetSet (mixed $offset, mixed $value):void;
+    public function next ():void;
 
     /**
-     * ### Unset an offset
+     * ### Rewind the iterator to the first element
      * @since 1.0.0
-     *
-     * @param TKey $offset <p>
-     * Offset to unset.
-     * </p>
      *
      * @return void
-     */
-    public function offsetUnset (mixed $offset):void;
-
-    /**
-     * ### Retrieve an external iterator
-     * @since 1.0.0
      *
-     * @return Traversable<TKey, TValue> An instance of an object implementing Iterator or Traversable.
+     * @note This is the first method called when starting a foreach loop.
+     * It will not be executed after foreach loops.
      */
-    public function getIterator ():Traversable;
+    public function rewind ():void;
 
 }
