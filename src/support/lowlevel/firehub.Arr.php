@@ -1463,7 +1463,7 @@ final class Arr implements MasterStatic {
      * You can change this behavior by setting preserve_keys to true.
      * </p>
      *
-     * @return ($preserve_keys is true ? array<TKey, TValue> : array<TValue>) Sliced array.
+     * @return ($preserve_keys is true ? array<TKey, TValue> : array<TKey|int, TValue>) Sliced array.
      */
     public static function slice (array $array, int $offset, int $length = null, bool $preserve_keys = false):array {
 
