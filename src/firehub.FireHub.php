@@ -101,7 +101,8 @@ final class FireHub {
      * request and return the appropriate response.
      * </p>
      *
-     * @throws Error If a system cannot load Autoload file, cannot preload class, or cannot load constant files.
+     * @throws Error If a system cannot load Autoload file, cannot preload class, or cannot load constant or helper
+     * files.
      * @error\exeption E_WARNING if a system cannot load Autoload file, cannot preload class,
      * or cannot load constant files.
      *
@@ -121,10 +122,13 @@ final class FireHub {
      * Load series of bootloaders required to boot FireHub framework.
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\FireHub::registerConstants() To register constants.
+     * @uses \FireHub\Core\FireHub::registerHelpers() To register helpers.
      * @uses \FireHub\Core\FireHub::preload() ) To load preloader classes.
      * @uses \FireHub\Core\Firehub::autoload() To load autoloader.
      *
-     * @throws Error If a system cannot load Autoload file, cannot preload class, or cannot load constant files.
+     * @throws Error If a system cannot load Autoload file, cannot preload class, or cannot load constant or helper
+     * files.
      * @error\exeption E_WARNING if a system cannot load Autoload file, cannot preload class,
      * or cannot load constant files.
      *
@@ -134,19 +138,20 @@ final class FireHub {
 
         return $this
             ->registerConstants()
+            ->registerHelpers()
             ->preload()
             ->autoload();
 
     }
 
     /**
-     * ### Register init definitions
+     * ### Register constants
      *
      * This method will scan Initializers\Constants folder
      * and automatically include all PHP files.
      * @since 1.0.0
      *
-     * @throws Error If system cannot load constant files.
+     * @throws Error If a system cannot load constant files.
      *
      * @return $this This object.
      */
@@ -164,6 +169,38 @@ final class FireHub {
         } catch (Throwable) {
 
             throw new Error('Cannot load constant files, please contact your administrator');
+
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * ### Register helper functions
+     *
+     * This method will scan Initializers\Helpers folder
+     * and automatically include all PHP files.
+     * @since 1.0.0
+     *
+     * @throws Error If a system cannot load helper files.
+     *
+     * @return $this This object.
+     */
+    private function registerHelpers ():self {
+
+        try {
+
+            foreach (new DirectoryIterator(
+                __DIR__
+                .DIRECTORY_SEPARATOR
+                .implode(DIRECTORY_SEPARATOR, ['support', 'helpers']))
+                     as $file)
+                if ($file->isFile() && $file->getExtension() === 'php') include $file->getPathname();
+
+        } catch (Throwable) {
+
+            throw new Error('Cannot load helper files, please contact your administrator');
 
         }
 
