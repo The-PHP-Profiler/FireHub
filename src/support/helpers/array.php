@@ -25,6 +25,8 @@ use FireHub\Core\Support\LowLevel\ {
 };
 use ValueError;
 
+use function FireHub\Core\Support\Helpers\Data\is_type;
+
 /**
  * ### Checks if an array is empty
  * @since 1.0.0
@@ -265,10 +267,9 @@ function filter_recursive (int|string $key, Comparison $operator, mixed $value, 
  *
  * @uses \FireHub\Core\Support\Enums\Data\Category As parameter.
  * @uses \FireHub\Core\Support\Enums\Data\Type As parameter.
- * @uses \FireHub\Core\Support\Enums\Operator\Comparison::compare() To compare current enum with provided values.
  * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if the value is an array.
- * @uses \FireHub\Core\Support\LowLevel\Data::getType() To get a data type.
  * @uses \FireHub\Core\Support\Helpers\Array\is_empty() To check if an array is empty.
+ * @uses \FireHub\Core\Support\Helpers\Data\is_type() To check if the value is of a type.
  *
  * @param array-key $key <p>
  * Key to filter on.
@@ -297,9 +298,9 @@ function filter_recursive_type (int|string $key, Category|Type $type, array $arr
 
             if (is_empty($array_value) || $keep_filtered
                 ? !isset($array_value[$key])
-                  || !(Comparison::IDENTICAL->compare(Data::getType($array_value[$key]), $type))
+                  || !(is_type($array_value[$key], $type))
                 : isset($array_value[$key])
-                  && (Comparison::IDENTICAL->compare(Data::getType($array_value[$key]), $type))
+                  && (is_type($array_value[$key], $type))
             ) unset($array[$array_key]);
 
         } else if ($array_key !== $key) unset($array[$array_key]);
