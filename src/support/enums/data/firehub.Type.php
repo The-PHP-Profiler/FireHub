@@ -51,7 +51,7 @@ enum Type implements MasterEnum {
     case T_FLOAT;
 
     /**
-     * ### A string is series of characters, where a character is the same as a byte
+     * ### A string is a series of characters, where a character is the same as a byte
      * @since 1.0.0
      */
     case T_STRING;
