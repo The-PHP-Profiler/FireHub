@@ -1182,17 +1182,8 @@ final class Arr implements MasterStatic {
      * ### Sort multiple or multidimensional arrays
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::column() To return the values from a single column in the input array.
-     * @uses \FireHub\Core\Support\Enums\Order::DESC As order enum.
-     *
-     * @template TKey of array-key
-     * @template TValue
-     *
-     * @param array<array<TKey, TValue>> &$array <p>
+     * @param array<array-key, mixed> $multi_sort <p>
      * A multidimensional array being sorted.
-     * </p>
-     * @param array<array<TKey, string|\FireHub\Core\Support\Enums\Order>> $fields <p>
-     * List of fields to sort by.
      * </p>
      *
      * @throws ValueError If array sizes are inconsistent.
@@ -1201,24 +1192,7 @@ final class Arr implements MasterStatic {
      *
      * @note Resets array's internal pointer to the first element.
      */
-    public static function sortByMany (array &$array, array $fields):bool {
-
-        $multi_sort = [];
-
-        foreach ($fields as $column => $order) {
-
-            $order = match($order) {
-                Order::DESC => SORT_DESC,
-                default => SORT_ASC
-            };
-
-            $multi_sort[] = [...self::column($array, $column)];
-
-            $multi_sort[] = $order;
-
-        }
-
-        $multi_sort[] = &$array;
+    public static function multiSort (array $multi_sort):bool {
 
         /** @phpstan-ignore-next-line */
         return array_multisort(...$multi_sort);
