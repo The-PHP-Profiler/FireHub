@@ -1761,15 +1761,13 @@ final class Arr implements MasterStatic {
      * ### Create an array containing a range of elements
      * @since 1.0.0
      *
-     * @template TValue of int|float|string
-     *
-     * @param TValue $start <p>
+     * @param int|float|string $start <p>
      * First value of the sequence.
      * </p>
-     * @param TValue $end <p>
+     * @param int|float|string $end <p>
      * The sequence is ended upon reaching the end value.
      * </p>
-     * @param int|float $step [optional] <p>
+     * @param positive-int|float $step [optional] <p>
      * If a step value is given, it will be used as the increment between elements in the sequence.
      * Step should be given as a positive number.
      * If not specified, a step will default to 1.
@@ -1777,7 +1775,7 @@ final class Arr implements MasterStatic {
      *
      * @throws ValueError If $step exceeds the specified range.
      *
-     * @return array<int, TValue>|false An array of elements from start to end, inclusive, false otherwise.
+     * @return array<int, int|float|string>|false An array of elements from start to end, inclusive, false otherwise.
      *
      * @note Character sequence values are limited to a length of one. If a length greater than one is entered.
      * only the first character is used.
