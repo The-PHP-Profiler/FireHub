@@ -17,8 +17,11 @@
 
 namespace FireHub\Core\Support\Helpers\Array;
 
+use FireHub\Core\Support\Enums\ {
+    Data\Category, Data\Type, Operator\Comparison, Order
+};
 use FireHub\Core\Support\LowLevel\ {
-    Arr, DataIs
+    Arr, Data, DataIs
 };
 use ValueError;
 
@@ -34,9 +37,31 @@ use ValueError;
  *
  * @return bool True if an array is empty, false otherwise
  */
-function isEmpty (array $array):bool {
+function is_empty (array $array):bool {
 
     return Arr::count($array) === 0;
+
+}
+
+/**
+ * ### Checks if an array is multidimensional
+ * @since 1.0.0
+ *
+ * @uses \FireHub\Core\Support\LowLevel\Arr::count() To count all array elements.
+ * @uses \FireHub\Core\Support\LowLevel\Arr::filter() To filter elements in an array.
+ * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if the value is an array.
+ *
+ * @param array<array-key, mixed> $array <p>
+ * Array to check.
+ * </p>
+ *
+ * @return bool True if an array is multidimensional, false otherwise.
+ *
+ * @note That any array that has at least one item as an array will be considered as a multidimensional array.
+ */
+function is_multi_dimensional (array $array):bool {
+
+    return Arr::count(Arr::filter($array, [DataIs::class, 'array'])) > 0;
 
 }
 
@@ -177,6 +202,162 @@ function except (array $array, array $keys):array {
 }
 
 /**
+ * ### Filter elements in an array recursively
+ * @since 1.0.0
+ *
+ * @template TKey of array-key
+ * @template TValue
+ *
+ * @uses \FireHub\Core\Support\Enums\Operator\Comparison As parameter.
+ * @uses \FireHub\Core\Support\Enums\Operator\Comparison::compare() To compare current enum with provided values.
+ * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if the value is an array.
+ * @uses \FireHub\Core\Support\Helpers\Array\is_empty() To check if an array is empty.
+ *
+ * @param int|string $key <p>
+ * Key to filter on.
+ * </p>
+ * @param mixed $value <p>
+ * Value to filter.
+ * </p>
+ * @param \FireHub\Core\Support\Enums\Operator\Comparison $operator <p>
+ * Operator for filter.
+ * </p>
+ * @param array<TKey, TValue> $array <p>
+ * The array to iterate over.
+ * </p>
+ * @param bool $keep_filtered [optional] <p>
+ * If true, keep filtered items, remove otherwise.
+ * </p>
+ *
+ * @return array<TKey, TValue> The filtered array.
+ */
+function filter_recursive (int|string $key, Comparison $operator, mixed $value, array $array, bool $keep_filtered = true):array {
+
+    foreach ($array as $array_key => $array_value) {
+
+        if (DataIs::array($array_value)) {
+
+            $array_value = filter_recursive(
+                $key,$operator, $value, $array_value, $keep_filtered
+            );
+
+            if (is_empty($array_value) || $keep_filtered
+                ? !isset($array_value[$key])
+                  || !($operator->compare($array_value[$key], $value))
+                : isset($array_value[$key])
+                  && ($operator->compare($array_value[$key], $value))
+            ) unset($array[$array_key]);
+
+        } else if ($array_key !== $key) unset($array[$array_key]);
+
+    }
+
+    return $array;
+
+}
+
+/**
+ * ### Filter elements in an array recursively with value type
+ * @since 1.0.0
+ *
+ * @template TKey of array-key
+ * @template TValue
+ *
+ * @uses \FireHub\Core\Support\Enums\Data\Category As parameter.
+ * @uses \FireHub\Core\Support\Enums\Data\Type As parameter.
+ * @uses \FireHub\Core\Support\Enums\Operator\Comparison::compare() To compare current enum with provided values.
+ * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if the value is an array.
+ * @uses \FireHub\Core\Support\LowLevel\Data::getType() To get a data type.
+ * @uses \FireHub\Core\Support\Helpers\Array\is_empty() To check if an array is empty.
+ *
+ * @param array-key $key <p>
+ * Key to filter on.
+ * </p>
+ * @param \FireHub\Core\Support\Enums\Data\Category|\FireHub\Core\Support\Enums\Data\Type $type <p>
+ * Type of value to filter.
+ * </p>
+ * @param array<TKey, TValue> $array <p>
+ * The array to iterate over.
+ * </p>
+ * @param bool $keep_filtered [optional] <p>
+ * If true, keep filtered items, remove otherwise.
+ * </p>
+ *
+ * @return array<TKey, TValue> Filtered array.
+ */
+function filter_recursive_type (int|string $key, Category|Type $type, array $array, bool $keep_filtered = true):array {
+
+    foreach ($array as $array_key => $array_value) {
+
+        if (DataIs::array($array_value)) {
+
+            $array_value = filter_recursive_type(
+                $key, $type, $array_value
+            );
+
+            if (is_empty($array_value) || $keep_filtered
+                ? !isset($array_value[$key])
+                  || !(Comparison::IDENTICAL->compare(Data::getType($array_value[$key]), $type))
+                : isset($array_value[$key])
+                  && (Comparison::IDENTICAL->compare(Data::getType($array_value[$key]), $type))
+            ) unset($array[$array_key]);
+
+        } else if ($array_key !== $key) unset($array[$array_key]);
+
+    }
+
+    return $array;
+
+}
+
+/**
+ * ### Sort multiple or multidimensional arrays
+ * @since 1.0.0
+ *
+ * @uses \FireHub\Core\Support\LowLevel\Arr::column() To return the values from a single column in the input array.
+ * @uses \FireHub\Core\Support\LowLevel\Arr::multiSort() To sort multiple or multidimensional arrays.
+ * @uses \FireHub\Core\Support\Enums\Order::DESC As order enum.
+ *
+ * @template TKey of array-key
+ * @template TValue
+ *
+ * @param array<array<TKey, TValue>> &$array <p>
+ * A multidimensional array being sorted.
+ * </p>
+ * @param array<array<TKey, string|\FireHub\Core\Support\Enums\Order>> $fields <p>
+ * List of fields to sort by.
+ * </p>
+ *
+ * @throws ValueError If array sizes are inconsistent.
+ *
+ * @return bool True on success, false otherwise.
+ *
+ * @note Resets array's internal pointer to the first element.
+ */
+function sortByMany (array &$array, array $fields):bool {
+
+    $multi_sort = [];
+
+    foreach ($fields as $column => $order) {
+
+        $order = match($order) {
+            Order::DESC => SORT_DESC,
+            default => SORT_ASC
+        };
+
+        $multi_sort[] = [...Arr::column($array, $column)];
+
+        $multi_sort[] = $order;
+
+    }
+
+    $multi_sort[] = &$array;
+
+    return Arr::multiSort($multi_sort);
+
+}
+
+/**
  * ### Get all values from an array with the specified keys
  * @since 1.0.0
  *
@@ -251,7 +432,6 @@ function random (array $array, int $number = 1, bool $preserve_keys = false):mix
  * @template TKey of array-key
  * @template TValue
  *
- * @uses \FireHub\Core\Support\Helpers\Array\isEmpty() To check if an array is empty.
  * @uses \FireHub\Core\Support\LowLevel\Arr::keys() To get array keys.
  * @uses \FireHub\Core\Support\LowLevel\Arr::shuffle() To shuffle array items.
  *
