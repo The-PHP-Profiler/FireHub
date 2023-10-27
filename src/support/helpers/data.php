@@ -83,6 +83,7 @@ function type (mixed $value, Type $type = null):mixed {
  */
 function is_type (mixed $value, Category|Type $type):bool {
 
+    /** @phpstan-ignore-next-line */
     return Comparison::IDENTICAL->compare(
         $type instanceof Category
             ? Data::getType($value)->category()
