@@ -58,9 +58,9 @@ final class Data implements MasterStatic {
      *
      * @throws Error If a type of value is unknown.
      *
-     * @return \FireHub\Core\Support\Enums\Data\Type|false Type of data, false if a type is unknown.
+     * @return \FireHub\Core\Support\Enums\Data\Type Type of data.
      */
-    public static function getType (mixed $value):Type|false {
+    public static function getType (mixed $value):Type {
 
         return match (gettype($value)) {
             'boolean' => Type::T_BOOL,
@@ -98,23 +98,23 @@ final class Data implements MasterStatic {
      * @throws Error If a type cannot be set to resource.
      *
      * @return (
-     *      $type is Type::T_ARRAY
-     *      ? array<array-key, mixed>
-     *      : ($type is Type::T_STRING
-     *          ? string
-     *          : ($type is Type::T_INT
-     *              ? int
-     *              : ($type is Type::T_FLOAT
-     *                  ? float
-     *                  : ($type is Type::T_OBJECT
-     *                      ? object
-     *                      : ($type is Type::T_BOOL
-     *                          ? bool
-     *                          : ($type is Type::T_NULL
-     *                              ? null
-     *                              : ($type is Type::T_RESOURCE
-     *                                  ? false
-     *                                  : mixed)))))))
+     *  $type is Type::T_ARRAY
+     *  ? array<array-key, mixed>
+     *  : ($type is Type::T_STRING
+     *      ? string
+     *      : ($type is Type::T_INT
+     *          ? int
+     *          : ($type is Type::T_FLOAT
+     *              ? float
+     *              : ($type is Type::T_OBJECT
+     *                  ? object
+     *                  : ($type is Type::T_BOOL
+     *                      ? bool
+     *                      : ($type is Type::T_NULL
+     *                          ? null
+     *                          : ($type is Type::T_RESOURCE
+     *                              ? false
+     *                              : mixed)))))))
      * ) Converted value or false if conversion failed.
      */
     public static function setType (mixed $value, Type $type):mixed {
