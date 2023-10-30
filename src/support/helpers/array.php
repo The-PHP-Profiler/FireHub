@@ -21,7 +21,7 @@ use FireHub\Core\Support\Enums\ {
     Data\Category, Data\Type, Operator\Comparison, Order
 };
 use FireHub\Core\Support\LowLevel\ {
-    Arr, Data, DataIs
+    Arr, DataIs
 };
 use ValueError;
 
@@ -38,6 +38,8 @@ use function FireHub\Core\Support\Helpers\Data\is_type;
  * </p>
  *
  * @return bool True if an array is empty, false otherwise
+ *
+ * @api
  */
 function is_empty (array $array):bool {
 
@@ -60,6 +62,8 @@ function is_empty (array $array):bool {
  * @return bool True if an array is multidimensional, false otherwise.
  *
  * @note That any array that has at least one item as an array will be considered as a multidimensional array.
+ *
+ * @api
  */
 function is_multi_dimensional (array $array):bool {
 
@@ -81,6 +85,8 @@ function is_multi_dimensional (array $array):bool {
  * </p>
  *
  * @return null|TValue First value from an array or null if an array is empty.
+ *
+ * @api
  */
 function first (array $array):mixed {
 
@@ -104,6 +110,8 @@ function first (array $array):mixed {
  * </p>
  *
  * @return null|TValue Last value from array or null if an array is empty.
+ *
+ * @api
  */
 function last (array $array):mixed {
 
@@ -168,6 +176,8 @@ function search_recursive (mixed $needle, array $haystack):array|false {
  * </p>
  *
  * @return array<TKey, TValue> The array duplicates.
+ *
+ * @api
  */
 function duplicates (array $array):array {
 
@@ -196,6 +206,8 @@ function duplicates (array $array):array {
  * @error\exeption E_WARNING if values on $array argument are neither int nor string.
  *
  * @return array<TKey, TValue> The filtered array.
+ *
+ * @api
  */
 function except (array $array, array $keys):array {
 
@@ -232,6 +244,8 @@ function except (array $array, array $keys):array {
  * </p>
  *
  * @return array<TKey, TValue> The filtered array.
+ *
+ * @api
  */
 function filter_recursive (int|string $key, Comparison $operator, mixed $value, array $array, bool $keep_filtered = true):array {
 
@@ -285,6 +299,8 @@ function filter_recursive (int|string $key, Comparison $operator, mixed $value, 
  * </p>
  *
  * @return array<TKey, TValue> Filtered array.
+ *
+ * @api
  */
 function filter_recursive_type (int|string $key, Category|Type $type, array $array, bool $keep_filtered = true):array {
 
@@ -334,6 +350,8 @@ function filter_recursive_type (int|string $key, Category|Type $type, array $arr
  * @return bool True on success, false otherwise.
  *
  * @note Resets array's internal pointer to the first element.
+ *
+ * @api
  */
 function sortByMany (array &$array, array $fields):bool {
 
@@ -379,6 +397,8 @@ function sortByMany (array &$array, array $fields):bool {
  * @error\exeption E_WARNING if values on $array argument are neither int nor string.
  *
  * @return array<TKey, TValue> The filtered array.
+ *
+ * @api
  */
 function only (array $array, array $keys):array {
 
@@ -411,6 +431,8 @@ function only (array $array, array $keys):array {
  * @return ($preserve_keys is true ? mixed|array<TKey, TValue> : mixed|list<TValue>)
  * If you are picking only one entry, return the value for a random entry.
  * Otherwise, it returns an array of values for the random entries.
+ *
+ * @api
  */
 function random (array $array, int $number = 1, bool $preserve_keys = false):mixed {
 
@@ -441,6 +463,8 @@ function random (array $array, int $number = 1, bool $preserve_keys = false):mix
  * </p>
  *
  * @return array<TKey, TValue> Shuffled array.
+ *
+ * @api
  */
 function shuffle (array $array):array {
 
