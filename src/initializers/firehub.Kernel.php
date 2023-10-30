@@ -22,7 +22,7 @@ use FireHub\Core\Base\ {
  * ### Abstract Base Kernel
  *
  * Process requests that come in through various sources
- * and give client appropriate response.
+ * and give a client appropriate response.
  * @since 1.0.0
  */
 abstract class Kernel implements Master {
