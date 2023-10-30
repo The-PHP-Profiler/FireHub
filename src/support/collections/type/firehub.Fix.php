@@ -40,6 +40,8 @@ use Closure, RuntimeException, SplFixedArray, Traversable, TypeError;
  *
  * @implements \FireHub\Core\Support\Collections\Collectable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\ArrayAccessible<int, TValue>
+ *
+ * @api
  */
 final class Fix implements Master, Collectable, ArrayAccessible {
 

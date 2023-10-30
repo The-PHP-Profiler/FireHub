@@ -37,6 +37,8 @@ use function FireHub\Core\Support\Helpers\Array\ {
  * @template TValue
  *
  * @extends \FireHub\Core\Support\Collections\Type\Arr\aArr<int, TValue>
+ *
+ * @api
  */
 final class Indexed extends aArr {
 

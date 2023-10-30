@@ -61,6 +61,8 @@ use Error;
  *                                  ? false
  *                                  : mixed))))))))
  * ) Converted value or false if conversion failed.
+ *
+ * @api
  */
 function type (mixed $value, Type $type = null):mixed {
 
@@ -80,6 +82,8 @@ function type (mixed $value, Type $type = null):mixed {
  * </p>
  *
  * @return bool True if values is of a type, false otherwise.
+ *
+ * @api
  */
 function is_type (mixed $value, Category|Type $type):bool {
 
@@ -102,6 +106,8 @@ function is_type (mixed $value, Category|Type $type):bool {
  * </p>
  *
  * @return \FireHub\Core\Support\Enums\Data\Category Data type category.
+ *
+ * @api
  */
 function category (mixed $value):Category {
 

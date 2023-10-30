@@ -37,6 +37,8 @@ use Closure, Generator, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\Collections\Collectable<TKey, TValue>
+ *
+ * @api
  */
 final class Gen implements Master, Collectable {
 

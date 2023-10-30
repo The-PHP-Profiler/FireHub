@@ -29,6 +29,8 @@ use Error;
  *
  * Class allows you to manipulate characters in various ways.
  * @since 1.0.0
+ *
+ * @api
  */
 final class Char implements Master, Stringable {
 

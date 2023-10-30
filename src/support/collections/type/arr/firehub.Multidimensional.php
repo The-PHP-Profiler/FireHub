@@ -36,6 +36,8 @@ use function FireHub\Core\Support\Helpers\Array\ {
  * @template TValue of array<array-key, mixed>
  *
  * @extends \FireHub\Core\Support\Collections\Type\Arr\aArr<TKey, TValue>
+ *
+ * @api
  */
 final class Multidimensional extends aArr {
 

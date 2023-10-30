@@ -27,6 +27,8 @@ use const FireHub\Core\Support\Constants\Path\DS;
  *
  * Give info about various paths inside the FireHub framework.
  * @since 1.0.0
+ *
+ * @api
  */
 final class Path implements MasterStatic {
 

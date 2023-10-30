@@ -37,6 +37,8 @@ use Closure, SplObjectStorage, Traversable, TypeError, UnexpectedValueException;
  *
  * @implements \FireHub\Core\Support\Collections\Collectable<int, TKey>
  * @implements \FireHub\Core\Support\Contracts\ArrayAccessible<TKey, TValue>
+ *
+ * @api
  */
 final class Obj implements Master, Collectable, ArrayAccessible {
 

@@ -38,6 +38,8 @@ use function FireHub\Core\Support\Helpers\Array\ {
  * @template TValue
  *
  * @extends \FireHub\Core\Support\Collections\Type\Arr\aArr<TKey, TValue>
+ *
+ * @api
  */
 final class Associative extends aArr {
 

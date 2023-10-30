@@ -31,6 +31,8 @@ use Closure, Generator, SplFixedArray, SplObjectStorage;
  *
  * Collection is a wrapper for working with data structures.
  * @since 1.0.0
+ *
+ * @api
  */
 final class Collection implements Master {
 
