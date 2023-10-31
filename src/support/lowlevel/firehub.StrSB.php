@@ -20,6 +20,7 @@ use Error, ValueError;
 use function addcslashes;
 use function chunk_split;
 use function count_chars;
+use function FireHub\Core\Support\Helpers\Array\is_empty;
 use function lcfirst;
 use function str_pad;
 use function str_shuffle;
@@ -235,7 +236,7 @@ final class StrSB extends StrSafe {
      */
     public static function pad (string $string, int $length, string $pad = " ", Side $side = Side::RIGHT):string {
 
-        return $pad ? str_pad($string, $length, $pad, match ($side) {
+        return $pad !== '' ? str_pad($string, $length, $pad, match ($side) {
             Side::LEFT => 0,
             Side::RIGHT => 1,
             Side::BOTH => 2
