@@ -1012,6 +1012,21 @@ final class Gen implements Master, Collectable {
      *
      * @uses \FireHub\Core\Support\Collections\Type\Gen::all() To get a collection as an array.
      *
+     * @return array<TValue> Data that can be serialized by json_encode().
+     */
+    public function jsonSerialize ():array {
+
+        return $this->all();
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Type\Gen::all() To get a collection as an array.
+     *
      * @return array<TValue> An associative array of key/value pairs that represent the serialized form of the
      * object.
      */

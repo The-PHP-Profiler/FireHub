@@ -1642,6 +1642,19 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      *
      * @since 1.0.0
      *
+     * @return array<TKey, TValue> Data that can be serialized by json_encode().
+     */
+    public function jsonSerialize ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
      * @return array<TKey, TValue> An associative array of key/value pairs that represent the serialized form of the
      * object.
      */
