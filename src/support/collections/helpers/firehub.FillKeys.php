@@ -49,6 +49,8 @@ final class FillKeys implements Master {
      * @param TValue $value <p>
      * Value to use for filling.
      * </p>
+     *
+     * @return void
      */
     public function __construct (
         private readonly array $keys,

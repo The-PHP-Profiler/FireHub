@@ -379,8 +379,6 @@ final class DateAndTime implements MasterStatic {
      * @uses \FireHub\Core\Support\Enums\Data\Type::T_INT To set microtime as integer.
      * @uses \FireHub\Core\Support\LowLevel\StrSB::part() To get part of microtime.
      *
-     * @throws Error If separator is empty string.
-     *
      * @return int<0, 999999> Current microseconds.
      *
      * @tip For performance measurements, using hrtime() is recommended.

@@ -47,6 +47,8 @@ final class Collection implements Master {
      *
      * Prevents instantiation of the main collection class.
      * @since 1.0.0
+     *
+     * @return void
      */
     private function __construct () {}
 

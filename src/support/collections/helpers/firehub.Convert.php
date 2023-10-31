@@ -48,6 +48,8 @@ final class Convert implements Master {
      * @param \FireHub\Core\Support\Collections\Collectable<TKey, TValue> $collection <p>
      * Collection to convert.
      * </p>
+     *
+     * @return void
      */
     public function __construct(
         private readonly Collectable $collection

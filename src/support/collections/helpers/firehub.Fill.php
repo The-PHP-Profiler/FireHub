@@ -48,6 +48,8 @@ final class Fill implements Master {
      * @param positive-int $length <p>
      * Number of elements to insert.
      * </p>
+     *
+     * @return void
      */
     public function __construct (
         private readonly mixed $value,

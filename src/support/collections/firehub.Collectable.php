@@ -38,6 +38,8 @@ interface Collectable extends IterablesAgg, Countable {
      * @param Closure $callable <p>
      * Data from a callable source.
      * </p>
+     *
+     * @return void
      */
     public function __construct (Closure $callable);
 

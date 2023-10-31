@@ -46,6 +46,8 @@ final class FillAssoc implements Master {
      * @param list<TValue> $values $values <p>
      * Values to use for filling.
      * </p>
+     *
+     * @return void
      */
     public function __construct (
         private readonly array $keys,

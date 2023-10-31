@@ -50,6 +50,8 @@ final class Range implements Master {
      * If a step value is given, it will be used as the increment between elements in the sequence.
      * Step should be given as a positive number. If not specified, step will default to 1.
      * </p>
+     *
+     * @return void
      */
     public function __construct (
         private readonly int|float|string $start,
