@@ -450,12 +450,10 @@ final class Indexed extends aArr {
 
             $sliced = Arr::slice($this->storage, 0, -1);
 
-            /** @phpstan-ignore-next-line */
             return StrMB::implode($sliced, $separator).$conjunction.$last;
 
         }
 
-        /** @phpstan-ignore-next-line */
         return StrMB::implode($this->storage, $separator);
 
     }
