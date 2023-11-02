@@ -268,7 +268,7 @@ abstract class StrSafe implements MasterStatic {
      * Join array elements with a $separator string.
      * @since 1.0.0
      *
-     * @param string[] $array <p>
+     * @param array<array-key, mixed> $array <p>
      * The array of strings to implode.
      * </p>
      * @param string $separator [optional] <p>
