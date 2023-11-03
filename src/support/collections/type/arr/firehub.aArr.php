@@ -232,7 +232,7 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Helpers\Array\first() To get the first key from an array.
+     * @uses \FireHub\Core\Support\Helpers\Array\first() To get the first value from an array.
      *
      * @example
      * ```php
@@ -265,7 +265,8 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
 
         if ($callback) {
 
-            foreach ($this->storage as $key => $value) if ($callback($value, $key)) return $value;
+            foreach ($this->storage as $key => $value)
+                if ($callback($value, $key)) return $value;
 
             return null;
 
@@ -280,7 +281,56 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Helpers\Array\last() To get the last key from an array.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::firstKey() To get the first key from an array.
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::create(fn():array => ['one', 'one', 'one', 'two', 'two', 'three', 'three', 'three']);
+     *
+     * $collection->first();
+     *
+     * // 0
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::create(fn():array => ['one', 'one', 'one', 'two', 'two', 'three', 'three', 'three']);
+     *
+     * $collection->first(function ($value, $key) {
+     *  return $key > 2;
+     * });
+     *
+     * // 3
+     * ```
+     *
+     * @param null|callable(TValue $value, TKey $key):TKey $callback [optional] <p>
+     * If callback is used, the method will return the first key that passes truth test.
+     * </p>
+     */
+    public function firstKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            foreach ($this->storage as $key => $value)
+                if ($callback($value, $key)) return $key;
+
+            return null;
+
+        }
+
+        return Arr::firstKey($this->storage);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Helpers\Array\last() To get the last value from an array.
      *
      * @example
      * ```php
@@ -315,13 +365,65 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
 
             $found = null;
 
-            foreach ($this->storage as $key => $value) if ($callback($value, $key)) $found = $value;
+            foreach ($this->storage as $key => $value)
+                if ($callback($value, $key)) $found = $value;
 
             return $found;
 
         }
 
         return last($this->storage);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::lastKey() To get the last key from an array.
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::create(fn():array => ['one', 'one', 'one', 'two', 'two', 'three', 'three', 'three']);
+     *
+     * $collection->lastKey();
+     *
+     * // 7
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::create(fn():array => ['one', 'one', 'one', 'two', 'two', 'three', 'three', 'three']);
+     *
+     * $collection->lastKey(function ($value, $key) {
+     *  return $key < 2;
+     * });
+     *
+     * // 2
+     * ```
+     *
+     * @param null|callable(TValue $value, TKey $key):TKey $callback [optional] <p>
+     * If callback is used, the method will return the last key that passes truth test.
+     * </p>
+     */
+    public function lastKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            $found = null;
+
+            foreach ($this->storage as $key => $value)
+                if ($callback($value, $key)) $found = $key;
+
+            return $found;
+
+        }
+
+        return Arr::lastKey($this->storage);
 
     }
 
@@ -345,7 +447,8 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      */
     public function each (callable $callback):bool {
 
-        foreach ($this->storage as $value) if ($callback($value) === false) return false;
+        foreach ($this->storage as $value)
+            if ($callback($value) === false) return false;
 
         return true;
 

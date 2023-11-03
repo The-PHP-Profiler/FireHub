@@ -72,6 +72,18 @@ interface Collectable extends IterablesAgg, Countable {
     public function first (callable $callback = null):mixed;
 
     /**
+     * ### Get first key from collection
+     * @since 1.0.0
+     *
+     * @param null|callable(TValue $value):TKey $callback [optional] <p>
+     * If callback is used, the method will return the first key that passes truth test.
+     * </p>
+     *
+     * @return null|TKey First key from a collection.
+     */
+    public function firstKey (callable $callback = null):mixed;
+
+    /**
      * ### Get last item from collection
      * @since 1.0.0
      *
@@ -82,6 +94,18 @@ interface Collectable extends IterablesAgg, Countable {
      * @return null|TValue Last item from a collection.
      */
     public function last (callable $callback = null):mixed;
+
+    /**
+     * ### Get last key from collection
+     * @since 1.0.0
+     *
+     * @param null|callable(TValue $value):TKey $callback [optional] <p>
+     * If callback is used, the method will return the last key that passes truth test.
+     * </p>
+     *
+     * @return null|TKey Last key from a collection.
+     */
+    public function lastKey (callable $callback = null):mixed;
 
     /**
      * ### Call user generated function on each item in collection

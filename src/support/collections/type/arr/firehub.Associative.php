@@ -620,8 +620,8 @@ final class Associative extends aArr {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Collections\Type\Arr\Associative::count() To count elements in the iterator.
-     * @uses \FireHub\Core\Support\Collections\Type\Arr\Associative::last() To get last item from collection.
-     * @uses \FireHub\Core\Support\Helpers\Array\first() To get the first value from an array.
+     * @uses \FireHub\Core\Support\Collections\Type\Arr\Associative::lastKey() To get last key from collection.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::firstKey() To get the first key from an array.
      * @uses \FireHub\Core\Support\LowLevel\Arr::slice() To extract a slice of the array.
      * @uses \FireHub\Core\Support\Collections\Type\Arr\Associative::convert() To convert a collection to the different
      * one.
@@ -685,20 +685,21 @@ final class Associative extends aArr {
 
             $join = '';
 
-            $last = $this->last();
-
-            $last_before = first(Arr::slice($this->storage, -2, 1));
+            $last = $this->lastKey();
 
             foreach ($this->storage as $key => $value) {
 
                 $item = $key.$symbol.$value;
 
-                if ($value === $last && $conjunction && $this->count() > 1)
+                if ($key === $last && $conjunction && $this->count() > 1)
                     $join .= $conjunction.$item;
 
-                else if ($value === $last) $join .= $item;
+                else if ($key === $last) $join .= $item;
 
-                else if ($value === $last_before && $conjunction) $join .= $item;
+                else if (
+                    $key === Arr::firstKey(Arr::slice($this->storage, -2, 1))
+                    && $conjunction
+                ) $join .= $item;
 
                 else $join .= $item.$separator;
 

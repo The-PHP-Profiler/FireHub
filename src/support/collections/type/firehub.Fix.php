@@ -209,13 +209,75 @@ final class Fix implements Master, Collectable, ArrayAccessible {
 
         if ($callback) {
 
-            foreach ($this->storage as $value) if ($callback($value)) return $value;
+            foreach ($this->storage as $value)
+                if ($callback($value)) return $value;
 
             return null;
 
         }
 
         return $this->storage[0];
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::fixed(function ($storage):void {
+     *  $storage[0] = 'one';
+     *  $storage[1] = 'two';
+     *  $storage[2] = 'three';
+     * }, 3);
+     *
+     * $collection->firstKey();
+     *
+     * // 0
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::fixed(function ($storage):void {
+     *  $storage[0] = 'one';
+     *  $storage[1] = 'two';
+     *  $storage[2] = 'three';
+     * }, 3);
+     *
+     * $collection->firstKey(function ($value) {
+     *  return 1;
+     * });
+     *
+     * // 'two'
+     * ```
+     *
+     * @param null|callable(null|TValue $value):int $callback [optional] <p>
+     * If callback is used, the method will return the first key that passes truth test.
+     * </p>
+     */
+    public function firstKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            foreach ($this->storage as $key => $value)
+                if ($callback($value)) return $key;
+
+            return null;
+
+        }
+
+        $iterator = $this->storage->getIterator();
+
+        /** @phpstan-ignore-next-line */
+        $iterator->rewind();
+
+        /** @phpstan-ignore-next-line */
+        return $iterator->key();
 
     }
 
@@ -267,13 +329,75 @@ final class Fix implements Master, Collectable, ArrayAccessible {
 
             $found = null;
 
-            foreach ($this->storage as $value) if ($callback($value)) $found = $value;
+            foreach ($this->storage as $value)
+                if ($callback($value)) $found = $value;
 
             return $found;
 
         }
 
         return $this->storage[$this->count() - 1];
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Type\Fix::all() To get a collection as an array.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::lastKey() To get the last key from an array.
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::fixed(function ($storage):void {
+     *  $storage[0] = 'one';
+     *  $storage[1] = 'two';
+     *  $storage[2] = 'three';
+     * }, 3);
+     *
+     * $collection->lastKey();
+     *
+     * // 2
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::fixed(function ($storage):void {
+     *  $storage[0] = 'one';
+     *  $storage[1] = 'two';
+     *  $storage[2] = 'three';
+     * }, 3);
+     *
+     * $collection->lastKey(function ($value) {
+     *  return $value === 'two';
+     * });
+     *
+     * // 1
+     * ```
+     *
+     * @param null|callable(null|TValue $value):int $callback [optional] <p>
+     * If callback is used, the method will return the last key that passes truth test.
+     * </p>
+     */
+    public function lastKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            $found = null;
+
+            foreach ($this->storage as $key => $value)
+                if ($callback($value)) $found = $key;
+
+            return $found;
+
+        }
+
+        /** @phpstan-ignore-next-line */
+        return Arr::lastKey($this->all());
 
     }
 
@@ -305,7 +429,8 @@ final class Fix implements Master, Collectable, ArrayAccessible {
      */
     public function each (callable $callback):bool {
 
-        foreach ($this->storage as $value) if ($callback($value) === false) return false;
+        foreach ($this->storage as $value)
+            if ($callback($value) === false) return false;
 
         return true;
 

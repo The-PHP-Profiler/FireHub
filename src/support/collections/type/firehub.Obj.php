@@ -224,7 +224,8 @@ final class Obj implements Master, Collectable, ArrayAccessible {
 
         if ($callback) {
 
-            foreach ($this->storage as $object) if ($callback($object, $this->storage[$object])) return $object;
+            foreach ($this->storage as $object)
+                if ($callback($object, $this->storage[$object])) return $object;
 
             return null;
 
@@ -233,6 +234,67 @@ final class Obj implements Master, Collectable, ArrayAccessible {
         $this->storage->rewind();
 
         return $this->storage->current();
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $cls1 = new stdClass();
+     * $cls2 = new stdClass();
+     *
+     * $collection = Collection::object(function ($storage) use ($cls1, $cls2):void {
+     *  $storage[$cls1] = 'data for object 1';
+     *  $storage[$cls2] = [1,2,3];
+     * });
+     *
+     * $collection->firstKey();
+     *
+     * // 0
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $cls1 = new stdClass();
+     * $cls2 = new stdClass();
+     *
+     * $collection = Collection::object(function ($storage) use ($cls1, $cls2):void {
+     *  $storage[$cls1] = 'data for object 1';
+     *  $storage[$cls2] = [1,2,3];
+     * });
+     *
+     * $collection->firstKey(function ($object, $info) use ($cls1) {
+     *  return $object === $cls1;
+     * });
+     *
+     * // 0
+     * ```
+     *
+     * @param null|callable(TKey $object, TValue $info):int $callback [optional] <p>
+     * If callback is used, the method will return the first key that passes truth test.
+     * </p>
+     */
+    public function firstKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            foreach ($this->storage as $key => $object)
+                if ($callback($object, $this->storage[$object])) return $key;
+
+            return null;
+
+        }
+
+        $this->storage->rewind();
+
+        return $this->storage->key();
 
     }
 
@@ -288,7 +350,8 @@ final class Obj implements Master, Collectable, ArrayAccessible {
 
             $found = null;
 
-            foreach ($this->storage as $object) if ($callback($object, $this->storage[$object])) $found = $object;
+            foreach ($this->storage as $object)
+                if ($callback($object, $this->storage[$object])) $found = $object;
 
             return $found;
 
@@ -299,6 +362,75 @@ final class Obj implements Master, Collectable, ArrayAccessible {
         $count = $this->count();
 
         foreach ($this->storage as $value) if (++$counter === $count) return $value;
+
+        return null;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Type\Obj::count() To count elements in the iterator.
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $cls1 = new stdClass();
+     * $cls2 = new stdClass();
+     *
+     * $collection = Collection::object(function ($storage) use ($cls1, $cls2):void {
+     *  $storage[$cls1] = 'data for object 1';
+     *  $storage[$cls2] = [1,2,3];
+     * });
+     *
+     * $collection->lastKey();
+     *
+     * // 0
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $cls1 = new stdClass();
+     * $cls2 = new stdClass();
+     *
+     * $collection = Collection::object(function ($storage) use ($cls1, $cls2):void {
+     *  $storage[$cls1] = 'data for object 1';
+     *  $storage[$cls2] = [1,2,3];
+     * });
+     *
+     * $collection->lastKey(function ($object, $info) use ($cls1) {
+     *  return $object === $cls1;
+     * });
+     *
+     * // 0
+     * ```
+     *
+     * @param null|callable(TKey $object, TValue $info):int $callback [optional] <p>
+     * If callback is used, the method will return the last key that passes truth test.
+     * </p>
+     */
+    public function lastKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            $found = null;
+
+            foreach ($this->storage as $key => $object)
+                if ($callback($object, $this->storage[$object])) $found = $key;
+
+            return $found;
+
+        }
+
+        $counter = 0;
+
+        $count = $this->count();
+
+        foreach ($this->storage as $key => $value) if (++$counter === $count) return $key;
 
         return null;
 
@@ -334,7 +466,8 @@ final class Obj implements Master, Collectable, ArrayAccessible {
      */
     public function each (callable $callback):bool {
 
-        foreach ($this->storage as $object) if ($callback($object, $this->storage[$object]) === false) return false;
+        foreach ($this->storage as $object)
+            if ($callback($object, $this->storage[$object]) === false) return false;
 
         return true;
 

@@ -197,13 +197,63 @@ final class Gen implements Master, Collectable {
 
         if ($callback) {
 
-            foreach ($this->storage() as $key => $value) if ($callback($value, $key)) return $value;
+            foreach ($this->storage() as $key => $value)
+                if ($callback($value, $key)) return $value;
 
             return null;
 
         }
 
         return $this->storage()->current();
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Type\Gen::storage() To get storage data.
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::lazy(fn():Generator => yield from ['one', 'two', 'three']);
+     *
+     * $collection->firstKey();
+     *
+     * // 0
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::lazy(fn():Generator => yield from ['one', 'two', 'three']);
+     *
+     * $collection->firstKey(function ($value, $key) {
+     *  return $value === 'two';
+     * });
+     *
+     * // 1
+     * ```
+     *
+     * @param null|callable(TValue $value, TKey $key):TKey $callback [optional] <p>
+     * If callback is used, the method will return the first key that passes truth test.
+     * </p>
+     */
+    public function firstKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            foreach ($this->storage() as $key => $value)
+                if ($callback($value, $key)) return $key;
+
+            return null;
+
+        }
+
+        return $this->storage()->key();
 
     }
 
@@ -248,7 +298,8 @@ final class Gen implements Master, Collectable {
 
             $found = null;
 
-            foreach ($this->storage() as $key => $value) if ($callback($value, $key)) $found = $value;
+            foreach ($this->storage() as $key => $value)
+                if ($callback($value, $key)) $found = $value;
 
             return $found;
 
@@ -258,7 +309,67 @@ final class Gen implements Master, Collectable {
 
         $count = $this->count();
 
-        foreach ($this->storage() as $value) if (++$counter === $count) return $value;
+        foreach ($this->storage() as $value)
+            if (++$counter === $count) return $value;
+
+        return null;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Type\Gen::storage() To get storage data.
+     * @uses \FireHub\Core\Support\Collections\Type\Gen::count() To count elements in the iterator.
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::lazy(fn():Generator => yield from ['one', 'two', 'three']);
+     *
+     * $collection->lastKey();
+     *
+     * // 2
+     * ```
+     * @example With $callback parameter.
+     * ```php
+     * use FireHub\Core\Support\Collections\Collection;
+     *
+     * $collection = Collection::lazy(fn():Generator => yield from ['one', 'two', 'three']);
+     *
+     * $collection->lastKey(function ($value, $key) {
+     *  return $value === 'two';
+     * });
+     *
+     * // 1
+     * ```
+     *
+     * @param null|callable(TValue $value, TKey $key):TKey $callback [optional] <p>
+     * If callback is used, the method will return the last key that passes truth test.
+     * </p>
+     */
+    public function lastKey (callable $callback = null):mixed {
+
+        if ($callback) {
+
+            $found = null;
+
+            foreach ($this->storage() as $key => $value)
+                if ($callback($value, $key)) $found = $key;
+
+            return $found;
+
+        }
+
+        $counter = 0;
+
+        $count = $this->count();
+
+        foreach ($this->storage() as $key => $value)
+            if (++$counter === $count) return $key;
 
         return null;
 
@@ -289,7 +400,8 @@ final class Gen implements Master, Collectable {
      */
     public function each (callable $callback):bool {
 
-        foreach ($this->storage() as $key => $value) if ($callback($value, $key) === false) return false;
+        foreach ($this->storage() as $key => $value)
+            if ($callback($value, $key) === false) return false;
 
         return true;
 
