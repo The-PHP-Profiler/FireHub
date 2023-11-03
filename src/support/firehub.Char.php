@@ -423,6 +423,8 @@ final class Char implements Master, Stringable {
     /**
      * @inheritDoc
      *
+     * @since 1.0.0
+     *
      * @example
      * ```php
      * use FireHub\Core\Support\Char;

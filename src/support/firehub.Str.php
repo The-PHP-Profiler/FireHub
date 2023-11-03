@@ -2388,6 +2388,8 @@ class Str implements Master, Countable, Stringable {
     /**
      * @inheritDoc
      *
+     * @since 1.0.0
+     *
      * @example
      * ```php
      * use FireHub\Core\Support\Str;
