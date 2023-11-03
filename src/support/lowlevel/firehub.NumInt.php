@@ -41,7 +41,7 @@ final class NumInt extends Num {
      * </p>
      *
      * @throws ArithmeticError If the $dividend is PHP_INT_MIN and the $divisor is -1.
-     * @throws DivisionByZeroError If $divisor is 0;
+     * @throws DivisionByZeroError If $divisor is 0.
      *
      * @return int The integer quotient of the division of $dividend by $divisor.
      */
