@@ -19,6 +19,9 @@ use FireHub\Core\Base\ {
 };
 use FireHub\Core\Support\Collections\Collectable;
 use FireHub\Core\Support\Contracts\ArrayAccessible;
+use FireHub\Core\Support\Zwick\ {
+    DateTime, Interval
+};
 use FireHub\Core\Support\Collections\Traits\ {
     Conditionable, Convertable, Overloadable
 };
@@ -432,6 +435,10 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      *
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\Support\Zwick\Interval As parameter.
+     * @uses \FireHub\Core\Support\Zwick\Interval::minutes() To create an interval specifying a number of minutes.
+     * @uses \FireHub\Core\Support\Zwick\DateTime::now() To create datetime with current date and time.
+     *
      * @example
      * ```php
      * use FireHub\Core\Support\Collections\Collection;
@@ -445,10 +452,24 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      * });
      * ```
      */
-    public function each (callable $callback):bool {
+    public function each (callable $callback, Interval $timeout = null, int $limit = 1_000_000):bool {
+
+        $counter = 0;
+
+        $now = DateTime::now();
+
+        $timeout = $timeout
+            ? DateTime::now()->add($timeout)
+            : DateTime::now()->add(Interval::minutes(30));
+
+        if ($timeout <= $now) return false;
 
         foreach ($this->storage as $value)
-            if ($callback($value) === false) return false;
+            if (
+                $callback($value) === false
+                || $timeout <= DateTime::now()
+                || $counter++ > $limit
+            ) return false;
 
         return true;
 

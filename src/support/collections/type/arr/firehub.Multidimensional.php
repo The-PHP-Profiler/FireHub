@@ -14,6 +14,9 @@
 
 namespace FireHub\Core\Support\Collections\Type\Arr;
 
+use FireHub\Core\Support\Zwick\ {
+    DateTime, Interval
+};
 use FireHub\Core\Support\Enums\ {
     Data\Category, Data\Type, Operator\Comparison, Order, Sort
 };
@@ -274,6 +277,10 @@ final class Multidimensional extends aArr {
     /**
      * @inheritDoc
      *
+     * @uses \FireHub\Core\Support\Zwick\Interval As parameter.
+     * @uses \FireHub\Core\Support\Zwick\Interval::minutes() To create an interval specifying a number of minutes.
+     * @uses \FireHub\Core\Support\Zwick\DateTime::now() To create datetime with current date and time.
+     *
      * @example
      * ```php
      * use FireHub\Core\Support\Collections\Collection;
@@ -294,10 +301,31 @@ final class Multidimensional extends aArr {
      * @param callable(TValue $value, TKey $key):(false|void) $callback <p>
      * Function to call on each item in collection.
      * </p>
+     * @param null|\FireHub\Core\Support\Zwick\Interval $timeout [optional] <p>
+     * Maximum execution time for a script.
+     * Default is 30 minutes.
+     * </p>
+     * @param positive-int $limit [optional] <p>
+     * Maximum number of elements that is allowed to be iterated.
      */
-    public function each (callable $callback):bool {
+    public function each (callable $callback, Interval $timeout = null, int $limit = 1_000_000):bool {
 
-        foreach ($this->storage as $key => $value) if ($callback($value, $key) === false) return false;
+        $counter = 0;
+
+        $now = DateTime::now();
+
+        $timeout = $timeout
+            ? DateTime::now()->add($timeout)
+            : DateTime::now()->add(Interval::minutes(30));
+
+        if ($timeout <= $now) return false;
+
+        foreach ($this->storage as $key => $value)
+            if (
+                $callback($value, $key) === false
+                || $timeout <= DateTime::now()
+                || $counter++ > $limit
+            ) return false;
 
         return true;
 
