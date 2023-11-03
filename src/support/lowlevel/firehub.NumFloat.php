@@ -78,7 +78,7 @@ final class NumFloat extends Num {
      *
      * @return bool True if the number is infinite, false otherwise.
      */
-    public static function infinite (float $number):bool {
+    public static function isInfinite (float $number):bool {
 
         return is_infinite($number);
 
@@ -96,7 +96,7 @@ final class NumFloat extends Num {
      *
      * @return bool True if number is 'not a number', false otherwise.
      */
-    public static function nan (float $number):bool {
+    public static function isNan (float $number):bool {
 
         return is_nan($number);
 
