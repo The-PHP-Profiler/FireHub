@@ -28,6 +28,8 @@ trait Convertable {
      * @inheritDoc
      *
      * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Helpers\Convert As return.
      */
     public function convert ():Convert {
 
