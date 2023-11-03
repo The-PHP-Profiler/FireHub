@@ -17,6 +17,7 @@ namespace FireHub\Core\Support\Collections;
 use FireHub\Core\Support\Contracts\ {
     Countable, IterablesAgg
 };
+use FireHub\Core\Support\Zwick\Interval;
 use FireHub\Core\Support\Collections\Helpers\Convert;
 use Closure;
 
@@ -111,13 +112,21 @@ interface Collectable extends IterablesAgg, Countable {
      * ### Call user generated function on each item in collection
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\Support\Zwick\Interval As parameter.
+     *
      * @param callable(TValue $value):(false|void) $callback <p>
      * Function to call on each item in collection.
      * </p>
+     * @param null|\FireHub\Core\Support\Zwick\Interval $timeout [optional] <p>
+     * Maximum execution time for a script.
+     * Default is 30 minutes.
+     * </p>
+     * @param positive-int $limit [optional] <p>
+     * Maximum number of elements that is allowed to be iterated.
      *
      * @return bool True if each item in the collection has iterated, false otherwise.
      */
-    public function each (callable $callback):bool;
+    public function each (callable $callback, Interval $timeout = null, int $limit = 1_000_000):bool;
 
     /**
      * ### Determines whether a collection contains a given item
@@ -146,6 +155,8 @@ interface Collectable extends IterablesAgg, Countable {
     /**
      * ### Convert collection to different one
      * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Collections\Helpers\Convert As return.
      *
      * @return \FireHub\Core\Support\Collections\Helpers\Convert<TKey, TValue> As return.
      */
