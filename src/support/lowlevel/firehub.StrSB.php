@@ -20,7 +20,6 @@ use Error, ValueError;
 use function addcslashes;
 use function chunk_split;
 use function count_chars;
-use function FireHub\Core\Support\Helpers\Array\is_empty;
 use function lcfirst;
 use function str_pad;
 use function str_shuffle;
