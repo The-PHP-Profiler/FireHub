@@ -17,11 +17,16 @@ namespace FireHub\Core\Support\LowLevel;
 use FireHub\Core\Base\ {
     BaseStatic, MasterStatic
 };
-use FireHub\Core\Support\Enums\Number\Round;
+use FireHub\Core\Support\Enums\Number\ {
+    LogBase, Round
+};
 
 use function abs;
 use function ceil;
 use function floor;
+use function log;
+use function log10;
+use function log1p;
 use function max;
 use function min;
 use function number_format;
@@ -138,6 +143,60 @@ abstract class Num implements MasterStatic {
         });
 
         return $precision > 0 ? $round : (int)$round;
+
+    }
+
+    /**
+     * ### Natural logarithm
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Enums\Number\LogBase::E As default parameter.
+     * @uses \FireHub\Core\Support\Enums\Number\LogBase::value() To get log value.
+     *
+     * @param int|float $number <p>
+     * The value to calculate the logarithm for.
+     * </p>
+     * @param \FireHub\Core\Support\Enums\Number\LogBase|float $base [optional] <p>
+     * The optional logarithmic base to use (defaults to 'e' and so to the natural logarithm).
+     * </p>
+     *
+     * @return float The logarithm of $number to $base, if given, or the natural logarithm.
+     */
+    public static function log (int|float $number, LogBase|float $base = LogBase::E):float {
+
+        return log($number, $base instanceof LogBase ? $base->value() : $base);
+
+    }
+
+    /**
+     * ### Returns log(1 + number), computed in a way that is accurate even when the value of number is close to zero
+     * @since 1.0.0
+     *
+     * @param int|float $number <p>
+     * The argument to process.
+     * </p>
+     *
+     * @return float log(1 + num).
+     */
+    public static function log1p (int|float $number):float {
+
+        return log1p($number);
+
+    }
+
+    /**
+     * ### Base-10 logarithm
+     * @since 1.0.0
+     *
+     * @param int|float $number <p>
+     * The argument to process.
+     * </p>
+     *
+     * @return float The base-10 logarithm of num.
+     */
+    public static function log10 (int|float $number):float {
+
+        return log10($number);
 
     }
 
