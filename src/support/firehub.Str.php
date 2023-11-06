@@ -1773,6 +1773,27 @@ class Str implements Master, Countable, Stringable {
     }
 
     /**
+     * ### Get string
+     * @since 1.0.0
+     *
+     * @example
+     * ```php
+     * use FireHub\Core\Support\Str;
+     *
+     * Str::from('FireHub')->print();
+     *
+     * // FireHub
+     * ```
+     *
+     * @return string This string.
+     */
+    final public function print ():string {
+
+        return $this->string;
+
+    }
+
+    /**
      * ### Get part of string
      *
      * Returns the portion of the string specified by the $start and $length parameters
