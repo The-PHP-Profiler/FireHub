@@ -31,6 +31,24 @@ use Error;
  * @uses \FireHub\Core\Support\LowLevel\Data::setType() To set a data type.
  * @uses \FireHub\Core\Support\LowLevel\Data::getType() To get a data type.
  *
+ * @example To get a type.
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Data\type;
+ *
+ * type(10);
+ *
+ * // Type::T_INT
+ * ```
+ * @example To set a type.
+ * ```php
+ * use \FireHub\Core\Support\Enums\Data\Type;
+ * use function FireHub\Core\Support\Helpers\Data\type;
+ *
+ * type('10', Type::T_INT);
+ *
+ * // 10
+ * ```
+ *
  * @param mixed $value <p>
  * The variable being type checked or being converted to type.
  * </p>
@@ -74,6 +92,23 @@ function type (mixed $value, Type $type = null):mixed {
  * ### Checks if value is of a type
  * @since 1.0.0
  *
+ * @uses \FireHub\Core\Support\Enums\Data\Category As parameter.
+ * @uses \FireHub\Core\Support\Enums\Data\Type As parameter.
+ * @uses \FireHub\Core\Support\Enums\Data\Type::category() To get data type category.
+ * @uses \FireHub\Core\Support\Enums\Operator\Comparison::IDENTICAL As comparison type.
+ * @uses \FireHub\Core\Support\Enums\Operator\Comparison::compare() To compare current enum with provided values.
+ * @uses \FireHub\Core\Support\LowLevel\Data::getType() To get a data type.
+ *
+ * @example
+ * ```php
+ * use \FireHub\Core\Support\Enums\Data\Type;
+ * use function FireHub\Core\Support\Helpers\Data\is_type;
+ *
+ * is_type(10, Type::T_INT);
+ *
+ * // true
+ * ```
+ *
  * @param mixed $value <p>
  * The variable being type checked.
  * </p>
@@ -100,6 +135,19 @@ function is_type (mixed $value, Category|Type $type):bool {
 /**
  * ### Gets data type category
  * @since 1.0.0
+ *
+ * @uses \FireHub\Core\Support\Helpers\Data\type() To get or set a data type.
+ * @uses \FireHub\Core\Support\Enums\Data\Category As return.
+ *
+ * @example
+ * ```php
+ * use \FireHub\Core\Support\Enums\Data\Type;
+ * use function FireHub\Core\Support\Helpers\Data\is_type;
+ *
+ * is_type(10, Type::T_INT);
+ *
+ * // true
+ * ```
  *
  * @param mixed $value <p>
  * The variable being category type checked.

@@ -23,7 +23,16 @@ use const FireHub\Core\Support\Constants\Number\SIZE;
  * ### Check if using 64bit version of PHP
  * @since 1.0.0
  *
- * @uses \FireHub\Core\Support\Constants\Number\SIZE To get size of an integer in bytes in this build of PHP.
+ * @uses \FireHub\Core\Support\Constants\Number\SIZE To get the size of an integer in bytes in this build of PHP.
+ *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\PHP\is64bit;
+ *
+ * is64bit();
+ *
+ * // true
+ * ```
  *
  * @return bool True if using 64bit version of PHP, otherwise false.
  *
@@ -40,6 +49,15 @@ function is64bit ():bool {
  * @since 1.0.0
  *
  * @uses \FireHub\Core\Support\Helpers\PHP\is64bit() To check if using 64bit version of PHP.
+ *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\PHP\is32bit;
+ *
+ * is32bit();
+ *
+ * // false
+ * ```
  *
  * @return bool True if using 32bit version of PHP, otherwise false.
  *

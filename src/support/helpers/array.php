@@ -31,6 +31,15 @@ use function FireHub\Core\Support\Helpers\Data\is_type;
  * ### Checks if an array is empty
  * @since 1.0.0
  *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\is_empty;
+ *
+ * is_empty([]);
+ *
+ * // true
+ * ```
+ *
  * @uses \FireHub\Core\Support\LowLevel\Arr::count() To count array elements.
  *
  * @param array<array-key, mixed> $array <p>
@@ -54,6 +63,15 @@ function is_empty (array $array):bool {
  * @uses \FireHub\Core\Support\LowLevel\Arr::count() To count all array elements.
  * @uses \FireHub\Core\Support\LowLevel\Arr::filter() To filter elements in an array.
  * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if the value is an array.
+ *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\is_multi_dimensional;
+ *
+ * is_multi_dimensional([1,2,3]);
+ *
+ * // false
+ * ```
  *
  * @param array<array-key, mixed> $array <p>
  * Array to check.
@@ -80,6 +98,15 @@ function is_multi_dimensional (array $array):bool {
  * @template TKey of array-key
  * @template TValue
  *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\first;
+ *
+ * first([1,2,3]);
+ *
+ * // 1
+ * ```
+ *
  * @param array<TKey, TValue> $array <p>
  * The array.
  * </p>
@@ -105,6 +132,15 @@ function first (array $array):mixed {
  * @template TKey of array-key
  * @template TValue
  *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\last;
+ *
+ * last([1,2,3]);
+ *
+ * // 3
+ * ```
+ *
  * @param array<TKey, TValue> $array <p>
  * The array.
  * </p>
@@ -127,6 +163,15 @@ function last (array $array):mixed {
  * @since 1.0.0
  *
  * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if the value is an array.
+ *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\search_recursive;
+ *
+ * search_recursive(3, [[1,2,3], [1,2,3], [1,2,3]]);
+ *
+ * // 3
+ * ```
  *
  * @param mixed $needle <p>
  * The searched value.
@@ -171,6 +216,15 @@ function search_recursive (mixed $needle, array $haystack):array|false {
  * @template TKey of array-key
  * @template TValue
  *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\duplicates;
+ *
+ * duplicates([1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5]);
+ *
+ * // [1, 1, 1, 3, 3, 4]
+ * ```
+ *
  * @param array<TKey, TValue> $array <p>
  * The array to remove unique values.
  * </p>
@@ -196,6 +250,15 @@ function duplicates (array $array):array {
  * @template TKey of array-key
  * @template TValue
  *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\except;
+ *
+ * except([1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5], 1);
+ *
+ * // [2, 3, 3, 3, 4, 4, 5]
+ * ```
+ *
  * @param array<TKey, TValue> $array <p>
  * The array to filter items.
  * </p>
@@ -219,13 +282,32 @@ function except (array $array, array $keys):array {
  * ### Filter elements in an array recursively
  * @since 1.0.0
  *
- * @template TKey of array-key
- * @template TValue
- *
  * @uses \FireHub\Core\Support\Enums\Operator\Comparison As parameter.
  * @uses \FireHub\Core\Support\Enums\Operator\Comparison::compare() To compare current enum with provided values.
  * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if the value is an array.
  * @uses \FireHub\Core\Support\Helpers\Array\is_empty() To check if an array is empty.
+ *
+ * @template TKey of array-key
+ * @template TValue
+ *
+ * @example
+ * ```php
+ * use FireHub\Core\Support\Enums\Operator\Comparison;
+ * use function FireHub\Core\Support\Helpers\Array\filter_recursive;
+ *
+ * $array = [
+ *  ['name' => ['firstname' => 'John', 'lastname' => 'Doe'], 'age' => 25],
+ *  ['name' => ['firstname' => 'Jane', 'lastname' => 'Doe'], 'age' => 21],
+ *  ['name' => ['firstname' => 'Richard', 'lastname' => 'Roe'], 'age' => 27]
+ * ];
+ *
+ * filter_recursive('lastname', Comparison::EQUAL, 'Doe');
+ *
+ * // [
+ * //   ['name' => ['firstname' => 'John', 'lastname' => 'Doe'], 'age' => 25],
+ * //   ['name' => ['firstname' => 'Jane', 'lastname' => 'Doe'], 'age' => 21]
+ * // ]
+ * ```
  *
  * @param int|string $key <p>
  * Key to filter on.
@@ -276,14 +358,27 @@ function filter_recursive (int|string $key, Comparison $operator, mixed $value, 
  * ### Filter elements in an array recursively with value type
  * @since 1.0.0
  *
- * @template TKey of array-key
- * @template TValue
- *
  * @uses \FireHub\Core\Support\Enums\Data\Category As parameter.
  * @uses \FireHub\Core\Support\Enums\Data\Type As parameter.
  * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if the value is an array.
  * @uses \FireHub\Core\Support\Helpers\Array\is_empty() To check if an array is empty.
  * @uses \FireHub\Core\Support\Helpers\Data\is_type() To check if the value is of a type.
+ *
+ * @template TKey of array-key
+ * @template TValue
+ *
+ * @example
+ * ```php
+ * use FireHub\Core\Support\Enums\Data\Type;
+ * use function FireHub\Core\Support\Helpers\Array\filter_recursive_type;
+ *
+ * filter_recursive_type('age', Type::T_INT);
+ *
+ * // [
+ * //   ['name' => ['firstname' => 'John', 'lastname' => 'Doe'], 'age' => 25],
+ * //   ['name' => ['firstname' => 'Richard', 'lastname' => 'Roe'], 'age' => 27]
+ * // ]
+ * ```
  *
  * @param array-key $key <p>
  * Key to filter on.
@@ -338,6 +433,33 @@ function filter_recursive_type (int|string $key, Category|Type $type, array $arr
  * @template TKey of array-key
  * @template TValue
  *
+ * @example
+ * ```php
+ * use FireHub\Core\Support\Enums\Order;
+ * use function FireHub\Core\Support\Helpers\Array\sortByMany;
+ *
+ * $array = [
+ *  ['id' => 1, 'firstname' => 'John', 'lastname' => 'Doe', 'gender' => 'male', 'age' => 25],
+ *  ['id' => 2, 'firstname' => 'Jane', 'lastname' => 'Doe', 'gender' => 'female', 'age' => 23],
+ *  ['id' => 3, 'firstname' => 'Richard', 'lastname' => 'Roe', 'gender' => 'male', 'age' => 27],
+ *  ['id' => 4, 'firstname' => 'Jane', 'lastname' => 'Roe', 'gender' => 'female', 'age' => 22],
+ *  ['id' => 5, 'firstname' => 'John', 'lastname' => 'Roe', 'gender' => 'male', 'age' => 26]
+ * ];
+ *
+ * sortByMany([
+ *  'lastname' => Order::ASC
+ *  'age' => Order::DESC
+ * ]);
+ *
+ * // [
+ * //   ['id' => 1, 'firstname' => 'John', 'lastname' => 'Doe', 'gender' => 'male', 'age' => 25],
+ * //   ['id' => 2, 'firstname' => 'Jane', 'lastname' => 'Doe', 'gender' => 'female', 'age' => 23],
+ * //   ['id' => 3, 'firstname' => 'Richard', 'lastname' => 'Roe', 'gender' => 'male', 'age' => 27],
+ * //   ['id' => 5, 'firstname' => 'John', 'lastname' => 'Roe', 'gender' => 'male', 'age' => 26],
+ * //   ['id' => 4, 'firstname' => 'Jane', 'lastname' => 'Roe', 'gender' => 'female', 'age' => 22]
+ * // ]
+ * ```
+ *
  * @param array<array<TKey, TValue>> &$array <p>
  * A multidimensional array being sorted.
  * </p>
@@ -387,6 +509,15 @@ function sortByMany (array &$array, array $fields):bool {
  * @template TKey of array-key
  * @template TValue
  *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\only;
+ *
+ * only([1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5], 1);
+ *
+ * // [1, 1, 1, 1]
+ * ```
+ *
  * @param array<TKey, TValue> $array <p>
  * The array to filter items.
  * </p>
@@ -411,10 +542,20 @@ function only (array $array, array $keys):array {
  * ### Pick one or more random values out of the array
  * @since 1.0.0
  *
+ * @uses \FireHub\Core\Support\LowLevel\Arr::random() To pick one or more random keys out of an array.
  * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if the value is an array.
  *
  * @template TKey of array-key
  * @template TValue
+ *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\random;
+ *
+ * random([1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5], 1);
+ *
+ * // 4
+ * ```
  *
  * @param array<TKey, TValue> $array <p>
  * Array from we are picking random items.
@@ -457,6 +598,15 @@ function random (array $array, int $number = 1, bool $preserve_keys = false):mix
  *
  * @uses \FireHub\Core\Support\LowLevel\Arr::keys() To get array keys.
  * @uses \FireHub\Core\Support\LowLevel\Arr::shuffle() To shuffle array items.
+ *
+ * @example
+ * ```php
+ * use function FireHub\Core\Support\Helpers\Array\shuffle;
+ *
+ * shuffle([1, 2, 3, 4, 5]);
+ *
+ * // [4, 1, 2, 5, 3]
+ * ```
  *
  * @param array<TKey, TValue> $array <p>
  * An array to shuffle.
