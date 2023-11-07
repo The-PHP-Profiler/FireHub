@@ -779,6 +779,7 @@ final class Multidimensional extends aArr {
      * @example
      * ```php
      * use FireHub\Core\Support\Collections\Collection;
+     * use FireHub\Core\Support\Enums\Order;
      *
      * $collection = Collection::create()->multidimensional(fn():array => [
      *  ['id' => 1, 'firstname' => 'John', 'lastname' => 'Doe', 'gender' => 'male', 'age' => 25],
