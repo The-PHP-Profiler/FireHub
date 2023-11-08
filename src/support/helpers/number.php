@@ -25,7 +25,7 @@ use FireHub\Core\Support\Number;
  *
  * @uses \FireHub\Core\Support\Number As parameter.
  * @uses \FireHub\Core\Support\Number::from() To create a new number from raw number.
- * @uses \FireHub\Core\Support\Number::asInt() To get number as integer.
+ * @uses \FireHub\Core\Support\Number::toInt() To get number as integer.
  *
  * @example
  * ```php
@@ -65,10 +65,10 @@ use FireHub\Core\Support\Number;
 function number_to_int (Number|int|float $number, bool $typecast = false):int {
 
     return $number instanceOf Number
-        ? $number->asInt($typecast)
+        ? $number->toInt($typecast)
         : ($typecast
             ? (int)$number
-            : Number::from($number)->asInt()
+            : Number::from($number)->toInt()
         );
 
 }
@@ -78,7 +78,7 @@ function number_to_int (Number|int|float $number, bool $typecast = false):int {
  * @since 1.0.0
  *
  * @uses \FireHub\Core\Support\Number As parameter.
- * @uses \FireHub\Core\Support\Number::asFloat() To get number as float.
+ * @uses \FireHub\Core\Support\Number::toFloat() To get number as float.
  *
  * @example
  * ```php
@@ -102,7 +102,7 @@ function number_to_int (Number|int|float $number, bool $typecast = false):int {
  */
 function number_to_float (Number|int|float $number):float {
 
-    return $number instanceOf Number ? $number->asFloat() : (float)$number;
+    return $number instanceOf Number ? $number->toFloat() : (float)$number;
 
 }
 
