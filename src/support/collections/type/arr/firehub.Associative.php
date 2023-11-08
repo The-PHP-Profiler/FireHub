@@ -28,7 +28,7 @@ use FireHub\Core\Support\LowLevel\ {
 use Closure, Error, TypeError, ValueError;
 
 use function FireHub\Core\Support\Helpers\Array\ {
-    except, first, only, random
+    except, only, random
 };
 
 /**
