@@ -82,7 +82,7 @@ final class Register implements Master {
     }
 
     /**
-     * ### Get list from register
+     * ### Get or set list from register
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Register::$instance To get current register instance.
@@ -138,7 +138,7 @@ final class Register implements Master {
     }
 
     /**
-     * ### Get list from register
+     * ### Delete list from register
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Register::$instance To get current register instance.
