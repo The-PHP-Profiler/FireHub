@@ -106,7 +106,7 @@ trait Overloadable {
      * ### Pull item from collection
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Collections\Trait\Setable::get() To get item from a collection.
+     * @uses \FireHub\Core\Support\Collections\Traits\Setable::get() To get item from a collection.
      *
      * @param TKey $key <p>
      * Collection key.
@@ -118,7 +118,7 @@ trait Overloadable {
      *
      * @note This method is alias of get method.
      *
-     * @see \FireHub\Core\Support\Collections\Trait\Setable::get() As alias to this function.
+     * @see \FireHub\Core\Support\Collections\Traits\Setable::get() As alias to this function.
      */
     final public function pull (mixed $key):mixed {
 
@@ -236,7 +236,7 @@ trait Overloadable {
      * ### Put item in to collection
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Collections\Trait\Setable::set() To set item from a collection.
+     * @uses \FireHub\Core\Support\Collections\Traits\Setable::set() To set item from a collection.
      *
      * @param TValue $value <p>
      * Collection value.
@@ -249,7 +249,7 @@ trait Overloadable {
      *
      * @note This method is alias of set method.
      *
-     * @see \FireHub\Core\Support\Collections\Trait\Setable::set() As alias to this function.
+     * @see \FireHub\Core\Support\Collections\Traits\Setable::set() As alias to this function.
      */
     final public function put (mixed $value, mixed $key):void {
 
