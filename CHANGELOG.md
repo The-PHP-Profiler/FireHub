@@ -2,7 +2,12 @@
 
 ## [Unreleased](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.5-alpha.1...develop-pre-alpha-m1)
 
-## [v0.1.5](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.4-alpha.1...v0.1.5-alpha.1) - (2023-10-13)
+## [v0.1.6](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.5-alpha.1...v0.1.6-alpha.1) - (2023-11-08)
+
+### Added
+- Created Register support class ([#9](https://github.com/The-FireHub-Project/FireHub/issues/9), [6adc995](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/6adc995))
+
+## [v0.1.5](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.4-alpha.1...v0.1.5-alpha.1) - (2023-11-08)
 
 ### Added
 - Added Cls and ObjCls to FireHub main class preloader list ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [8fcd3fb](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/8fcd3fb))
