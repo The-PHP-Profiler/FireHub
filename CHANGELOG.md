@@ -1,6 +1,8 @@
 # Release Notes for v0.x.x.pre-alpha
 
-## [Unreleased](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.4-alpha.1...develop-pre-alpha-m1)
+## [Unreleased](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.5-alpha.1...develop-pre-alpha-m1)
+
+## [v0.1.5](https://github.com/The-FireHub-Project/FireHub/compare/v0.1.4-alpha.1...v0.1.5-alpha.1) - (2023-10-13)
 
 ### Added
 - Added Cls and ObjCls to FireHub main class preloader list ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [8fcd3fb](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/8fcd3fb))
@@ -18,12 +20,16 @@
 - Created Iterables contracts ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [8d8ac87](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/8d8ac87))
 - Created ArrayAccessible contract ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [796e092](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/796e092))
 - Created Countable contract ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [c29e7f6](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/c29e7f6))
-- Created array helper and add it to main class ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [294e93b](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/294e93b))
+- Created array helper and add it to the main class ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [294e93b](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/294e93b))
 - Created data helper ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [2f63822](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/2f63822))
 - Created Comparison enum ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [7e59b83](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/7e59b83))
 - Created Collections ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [65b0da7](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/65b0da7))
 - Created Str ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [f06084d](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/f06084d))
 - Created Zwick high-level classes ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [a69f60a](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/a69f60a))
+- Created number helper ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [0598a48](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/0598a48))
+- Created LogBase enum ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [d71a21c](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/d71a21c))
+- Created number helper ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [1ade27a](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/1ade27a))
+- Created Number high-level class ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [c550fd5](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/c550fd5))
 
 ### Fixed
 - Fixed missing encoding on split method ([#8](https://github.com/The-FireHub-Project/FireHub/issues/8), [8c618f8](https://github.com/The-FireHub-Project/FireHub/pull/3/commits/8c618f8))
