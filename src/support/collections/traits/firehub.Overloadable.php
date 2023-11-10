@@ -258,19 +258,6 @@ trait Overloadable {
     }
 
     /**
-     * @inheritDoc
-     *
-     * @since 1.0.0
-     *
-     * @uses static::offsetExists() To check whether an offset exists.
-     */
-    final public function __isset (string $name):bool {
-
-        return $this->offsetExists($name);
-
-    }
-
-    /**
      * ### Removes item from collection
      * @since 1.0.0
      *
@@ -302,6 +289,19 @@ trait Overloadable {
     final public function remove (mixed $key):void {
 
         $this->offsetUnset($key);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses static::offsetExists() To check whether an offset exists.
+     */
+    final public function __isset (string $name):bool {
+
+        return $this->offsetExists($name);
 
     }
 
