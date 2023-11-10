@@ -18,7 +18,7 @@ use FireHub\Core\Base\ {
     Base, Master
 };
 use FireHub\Core\Support\Collections\ {
-    Collection, Type\Arr\Associative
+    Collection, Type\Arr\Associative, Type\Arr\Multidimensional
 };
 use Error;
 
@@ -49,9 +49,11 @@ final class Register implements Master {
      * @since 1.0.0
      *
      * @var \FireHub\Core\Support\Collections\Type\Arr\Associative<non-empty-lowercase-string,
-     *     \FireHub\Core\Support\Collections\Type\Arr\Associative<non-empty-lowercase-string, array-key>>
+     *     \FireHub\Core\Support\Collections\Type\Arr\Associative<non-empty-lowercase-string,
+     * mixed>|\FireHub\Core\Support\Collections\Type\Arr\Multidimensional<non-empty-lowercase-string,
+     * array<array-key, mixed>>>
      */
-    private Associative $list;
+    private Associative $lists;
 
     /**
      * ### Constructor
@@ -63,7 +65,7 @@ final class Register implements Master {
      */
     private function __construct () {
 
-        $this->list = Collection::create()->associative(fn():array => []);
+        $this->lists = Collection::create()->associative(fn():array => []);
 
     }
 
@@ -100,12 +102,26 @@ final class Register implements Master {
      * @param non-empty-string $name <p>
      * List name.
      * </p>
+     * @param null|'associative'|'multidimensional' $type <p>
+     * List name.
+     * </p>
      *
-     * @throws Error If a list is not at least three characters long or a list is not in ASCII format.
+     * @throws Error If a list is not at least three characters long, a list is not in ASCII format or list type
+     * doesn't exist.
      *
-     * @return \FireHub\Core\Support\Collections\Type\Arr\Associative<non-empty-lowercase-string, array-key>
+     * @return (
+     *  $type is null
+     *  ? \FireHub\Core\Support\Collections\Type\Arr\Associative<non-empty-lowercase-string,
+     *     mixed>|\FireHub\Core\Support\Collections\Type\Arr\Multidimensional<non-empty-lowercase-string,
+     *     array<array-key, mixed>>
+     *  : ($type is 'associative'
+     *      ? \FireHub\Core\Support\Collections\Type\Arr\Associative<non-empty-lowercase-string, mixed>
+     *      : ($type is 'multidimensional'
+     *          ? \FireHub\Core\Support\Collections\Type\Arr\Multidimensional<non-empty-lowercase-string, array<array-key, mixed>>
+     *          : never-return))
+     * ) Register list.
      */
-    public static function list (string $name):Associative {
+    public static function list (string $name, string $type = null):Associative|Multidimensional {
 
         $name = Str::from($name)->toLowerCase();
 
@@ -115,16 +131,20 @@ final class Register implements Master {
         if (!$name->isASCII())
             throw new Error('List name must in ASCII format.');
 
-        $list = self::instance()->list;
+        $lists = self::instance()->lists;
 
         $name = $name->print();
 
         if (empty($name)) throw new Error('List name cannot be empty.');
 
-        if (!$list->exist($name)) {
+        if (!$lists->exist($name)) {
 
-            $list->add(
-                Collection::create()->associative(fn():array => []),
+            $lists->add(
+                match ($type) {
+                    'associative' => Collection::create()->associative(fn():array => []),
+                    'multidimensional' => Collection::create()->multidimensional(fn():array => []),
+                    default => throw new Error("List type $type doesn't exist.")
+                },
                 $name
             );
 
@@ -132,8 +152,7 @@ final class Register implements Master {
 
         }
 
-
-        return $list->get($name);
+        return $lists->get($name);
 
     }
 
@@ -158,7 +177,7 @@ final class Register implements Master {
      */
     public static function delete (string $name):void {
 
-        $list = self::instance()->list;
+        $list = self::instance()->lists;
 
         $list->exist($name)
             ? $list->remove(Str::from($name)->toLowerCase()->print()) //@phpstan-ignore-line Checked with $name->length() < 3
