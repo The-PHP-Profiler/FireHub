@@ -1948,7 +1948,7 @@ class Str implements Master, Countable, Stringable {
      *
      * Str::from('FireHub Web App')->firstPart('Web', true);
      *
-     * // Web App
+     * // FireHub
      * ```
      *
      * @param string $find <p>
@@ -1998,7 +1998,7 @@ class Str implements Master, Countable, Stringable {
      *
      * Str::from('FireHub Web App')->lastPart('Web', true);
      *
-     * // Web App
+     * // Firehub
      * ```
      *
      * @param string $find <p>
