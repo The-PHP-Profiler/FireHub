@@ -56,7 +56,7 @@ trait Chunkable {
      * When set to true, keys will be preserved.
      * </p>
      *
-     * @throws ValueError If length is less than .
+     * @throws ValueError If length is less than 1.
      *
      * @return ($preserve_keys is true
      *  ? \FireHub\Core\Support\Collections\Type\Arr\Multidimensional<int, array<TKey, TValue>>
