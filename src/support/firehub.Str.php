@@ -1123,7 +1123,7 @@ class Str implements Master, Countable, Stringable {
      * ```php
      * use FireHub\Core\Support\Str;
      *
-     * Str::from('FireHub')->replace('H', 'X');
+     * Str::from('FireHub')->replaceAll('H', 'X');
      *
      * // FireXub
      * ```
@@ -1131,7 +1131,7 @@ class Str implements Master, Countable, Stringable {
      * ```php
      * use FireHub\Core\Support\Str;
      *
-     * Str::from('FireHub')->replace(['F', 'H'], ['W', 'X']);
+     * Str::from('FireHub')->replaceAll(['F', 'H'], ['W', 'X']);
      *
      * // WireXub
      * ```
