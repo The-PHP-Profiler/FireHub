@@ -947,8 +947,6 @@ abstract class aArr implements Master, Collectable, ArrayAccessible {
      * ### Reduces the collection to a single value, passing the result of each iteration into the subsequent iteration
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Collections\Type\Arr\aArr::filter() To filter from a collection.
-     *
      * @example
      * ```php
      * use FireHub\Core\Support\Collections\Collection;
