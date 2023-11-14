@@ -733,7 +733,8 @@ final class Indexed extends aArr {
     }
 
     /**
-     * ### Sort collection using a user-defined comparison function
+     * @inheritDoc
+     *
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::sortBy() To sort an array by values using a user-defined comparison
@@ -752,13 +753,6 @@ final class Indexed extends aArr {
      *
      * // [1, 2, 3, 4, 5]
      * ```
-     *
-     * @param callable(TValue $current, TValue $next):int<-1, 1> $callback <p>
-     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
-     * is considered to be respectively less than, equal to, or greater than the second.
-     * </p>
-     *
-     * @return $this<TValue> Sorted collection.
      */
     public function sortBy (callable $callback):self {
 
