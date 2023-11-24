@@ -24,7 +24,4 @@ jobs:
         extensions: mbstring
         tools: phpunit
     - name: Run PHPStan
-      uses: php-actions/phpstan@v3
-      with:
-        configuration: phpstan.neon
-        memory_limit: 256M
+      run: phpstan analyse --memory-limit=256M
