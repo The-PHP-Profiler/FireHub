@@ -2,10 +2,10 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
-<instance-profile id="core"
-                 name="Core"
+<instance-profile id="c"
+                 name="core"
                  start-page="starter-topic.md">
 
-    <toc-element topic="test-topic.md"/>
     <toc-element topic="starter-topic.md"/>
+    <toc-element topic="test-topic.md"/>
 </instance-profile>
