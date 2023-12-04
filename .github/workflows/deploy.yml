@@ -10,7 +10,7 @@ on:
 
 env:
   # Name of module and id separated by a slash
-  INSTANCE: Writerside/Core
+  INSTANCE: Writerside/core
   # Replace HI with the ID of the instance in capital letters
   ARTIFACT: webHelpCORE2-all.zip
   # Docker image version
@@ -23,9 +23,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Fix issue with repository ownership
-        run: |
-          git config --global --add safe.directory /github/workspace
       - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
         with:
