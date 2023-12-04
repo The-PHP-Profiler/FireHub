@@ -6,6 +6,7 @@
     <build-profile instance="core">
         <variables>
             <noindex-content>true</noindex-content>
+            <versions-switcher>https://raw.githubusercontent.com/The-FireHub-Project-old/FireHub/develop-pre-alpha-m3/docs/help-versions.json</versions-switcher>
         </variables>
     </build-profile>
 
