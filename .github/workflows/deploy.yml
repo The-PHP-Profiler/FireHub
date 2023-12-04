@@ -7,8 +7,8 @@ permissions:
   id-token: write
   pages: write
 env:
-  INSTANCE: docs/develop-pre-alpha-m2
-  ARTIFACT: webHelpDEVELOP-PRE-ALPHA-M22-all.zip
+  INSTANCE: docs/v1.0.0
+  ARTIFACT: webHelpV1.0.02-all.zip
   DOCKER_VERSION: 2.1.1479-p3869
 jobs:
   build:
