@@ -6,6 +6,5 @@
                  name="Core"
                  start-page="starter-topic.md">
 
-    <toc-element topic="test-topic.md"/>
     <toc-element topic="starter-topic.md"/>
 </instance-profile>
