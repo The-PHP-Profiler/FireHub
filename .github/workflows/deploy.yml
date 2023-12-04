@@ -3,6 +3,9 @@ on:
   push:
     branches: '*'
   workflow_dispatch:
+permissions:
+  id-token: write
+  pages: write
 env:
   INSTANCE: docs/v1.0.0
   ARTIFACT: webHelpV1.0.02-all.zip
@@ -13,7 +16,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Build docs docs using Docker
+      - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
@@ -22,8 +25,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: artifact
-          path: artifacts/${{ env.ARTIFACT }}
+          name: docs
+          path: |
+            artifacts/${{ env.ARTIFACT }}
           retention-days: 7
   deploy:
     environment:
