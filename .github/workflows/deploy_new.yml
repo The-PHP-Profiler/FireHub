@@ -31,6 +31,6 @@ jobs:
           retention-days: 7
       - name: Fetch file from another branch
         run: |
-          git fetch origin gh_pages:gh_pages --force
-          git show gh_pages:webHelpC2-all.zip > webHelpC2-all.zip
+          git fetch origin gh-pages:gh-pages --force
+          git show gh-pages:webHelpC2-all.zip > webHelpC2-all.zip
           git diff
