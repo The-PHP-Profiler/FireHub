@@ -29,11 +29,6 @@ jobs:
           path: |
             artifacts/${{ env.ARTIFACT }}
           retention-days: 7
-  copy:
-    name: Copy my folder
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
       - name: copy
         env:
           SRC_FOLDER_PATH: 'artifacts'
