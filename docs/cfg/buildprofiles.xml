@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <variables></variables>
+    <variables>
+        <primary-color>dracula</primary-color>
+        <header-logo>https://raw.githubusercontent.com/The-FireHub-Project/the-firehub-project.github.io/master/resources/graphics/logo/core.svg</header-logo>
+        <product-web-url>https://help.example.com</product-web-url>
+        <custom-favicons>https://raw.githubusercontent.com/The-FireHub-Project/the-firehub-project.github.io/master/resources/graphics/icons/core.svg</custom-favicons>
+    </variables>
     <build-profile instance="c">
         <variables>
             <noindex-content>false</noindex-content>
             <versions-switcher>https://raw.githubusercontent.com/The-FireHub-Project-old/FireHub/gh-pages/help-versions.json</versions-switcher>
         </variables>
     </build-profile>
-
 </buildprofiles>
