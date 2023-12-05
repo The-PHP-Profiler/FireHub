@@ -13,4 +13,7 @@
             <versions-switcher>https://raw.githubusercontent.com/The-FireHub-Project-old/FireHub/gh-pages/help-versions.json</versions-switcher>
         </variables>
     </build-profile>
+    <footer>
+        <copyright>FireHub Web Application Framework 2024</copyright>
+    </footer>
 </buildprofiles>
