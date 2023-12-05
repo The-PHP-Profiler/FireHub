@@ -1,7 +1,7 @@
 name: Build documentation
 on:
   push:
-    branches: 'xxx'
+    branches: '*'
   workflow_dispatch:
 permissions:
   id-token: write
@@ -29,27 +29,8 @@ jobs:
           path: |
             artifacts/${{ env.ARTIFACT }}
           retention-days: 7
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: docs
-      - name: Unzip artifact
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq ${{ env.ARTIFACT }} -d dir
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: dir
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+      - name: Fetch file from another branch
+        run: |
+          git fetch origin gh_pages:gh_pages --force
+          git show gh_pages:webHelpC2-all.zip > webHelpC2-all.zip
+          git diff
