@@ -4,8 +4,9 @@ on:
     branches: '*'
   workflow_dispatch:
 permissions:
-  id-token: write
+  contents: write
   pages: write
+  id-token: write
 env:
   INSTANCE: docs/c
   ARTIFACT: webHelpC2-all.zip
