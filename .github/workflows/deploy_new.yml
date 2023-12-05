@@ -40,12 +40,12 @@ jobs:
           SRC_FOLDER_PATH: artifacts/${{ env.ARTIFACT }}
           TARGET_BRANCH: 'gh-pages'
         run: |
+          git ls-tree
           files=$(find $SRC_FOLDER_PATH -type f) # get the file list
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git fetch                         # fetch branches
           git checkout $TARGET_BRANCH       # checkout to your branch
-          git ls-tree
           git checkout ${GITHUB_REF##*/} -- $files # copy files from the source branch
           git add -A
           git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
