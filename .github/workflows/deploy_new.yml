@@ -1,7 +1,7 @@
 name: Build documentation
 on:
   push:
-    branches: 'xxx'
+    branches: '*'
   workflow_dispatch:
 permissions:
   id-token: write
