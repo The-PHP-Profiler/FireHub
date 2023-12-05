@@ -22,22 +22,6 @@ jobs:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
           docker-version: ${{ env.DOCKER_VERSION }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: docs
-          path: |
-            artifacts/${{ env.ARTIFACT }}
-          retention-days: 7
-      - name: test
-        run: |
-          git ls-files
-  copy:
-    name: Copy my folder
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - name: copy
         env:
           SRC_FOLDER_PATH: /github/workspace/artifacts
@@ -52,3 +36,10 @@ jobs:
           git add -A
           git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
           git push origin $TARGET_BRANCH # push to remote branch
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: |
+            artifacts/${{ env.ARTIFACT }}
+          retention-days: 7
