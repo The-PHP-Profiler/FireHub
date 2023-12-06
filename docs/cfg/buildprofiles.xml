@@ -2,8 +2,8 @@
 <buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <variables>
-        <primary-color>dracula</primary-color>
-        <header-logo>https://raw.githubusercontent.com/The-FireHub-Project/the-firehub-project.github.io/master/resources/graphics/logo/core.svg</header-logo>
+        <primary-color>forest</primary-color>
+        <header-logo>https://raw.githubusercontent.com/The-FireHub-Project/the-firehub-project.github.io/master/resources/graphics/icons/core.svg</header-logo>
         <product-web-url>https://help.example.com</product-web-url>
         <custom-favicons>https://raw.githubusercontent.com/The-FireHub-Project/the-firehub-project.github.io/master/resources/graphics/icons/core.svg</custom-favicons>
     </variables>
