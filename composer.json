@@ -6,7 +6,11 @@
     "homepage": "https://the-firehub-project.github.io/",
     "license": "OSL-3.0",
     "require": {
-        "php": ">=8.2"
+        "php": ">=8.2",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "ext-openssl": "*"
     },
     "suggest": {
         "php-64bit": ">=8.2"

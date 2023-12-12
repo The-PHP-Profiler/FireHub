@@ -9,7 +9,12 @@ indent_style = space # space indentation
 indent_size = 4 # 4 spaces
 trim_trailing_whitespace = true # remove any whitespace characters preceding newline characters
 insert_final_newline = false # ensure file doesn't ends with a newline
+max_line_length = 120 # hard max for line length
 
 # yml, yaml, config and cff files
 [*.{yml,yaml,config,cff}]
 indent_size = 2 # 2 spaces
+
+# md files
+[*.md]
+max_line_length = 1000
