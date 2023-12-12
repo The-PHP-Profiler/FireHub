@@ -46,9 +46,6 @@ seriously. Thank you for improving the security of our open source
 software. We appreciate your efforts and responsible disclosure and will
 make every effort to acknowledge your contributions.
 
-Report security vulnerabilities by emailing the at:
-**[danijel.galic@outlook.com](mailto:danijel.galic@outlook.com)**
-
 The lead maintainer will acknowledge your email within 24 hours, and will
 send a more detailed response within 48 hours indicating the next steps in
 handling your report. After the initial reply to your report, the security
