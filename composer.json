@@ -1,9 +1,9 @@
 {
-    "name": "firehub/core",
-    "description": "FireHub Web Application Framework",
+    "name": "phpprofiler/profiler",
+    "description": "PHP Proflier",
     "type": "library",
-    "keywords": ["php", "framework", "core", "firehub"],
-    "homepage": "https://the-firehub-project.github.io/",
+    "keywords": ["php", "profiler"],
+    "homepage": "https://the-php-profiler.github.io/",
     "license": "OSL-3.0",
     "require": {
         "php": ">=8.2",
@@ -19,26 +19,20 @@
     "prefer-stable": true,
     "authors": [
         {
-            "name": "Danijel Galić",
-            "email": "danijel.galic@outlook.com",
-            "homepage": "https://github.com/dieselxxx",
+            "name": "John Leveradge",
+            "email": "johnleveradge@gmail.com",
+            "homepage": "https://github.com/JohnLeveradge",
             "role": "Owner"
         }
     ],
     "support": {
-        "email": "danijel.galic@outlook.com",
-        "issues": "https://github.com/The-FireHub-Project/FireHub/issues",
-        "forum": "https://github.com/orgs/The-FireHub-Project/discussions",
-        "wiki": "https://github.com/The-FireHub-Project/FireHub/wiki",
-        "source": "https://github.com/The-FireHub-Project/FireHub",
-        "docs": "https://the-firehub-project.github.io/core/"
+        "email": "johnleveradge@gmail.com",
+        "issues": "https://github.com/The-PHP-Profiler/Profiler/issues",
+        "forum": "https://github.com/The-PHP-Profiler/Profiler/discussions",
+        "wiki": "https://github.com/The-PHP-Profiler/Profiler/wiki",
+        "source": "https://github.com/The-PHP-Profiler/Profiler",
+        "docs": "https://the-php-profiler.github.io/"
     },
-    "funding": [
-        {
-            "type": "patreon",
-            "url": "https://www.patreon.com/firehub"
-        }
-    ],
     "config": {
         "process-timeout": 300,
         "preferred-install": {
