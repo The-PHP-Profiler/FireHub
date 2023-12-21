@@ -2,6 +2,14 @@
 
 Experience your application from the customer’s point of view. Your team can find broken code, see where slow load times occur, and get notified when an error is detected or a page crashes – all from within one tool.
 
+Don’t wait for your users to be impacted.
+PHP Profiler is built to avoid firefighting.
+Analyze your application performance anywhere it is deployed (hint: the earlier, the better):
+
+On development machines, unlock quicker experimentations and iterations
+In any testing pipeline and staging, make sure that feature additions don’t introduce any performance regressions
+In production, with fine-grained insights and alerting policies, catch any abnormal behaviors.
+
 # Installation
 
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/phpprofiler/profiler/php?version=v1.0)
