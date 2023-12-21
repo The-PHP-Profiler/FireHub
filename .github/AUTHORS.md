@@ -4,7 +4,7 @@
     <table>
         <tr>
             <td rowspan="2" valign="center" width="80px"><img src="https://avatars.githubusercontent.com/u/56673130?v=4" height="50px" width="50px"></td>
-            <td valign="top"><a href="https://github.com/dieselxxx">@dieselxxx</a></td>
+            <td valign="top"><a href="https://github.com/JohnLeveradge">@JohnLeveradge</a></td>
         </tr>
         <tr>
             <td valign="top">
