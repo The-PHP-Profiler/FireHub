@@ -16,7 +16,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: metadata-action@v5
+        uses: docker/metadata-action@v5
         with:
           images: dieselxxx/firehub-core
       - name: Build and push Docker image
